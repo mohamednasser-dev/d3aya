@@ -12,6 +12,6 @@ class Favorite extends Model
         return $this->belongsTo('App\User', 'user_id');
     }
     public function Product() {
-        return $this->belongsTo('App\Product', 'product_id')->select('id','title','main_image','price','description');
+        return $this->belongsTo('App\Product', 'product_id')->select('id','title','main_image','price','description')->where('deleted',0)->where('status',1)->where('publish','Y');
     }
 }

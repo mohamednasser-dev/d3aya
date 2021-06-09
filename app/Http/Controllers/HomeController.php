@@ -110,6 +110,7 @@ class HomeController extends Controller
 
     public function getHomeAds(Request $request)
     {
+        $user = auth()->user();
         Session::put('lang_api', $request->lang);
         $one = Ad::select('id', 'image', 'type', 'content')->where('place', 1)->get();
 //        $three = Ad::select('id', 'image', 'type', 'content')->where('place', 3)->get();
@@ -127,6 +128,34 @@ class HomeController extends Controller
 
         }
         $data['categories'] = $categories;
+        $favorites = [];
+
+        if ($user != null) {
+            $my_favorites = Favorite::select('id', 'product_id', 'user_id')
+                ->with('Product')
+                ->where('user_id', $user->id)
+                ->orderBy('id', 'desc')
+                ->limit(5)
+                ->get();
+
+            $inc = 0;
+            foreach ($my_favorites as $key => $row) {
+                $product = Product::where('id', $row->product_id)->first();
+                if ($product != null) {
+                    if ($product->status == 1 && $product->deleted == 0 && $product->publish == 'Y') {
+                        $favorites[$inc]['id'] = $product->id;
+                        $favorites[$inc]['title'] = $product->title;
+                        $favorites[$inc]['image'] = $product->main_image;
+                        $favorites[$inc]['price'] = $product->price;
+                        $favorites[$inc]['favorite'] = true;
+                        $favorites[$inc]['created_at'] = $product->created_at;
+                        $favorites[$inc]['views'] = count($product->Views);
+                        $inc = $inc + 1;
+                    }
+                }
+            }
+        }
+        $data['favorites'] = $favorites;
 
         $response = APIHelpers::createApiResponse(false, 200, '', '', $data, $request->lang);
         return response()->json($response, 200);
