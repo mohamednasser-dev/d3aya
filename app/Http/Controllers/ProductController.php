@@ -1128,12 +1128,24 @@ class ProductController extends Controller
 
     public function ended_ads(Request $request)
     {
+        $lang = $request->lang ;
         $data = Product::where('status', 2)
             ->where('deleted', 0)
             ->where('user_id', auth()->user()->id)
-            ->select('id', 'title', 'price', 'main_image')
+            ->select('id', 'title', 'price', 'main_image','created_at')
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->get()
+            ->map(function($data) use ($lang){
+                if ($data->price == 0) {
+                    if ($lang == 'ar') {
+                        $data->price = 'اسأل البائع';
+                    } else {
+                        $data->price = 'Ask the seller';
+                    }
+                }
+                $data->views = Product_view::where('product_id', $data->id)->count();
+                return $data;
+            });
         if (count($data) == 0) {
             $response = APIHelpers::createApiResponse(false, 200, 'no ads yet !', ' !لا يوجد اعلانات حتى الان', null, $request->lang);
             return response()->json($response, 200);
@@ -1145,13 +1157,25 @@ class ProductController extends Controller
 
     public function current_ads(Request $request)
     {
+        $lang = $request->lang ;
         $data = Product::where('status', 1)
             ->where('publish', 'Y')
             ->where('deleted', 0)
             ->where('user_id', auth()->user()->id)
-            ->select('id', 'title', 'price', 'main_image')
+            ->select('id', 'title', 'price', 'main_image','created_at')
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->get()
+        ->map(function($data) use ($lang){
+            if ($data->price == 0) {
+                if ($lang == 'ar') {
+                    $data->price = 'اسأل البائع';
+                } else {
+                    $data->price = 'Ask the seller';
+                }
+            }
+            $data->views = Product_view::where('product_id', $data->id)->count();
+            return $data;
+        });
         if (count($data) == 0) {
             $response = APIHelpers::createApiResponse(false, 200, 'no ads yet !', ' !لا يوجد اعلانات حتى الان', null, $request->lang);
             return response()->json($response, 200);
@@ -1210,37 +1234,57 @@ class ProductController extends Controller
             $response = APIHelpers::createApiResponse(true, 406, 'you should login first', 'يجب تسجيل الدخول اولا', null, $request->lang);
             return response()->json($response, 406);
         }
-        if ($lang == 'ar') {
-            $offer_image = Setting::where('id', 1)->first()->offer_image;
-        } else {
-            $offer_image = Setting::where('id', 1)->first()->offer_image_en;
-        }
-        $ads = Product::where('offer', 1)
+        $Category = Category::select('id','title_'.$lang .' as title','offers_image')->has('Offers','>',0)->with('Offers')->where('deleted','0')
+            ->get()
+            ->map(function ($data) use ($user){
+
+                foreach ($data->Offers as $key => $row){
+                    $data->Offers[$key]['views'] = Product_view::where('product_id', $row->id)->count();
+                    $favorite = Favorite::where('user_id', $user->id)->where('product_id', $row->id)->first();
+                    if ($favorite) {
+                        $data->Offers[$key]['favorite'] = true;
+                    } else {
+                        $data->Offers[$key]['favorite'] = false;
+                    }
+                }
+            return $data;
+        });
+
+        $ads = Product::select('id','title','main_image as image','price','description')->where('offer', 1)
             ->where('status', 1)
             ->where('deleted', 0)
             ->where('publish', 'Y')
             ->orderBy('created_at', 'desc')
-            ->get();
-        $inc = 0;
-        foreach ($ads as $key => $row) {
-            $data[$inc]['id'] = $row->id;
-            $data[$inc]['title'] = $row->title;
-            $data[$inc]['image'] = $row->main_image;
-            $data[$inc]['price'] = $row->price;
-            $data[$inc]['description'] = $row->description;
-            $favorite = Favorite::where('user_id', $user->id)->where('product_id', $row->id)->first();
+            ->get()
+        ->map(function ($data) use ($user){
+            $favorite = Favorite::where('user_id', $user->id)->where('product_id', $data->id)->first();
             if ($favorite) {
-                $data[$inc]['favorite'] = true;
+                $data->favorite = true;
             } else {
-                $data[$inc]['favorite'] = false;
+                $data->favorite = false;
             }
-            $inc = $inc + 1;
-        }
-        if (count($data) == 0) {
+            return $data;
+        });
+//        $inc = 0;
+//        foreach ($ads as $key => $row) {
+//            $data[$inc]['id'] = $row->id;
+//            $data[$inc]['title'] = $row->title;
+//            $data[$inc]['image'] = $row->main_image;
+//            $data[$inc]['price'] = $row->price;
+//            $data[$inc]['description'] = $row->description;
+//            $favorite = Favorite::where('user_id', $user->id)->where('product_id', $row->id)->first();
+//            if ($favorite) {
+//                $data[$inc]['favorite'] = true;
+//            } else {
+//                $data[$inc]['favorite'] = false;
+//            }
+//            $inc = $inc + 1;
+//        }
+        if (count($ads) == 0) {
             $response = APIHelpers::createApiResponse(false, 200, 'no ads yet !', ' !لا يوجد اعلانات حتى الان', null, $request->lang);
             return response()->json($response, 200);
         } else {
-            $response = APIHelpers::createApiResponse(false, 200, '', '', array('offer_image' => $offer_image, 'data' => $data), $request->lang);
+            $response = APIHelpers::createApiResponse(false, 200, '', '', array( 'data' => $Category), $request->lang);
             return response()->json($response, 200);
         }
     }

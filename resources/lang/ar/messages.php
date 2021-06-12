@@ -1,6 +1,13 @@
 <?php
 return [
     //new
+    'category_image' => "صوره القسم",
+    'offers_cover' => "غلاف العروض",
+
+
+
+
+
     'our_offers' => "عروضنا",
     'choose_to_you' => "اخترنالك",
     'show_all' => "اخترنالك",
@@ -13,7 +20,6 @@ return [
     'with_english' => "(بالانجليزية)",
     'offer_image' => "صورة بانر العرض فالصفحة الرئيسية (بالعربية)",
     'offer_image_en' => "صورة بانر العرض فالصفحة الرئيسية (بالانجليزية)",
-
 
     'feature_hoursfeature_hours' => "عدد ساعات الخاصية",
     'feature_type' => "نوع الخاصية",

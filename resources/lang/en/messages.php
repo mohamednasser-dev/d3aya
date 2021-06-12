@@ -14,7 +14,6 @@
         'offer_image' => "Banner image display in home page (Arabic)",
         'offer_image_en' => "Banner image display as home page (English)",
 
-
         'ad_settings' => "Ads settings",
         'cities' => "Provinces",
         'areas' => "Regions",

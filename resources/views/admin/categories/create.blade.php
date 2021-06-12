@@ -14,11 +14,33 @@
         </div>
         <form action="" method="post" enctype="multipart/form-data" >
             @csrf
+
+            <h4>{{ __('messages.category_image') }}</h4>
+            <div class="form-group mb-4 mt-3">
+                <label for="exampleFormControlFile1">{{ __('messages.main_image') }}</label>
+
+                <div class="custom-file-container" data-upload-id="mySecondImage">
+                    <label>{{ __('messages.upload') }} ({{ __('messages.single_image') }}) <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">x</a></label>
+                    <label class="custom-file-container__custom-file" >
+                        <input type="file" required name="image" class="custom-file-container__custom-file__custom-file-input" accept="image/*">
+                        <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
+                        <span class="custom-file-container__custom-file__custom-file-control"></span>
+                    </label>
+                    <div class="custom-file-container__image-preview">
+
+                    </div>
+                </div>
+            </div>
+            <h4>{{ __('messages.offers_cover') }}</h4>
+
             <div class="custom-file-container" data-upload-id="myFirstImage">
-                <label>{{ __('messages.upload') }} ({{ __('messages.single_image') }}) <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">x</a></label>
-                <label class="custom-file-container__custom-file" >
-                    <input type="file" required name="image" class="custom-file-container__custom-file__custom-file-input" accept="image/*">
-                    <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
+                <label>{{ __('messages.upload') }} ({{ __('messages.multiple_images') }}) <a
+                        href="javascript:void(0)" class="custom-file-container__image-clear"
+                        title="Clear Image">x</a></label>
+                <label class="custom-file-container__custom-file">
+                    <input type="file" required name="offers_image"
+                           class="custom-file-container__custom-file__custom-file-input" accept="image/*">
+                    <input type="hidden" name="MAX_FILE_SIZE" value="10485760"/>
                     <span class="custom-file-container__custom-file__custom-file-control"></span>
                 </label>
                 <div class="custom-file-container__image-preview"></div>

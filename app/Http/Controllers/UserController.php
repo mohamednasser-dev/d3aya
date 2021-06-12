@@ -513,6 +513,8 @@ class UserController extends Controller
 //
 //            $user_data['image'] = $settings->logo;
 //        }
+        $user_data->current_ads = Product::where('status',1)->where('user_id',$user->id)->where('deleted',0)->get()->count();
+        $user_data->end_ads = Product::where('status',2)->where('user_id',$user->id)->where('deleted',0)->get()->count();
         $response = APIHelpers::createApiResponse(false , 200 , '' , '' , $user_data , $request->lang);
         return response()->json($response , 200);
     }

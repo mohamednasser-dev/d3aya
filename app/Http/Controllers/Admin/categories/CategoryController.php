@@ -20,10 +20,18 @@ class CategoryController extends AdminController{
         $image_format = $imagereturned['format'];
         $image_new_name = $image_id.'.'.$image_format;
 
+        $offers_image = $request->file('offers_image')->getRealPath();
+        Cloudder::upload($offers_image, null);
+        $imagereturned = Cloudder::getResult();
+        $image_id = $imagereturned['public_id'];
+        $image_format = $imagereturned['format'];
+        $offers_image_new_name = $image_id.'.'.$image_format;
+
         $category = new Category();
         $category->title_en = $request->title_en;
         $category->title_ar = $request->title_ar;
         $category->image = $image_new_name;
+        $category->offers_image = $offers_image_new_name;
         $category->save();
 
         session()->flash('success', trans('messages.added_s'));
@@ -55,6 +63,21 @@ class CategoryController extends AdminController{
             $image_format = $imagereturned['format'];
             $image_new_name = $image_id.'.'.$image_format;
             $category->image = $image_new_name;
+        }
+
+        if($request->file('offers_image')){
+            $offers_image = $category->offers_image;
+            $publicId = substr($offers_image, 0 ,strrpos($offers_image, "."));
+            if($publicId != null ){
+                Cloudder::delete($publicId);
+            }
+            $image_offer_name = $request->file('offers_image')->getRealPath();
+            Cloudder::upload($image_offer_name, null);
+            $imagereturned = Cloudder::getResult();
+            $image_id = $imagereturned['public_id'];
+            $image_format = $imagereturned['format'];
+            $image_offers_new_name = $image_id.'.'.$image_format;
+            $category->offers_image = $image_offers_new_name;
         }
         $category->title_en = $request->title_en;
         $category->title_ar = $request->title_ar;

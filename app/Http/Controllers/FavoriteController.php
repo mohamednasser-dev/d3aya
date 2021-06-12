@@ -72,6 +72,7 @@ class FavoriteController extends Controller
 
     public function getfavorites(Request $request){
         $user = auth()->user();
+        $lang = $request->lang ;
         if($user->active == 0){
             $response = APIHelpers::createApiResponse(true , 406 ,  'تم حظر حسابك', 'تم حظر حسابك' , null, $request->lang );
             return response()->json($response , 406);
@@ -91,8 +92,21 @@ class FavoriteController extends Controller
                         $data[$inc]['id'] = $product->id;
                         $data[$inc]['title'] = $product->title;
                         $data[$inc]['image'] = $product->main_image;
-                        $data[$inc]['price'] = $product->price;
-                        $data[$inc]['description'] = $product->description;
+                        $data[$inc]['favorite'] = true;
+
+
+                        if ($product->price == 0 || $product->price == null ) {
+                            if ($lang == 'ar') {
+                                $data[$inc]['price'] = 'Ask the seller';
+                            } else {
+                                $data[$inc]['price'] = 'Ask the seller';
+                            }
+                        }else{
+                            $data[$inc]['price'] = $product->price;
+                        }
+
+                        $data[$inc]['created_at'] = $product->created_at;
+//                        $data[$inc]['description'] = $product->description;
                         $inc =$inc + 1;
                     }
                 }

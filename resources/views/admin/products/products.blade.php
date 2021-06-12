@@ -77,7 +77,7 @@
                                                 <i class="far fa-heart"></i>
                                             </a>
                                         @else
-                                            <a href="{{route('products.make_offer',$product->id)}}" class="btn btn-secondary  mb-2 mr-2 rounded-circle" title="" data-original-title="Tooltip using BUTTON tag">
+                                            <a href="{{route('products.make_offer',$product->id)}}" class="btn btn-dark  mb-2 mr-2 rounded-circle" title="" data-original-title="Tooltip using BUTTON tag">
                                                 <i class="far fa-heart"></i>
                                             </a>
                                         @endif
