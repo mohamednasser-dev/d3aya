@@ -37,7 +37,7 @@
                                 <td class="text-center"><img src="https://res.cloudinary.com/carsads2021/image/upload/w_100,q_100/v1581928924/{{ $row->image }}"  /></td>
                                 <td>{{ app()->getLocale() == 'en' ? $row->title_en : $row->title_ar }}</td>
                                 <td class="text-center blue-color"><a
-                                        href="{{ route('options_values.show', $row->id) }}"><i
+                                        href="{{ route('sub_options_values.show', $row->id) }}"><i
                                             class="far fa-eye"></i></a></td>
                                 @if(Auth::user()->delete_data)
                                     <td class="text-center blue-color" ><a onclick="return confirm('Are you sure you want to delete this item?');" href="{{route('cat_options.deleted',$row->id)}}" ><i class="far fa-trash-alt"></i></a></td>
@@ -60,7 +60,7 @@
                             <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                         </button>
                     </div>
-                    <form action="{{route('cat_options.store')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route('sub_cat_options.store')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <input required type="hidden" name="cat_id" value="{{$id}}">
                         <div class="modal-body">

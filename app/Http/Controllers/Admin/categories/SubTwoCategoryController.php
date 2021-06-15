@@ -16,7 +16,7 @@ class SubTwoCategoryController extends AdminController
     }
     public function create($id)
     {
-        return view('admin.categories.sub_catyegory.sub_two_category.create',compact('id'));
+        return view('admin.categories.sub_category.sub_two_category.create',compact('id'));
     }
     public function store(Request $request)
     {
@@ -42,13 +42,32 @@ class SubTwoCategoryController extends AdminController
     public function show($id)
     {
         $cat_id = $id;
-        $data = SubTwoCategory::where('sub_category_id',$id)->where('deleted','0')->get();
-        return view('admin.categories.sub_catyegory.sub_two_category.index',compact('data','cat_id'));
+        $data = SubTwoCategory::where('sub_category_id',$id)->where('deleted','0')->orderBy('sort' , 'asc')->get();
+        return view('admin.categories.sub_category.sub_two_category.index',compact('data','cat_id'));
+    }
+
+    // sorting
+    public function sort(Request $request) {
+        $post = $request->all();
+        $count = 0;
+        for ($i = 0; $i < count($post['id']); $i ++) :
+            $index = $post['id'][$i];
+            $home_section = SubTwoCategory::findOrFail($index);
+            $count ++;
+            $newPosition = $count;
+            $data['sort'] = $newPosition;
+            if($home_section->update($data)) {
+                echo "success";
+            }else {
+                echo "failed";
+            }
+        endfor;
+        exit('success');
     }
 
     public function edit($id) {
         $data = SubTwoCategory::where('id',$id)->first();
-        return view('admin.categories.sub_catyegory.sub_two_category.edit', compact('data'));
+        return view('admin.categories.sub_category.sub_two_category.edit', compact('data'));
     }
     public function update(Request $request, $id) {
         $model = SubTwoCategory::where('id',$id)->first();

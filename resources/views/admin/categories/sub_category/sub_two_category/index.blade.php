@@ -1,17 +1,37 @@
 @extends('admin.app')
-@section('title' , __('messages.sub_category_fourth'))
+
+@section('title' , __('messages.sub_category_second'))
+@section('scripts')
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js" type="text/javascript"></script>
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $("tbody#sortable").sortable({
+            items: "tr",
+            placeholder: "ui-state-hightlight",
+            update: function () {
+                var ids = $('tbody#sortable').sortable("serialize");
+                var url = "{{ route('sub_two_cat.sort') }}";
+                $.post(url, ids + "&_token={{ csrf_token() }}");
+            }
+        });
+    </script>
+@endsection
 @section('content')
     <div id="tableSimple" class="col-lg-12 col-12 layout-spacing">
         <div class="statbox widget box box-shadow">
             <div class="widget-header">
                 <div class="row">
                     <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                        <h4>{{ __('messages.sub_category_fourth') }}</h4>
+                        <h4>{{ __('messages.sub_category_second') }}</h4>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                        <a class="btn btn-primary" href="{{route('sub_four_cat.create.new',$cat_id)}}">{{ __('messages.add') }}</a>
+                        <a class="btn btn-primary" href="{{route('sub_two_cat.create.new',$cat_id)}}">{{ __('messages.add') }}</a>
                     </div>
                 </div>
             </div>
@@ -23,20 +43,20 @@
                             <th class="text-center">Id</th>
                             <th class="text-center">{{ __('messages.image') }}</th>
                             <th class="text-center">{{ __('messages.name') }}</th>
-                            <th class="text-center">{{ __('messages.sub_category_fiveth') }}</th>
+                            <th class="text-center">{{ __('messages.sub_category_third') }}</th>
                             @if(Auth::user()->update_data)<th class="text-center">{{ __('messages.edit') }}</th>@endif
                             @if(Auth::user()->delete_data)<th class="text-center" >{{ __('messages.delete') }}</th>@endif
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="sortable">
                         <?php $i = 1; ?>
                         @foreach ($data as $row)
-                            <tr >
+                            <tr id="id_{{ $row->id }}">
                                 <td class="text-center"><?=$i;?></td>
-                                <td class="text-center"><img src="{{image_cloudinary_url()}}{{ $row->image }}"/></td>
+                                <td class="text-center"><img src="{{image_cloudinary_url()}}{{ $row->image }}"  /></td>
                                 <td class="text-center blue-color">{{ app()->getLocale() == 'en' ? $row->title_en : $row->title_ar }}</td>
                                 <td class="text-center blue-color">
-                                    <a href="{{route('sub_five_cat.show',$row->id)}}">
+                                    <a href="{{route('sub_three_cat.show',$row->id)}}">
                                         <div class="">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -48,13 +68,12 @@
                                         </div>
                                     </a>
                                 </td>
-
                                 @if(Auth::user()->update_data)
-                                    <td class="text-center blue-color" ><a href="{{ route( 'sub_four_cat.edit', $row->id ) }}" ><i class="far fa-edit"></i></a></td>
+                                    <td class="text-center blue-color" ><a href="{{ route( 'sub_two_cat.edit', $row->id ) }}" ><i class="far fa-edit"></i></a></td>
                                 @endif
                                 @if(Auth::user()->delete_data)
                                     <td class="text-center blue-color" >
-                                        <a onclick="return confirm('{{ __('messages.are_you_sure') }}');" href="{{ route('sub_four_cat.delete', $row->id) }}" >
+                                        <a onclick="return confirm('{{ __('messages.are_you_sure') }}');" href="{{ route('sub_two_cat.delete', $row->id) }}" >
                                             <i class="far fa-trash-alt"></i>
                                         </a>
                                     </td>
