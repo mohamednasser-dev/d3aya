@@ -513,6 +513,13 @@ class CategoryController extends Controller
             }
             $products[$i]['time'] = APIHelpers::get_month_day($products[$i]['created_at'], $lang);
         }
+
+        $cat_ids[] = null;
+        for ($i = 0; $i < count($data['sub_categories']); $i++) {
+            $cat_ids[$i] = $data['sub_categories'][$i]['id'];
+        }
+        $data['ad_image'] = Categories_ad::select('image', 'ad_type', 'content as link')->where('deleted', '0')->wherein('cat_id', $cat_ids)->where('deleted', '0')->where('type', 'sub_three_category')->inRandomOrder()->take(1)->get();
+
         $data['products'] = $products;
 
 
@@ -596,7 +603,7 @@ class CategoryController extends Controller
             $data['category'] = Category::where('id', $request->category_id)->select('id', 'title_' . $lang . ' as title')->first();
         }
 
-
+        $cat_ids[] = null;
         $All_sub_cat = false;
         for ($i = 0; $i < count($data['sub_categories']); $i++) {
             $cat_ids[$i] = $data['sub_categories'][$i]['id'];
@@ -626,12 +633,7 @@ class CategoryController extends Controller
                 }
                 //End check
             }
-
-
         }
-
-
-        // $data['ad_image'] = Categories_ad::select('image','ad_type','content as link')->wherein('cat_id',$cat_ids)->where('type','sub_four_category')->inRandomOrder()->take(1)->get();
         if (count($data['sub_category_array']) == 0) {
             $data['sub_category_array'] = SubThreeCategory::where(function ($q) {
                 $q->has('SubCategories', '>', 0)->orWhere(function ($qq) {
@@ -694,6 +696,9 @@ class CategoryController extends Controller
             }
             $products[$i]['time'] = APIHelpers::get_month_day($products[$i]['created_at'], $lang);
         }
+
+        $data['ad_image'] = Categories_ad::select('image', 'ad_type', 'content as link')->where('deleted', '0')->wherein('cat_id', $cat_ids)->where('deleted', '0')->where('type', 'sub_four_category')->inRandomOrder()->take(1)->get();
+
         $data['products'] = $products;
 
 
@@ -762,6 +767,7 @@ class CategoryController extends Controller
             }
             $data['category'] = Category::where('id', $request->category_id)->select('id', 'title_' . $lang . ' as title')->first();
         }
+        $cat_ids[] = null;
         for ($i = 0; $i < count($data['sub_categories']); $i++) {
             $cat_ids[$i] = $data['sub_categories'][$i]['id'];
             $five_products = Product::where('sub_category_five_id', $data['sub_categories'][$i]['id'])->where('status', 1)->where('publish', 'Y')->where('deleted', 0)->first();
@@ -772,7 +778,9 @@ class CategoryController extends Controller
             }
 
         }
-        // $data['ad_image'] = Categories_ad::select('image','ad_type','content as link')->wherein('cat_id',$cat_ids)->where('type','sub_four_category')->inRandomOrder()->take(1)->get();
+
+        $data['ad_image'] = Categories_ad::select('image', 'ad_type', 'content as link')->where('deleted', '0')->wherein('cat_id', $cat_ids)->where('deleted', '0')->where('type', 'sub_five_category')->inRandomOrder()->take(1)->get();
+
         if (count($data['sub_category_array']) == 0) {
             $data['sub_category_array'] = SubFourCategory::where(function ($q) {
                 $q->has('SubCategories', '>', 0)->orWhere(function ($qq) {
