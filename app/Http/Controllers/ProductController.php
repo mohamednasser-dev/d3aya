@@ -1185,30 +1185,18 @@ class ProductController extends Controller
         }
     }
 
-    public function last_seen(Request $request)
-    {
-        $lang = $request->lang ;
+    public function last_seen(Request $request){
         $user = auth()->user();
         if ($user == null) {
             $response = APIHelpers::createApiResponse(true, 406, 'you should login first', 'يجب تسجيل الدخول اولا', null, $request->lang);
             return response()->json($response, 406);
         }
-
         $products = Product_view::where('user_id', auth()->user()->id)->has('Product')->with('Product')
             ->select('product_id', 'user_id')
             ->orderBy('created_at', 'desc')->simplePaginate(12);
-        $inc = 0;
-
-
         for ($i = 0; $i < count($products); $i++) {
-            if ($products[$i]['Product']->price == 0) {
-                if ($lang == 'ar') {
-                    $products[$i]['Product']->price = 'اسأل البائع';
-                } else {
-                    $products[$i]['Product']->price = 'Ask the seller';
-                }
-            }
-            $user = auth()->user();
+            $views = Product_view::where('product_id', $products[$i]['product_id']  )->get()->count();
+            $products[$i]['Product']->views = $views;
             if ($user) {
                 $favorite = Favorite::where('user_id', $user->id)->where('product_id', $products[$i]['product_id'])->first();
                 if ($favorite) {
@@ -1216,7 +1204,6 @@ class ProductController extends Controller
                 } else {
                     $products[$i]['Product']->favorite = false;
                 }
-
                 $conversation = Participant::where('ad_product_id', $products[$i]['product_id'])->where('user_id', $user->id)->first();
                 if ($conversation == null) {
                     $products[$i]['Product']->conversation_id = 0;

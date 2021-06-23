@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Participant;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Helpers\APIHelpers;
@@ -80,15 +81,36 @@ class FavoriteController extends Controller
             $response = APIHelpers::createApiResponse(true, 406, 'تم حظر حسابك', 'تم حظر حسابك', null, $request->lang);
             return response()->json($response, 406);
         } else {
-            $favorites = Favorite::select('id', 'product_id', 'user_id')->has('Product')
+            $products = Favorite::select('id', 'product_id', 'user_id')->has('Product')
                 ->with('Product')
                 ->where('user_id', $user->id)
                 ->orderBy('id', 'desc')
                 ->simplePaginate(12);
-            if (count($favorites) > 0) {
-                $response = APIHelpers::createApiResponse(false, 200, '', '', $favorites, $request->lang);
+
+            for ($i = 0; $i < count($products); $i++) {
+                if ($user) {
+                    $favorite = Favorite::where('user_id', $user->id)->where('product_id', $products[$i]['product_id'])->first();
+                    if ($favorite) {
+                        $products[$i]['Product']->favorite  = true;
+                    } else {
+                        $products[$i]['Product']->favorite = false;
+                    }
+
+                    $conversation = Participant::where('ad_product_id', $products[$i]['product_id'])->where('user_id', $user->id)->first();
+                    if ($conversation == null) {
+                        $products[$i]['Product']->conversation_id = 0;
+                    } else {
+                        $products[$i]['Product']->conversation_id = $conversation->conversation_id;
+                    }
+                } else {
+                    $products[$i]['favorite'] = false;
+                    $products[$i]['conversation_id'] = 0;
+                }
+            }
+            if (count($products) > 0) {
+                $response = APIHelpers::createApiResponse(false, 200, '', '', $products, $request->lang);
             } else {
-                $response = APIHelpers::createApiResponse(false, 200, 'no item favorite to show', 'لا يوجد عناصر للعرض', $favorites, $request->lang);
+                $response = APIHelpers::createApiResponse(false, 200, 'no item favorite to show', 'لا يوجد عناصر للعرض', $products, $request->lang);
             }
             return response()->json($response, 200);
         }
