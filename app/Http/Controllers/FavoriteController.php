@@ -88,6 +88,7 @@ class FavoriteController extends Controller
                 ->simplePaginate(12);
 
             for ($i = 0; $i < count($products); $i++) {
+                $products[$i]['Product']->price  = number_format((float)(  $products[$i]['Product']->price ), 3);
                 if ($user) {
                     $favorite = Favorite::where('user_id', $user->id)->where('product_id', $products[$i]['product_id'])->first();
                     if ($favorite) {

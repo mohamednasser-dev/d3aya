@@ -123,13 +123,7 @@ class CategoryController extends Controller
         $lang = $request->lang;
         $products = Product::where('status', 1)->where('publish', 'Y')->where('deleted', 0)->where('category_id', $request->category_id)->select('id', 'title', 'price', 'main_image as image', 'created_at', 'pin')->orderBy('pin', 'DESC')->orderBy('created_at', 'desc')->simplePaginate(12);
         for ($i = 0; $i < count($products); $i++) {
-            if ($products[$i]['price'] == 0) {
-                if ($lang == 'ar') {
-                    $products[$i]['price'] = 'اسأل البائع';
-                } else {
-                    $products[$i]['price'] = 'Ask the seller';
-                }
-            }
+            $products[$i]['price']= number_format((float)($products[$i]['price']), 3);
             $views = Product_view::where('product_id', $products[$i]['id'])->get()->count();
             $products[$i]['views'] = $views;
             $user = auth()->user();
@@ -261,13 +255,7 @@ class CategoryController extends Controller
             $products = Product::where('status', 1)->where('publish', 'Y')->where('deleted', 0)->where('sub_category_id', $request->sub_category_id)->select('id', 'title', 'price', 'main_image as image', 'created_at', 'pin')->orderBy('pin', 'DESC')->orderBy('created_at', 'desc')->simplePaginate(12);
         }
         for ($i = 0; $i < count($products); $i++) {
-            if ($products[$i]['price'] == 0) {
-                if ($lang == 'ar') {
-                    $products[$i]['price'] = 'اسأل البائع';
-                } else {
-                    $products[$i]['price'] = 'Ask the seller';
-                }
-            }
+            $products[$i]['price']= number_format((float)($products[$i]['price']), 3);
             $views = Product_view::where('product_id', $products[$i]['id'])->get()->count();
             $products[$i]['views'] = $views;
             $user = auth()->user();
@@ -484,13 +472,7 @@ class CategoryController extends Controller
         $products = $products->orderBy('pin', 'DESC')->orderBy('created_at', 'desc')->simplePaginate(12);
 
         for ($i = 0; $i < count($products); $i++) {
-            if ($products[$i]['price'] == 0) {
-                if ($lang == 'ar') {
-                    $products[$i]['price'] = 'اسأل البائع';
-                } else {
-                    $products[$i]['price'] = 'Ask the seller';
-                }
-            }
+            $products[$i]['price']= number_format((float)($products[$i]['price']), 3);
             $views = Product_view::where('product_id', $products[$i]['id'])->get()->count();
             $products[$i]['views'] = $views;
             $user = auth()->user();
@@ -667,13 +649,7 @@ class CategoryController extends Controller
 
         $products = $products->select('id', 'title', 'price', 'main_image as image', 'pin', 'created_at')->orderBy('pin', 'DESC')->orderBy('created_at', 'desc')->simplePaginate(12);
         for ($i = 0; $i < count($products); $i++) {
-            if ($products[$i]['price'] == 0) {
-                if ($lang == 'ar') {
-                    $products[$i]['price'] = 'اسأل البائع';
-                } else {
-                    $products[$i]['price'] = 'Ask the seller';
-                }
-            }
+            $products[$i]['price']= number_format((float)($products[$i]['price']), 3);
             $views = Product_view::where('product_id', $products[$i]['id'])->get()->count();
             $products[$i]['views'] = $views;
             $user = auth()->user();
@@ -811,13 +787,7 @@ class CategoryController extends Controller
         }
         $products = $products->select('id', 'title', 'price', 'main_image as image', 'pin', 'created_at')->orderBy('pin', 'DESC')->orderBy('created_at', 'desc')->simplePaginate(12);
         for ($i = 0; $i < count($products); $i++) {
-            if ($products[$i]['price'] == 0) {
-                if ($lang == 'ar') {
-                    $products[$i]['price'] = 'اسأل البائع';
-                } else {
-                    $products[$i]['price'] = 'Ask the seller';
-                }
-            }
+            $products[$i]['price']= number_format((float)($products[$i]['price']), 3);
             $views = Product_view::where('product_id', $products[$i]['id'])->get()->count();
             $products[$i]['views'] = $views;
             $user = auth()->user();
@@ -914,13 +884,7 @@ class CategoryController extends Controller
         }
         $products = $products->where('sub_category_five_id', $request->sub_category_id)->select('id', 'title', 'price', 'main_image as image', 'pin', 'created_at')->where('publish', 'Y')->orderBy('pin', 'DESC')->orderBy('created_at', 'desc')->simplePaginate(12);
         for ($i = 0; $i < count($products); $i++) {
-            if ($products[$i]['price'] == 0) {
-                if ($lang == 'ar') {
-                    $products[$i]['price'] = 'اسأل البائع';
-                } else {
-                    $products[$i]['price'] = 'Ask the seller';
-                }
-            }
+            $products[$i]['price']= number_format((float)($products[$i]['price']), 3);
             $views = Product_view::where('product_id', $products[$i]['id'])->get()->count();
             $products[$i]['views'] = $views;
             $user = auth()->user();

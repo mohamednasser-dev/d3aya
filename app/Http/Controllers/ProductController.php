@@ -198,13 +198,7 @@ class ProductController extends Controller
         $data = Product::with('Product_user')->with('Area_name')
             ->select('id', 'title', 'main_image', 'description', 'price', 'type', 'publication_date as date', 'user_id', 'category_id', 'latitude', 'longitude', 'share_location', 'area_id')
             ->find($request->id);
-        if ($data->price == 0) {
-            if ($lang == 'ar') {
-                $data->price = 'اسأل البائع';
-            } else {
-                $data->price = 'Ask the seller';
-            }
-        }
+        $data->price  = number_format((float)(  $data->pric ), 3);
 
         if ($data->share_location == '0') {
             $data->share_location = 0;
@@ -284,13 +278,7 @@ class ProductController extends Controller
             ->limit(3)
             ->get()
             ->map(function ($ads) use ($lang) {
-                if ($ads->price == 0) {
-                    if ($lang == 'ar') {
-                        $ads->price = 'اسأل البائع';
-                    } else {
-                        $ads->price = 'Ask the seller';
-                    }
-                }
+                $ads->price  = number_format((float)(  $ads->price ), 3);
                 $ads->time = APIHelpers::get_month_year($ads->created_at, $lang);
                 return $ads;
             });
@@ -313,13 +301,7 @@ class ProductController extends Controller
             ->limit(3)
             ->get()
             ->map(function ($ads) use ($lang) {
-                if ($ads->price == 0) {
-                    if ($lang == 'ar') {
-                        $ads->price = 'اسأل البائع';
-                    } else {
-                        $ads->price = 'Ask the seller';
-                    }
-                }
+                $ads->price  = number_format((float)(  $ads->price ), 3);
                 $ads->time = APIHelpers::get_month_year($ads->created_at, $lang);
                 return $ads;
             });
@@ -416,13 +398,7 @@ class ProductController extends Controller
             ->where('publish', 'Y')
             ->where('deleted', '0')
             ->get()->map(function ($data) use ($lang, $user) {
-                if ($data->price == 0) {
-                    if ($lang == 'ar') {
-                        $data->price = 'اسأل البائع';
-                    } else {
-                        $data->price = 'Ask the seller';
-                    }
-                }
+                $data->price  = number_format((float)(  $data->price ), 3);
                 if ($user != null) {
                     $favorite = Favorite::where('user_id', $user->id)->where('product_id', $data->id)->first();
                     if ($favorite) {
@@ -524,13 +500,7 @@ class ProductController extends Controller
             ->orderBy('created_at', 'desc')
             ->simplePaginate(12);
         for ($i = 0; $i < count($products); $i++) {
-            if ($products[$i]['price'] == 0) {
-                if ($lang == 'ar') {
-                    $products[$i]['price'] = 'اسأل البائع';
-                } else {
-                    $products[$i]['price'] = 'Ask the seller';
-                }
-            }
+            $products[$i]['price']  = number_format((float)(  $products[$i]['price'] ), 3);
             $views = Product_view::where('product_id', $products[$i]['id'])->get()->count();
             $products[$i]['views'] = $views;
             $user = auth()->user();
@@ -1136,13 +1106,7 @@ class ProductController extends Controller
             ->orderBy('created_at', 'desc')
             ->get()
             ->map(function($data) use ($lang){
-                if ($data->price == 0) {
-                    if ($lang == 'ar') {
-                        $data->price = 'اسأل البائع';
-                    } else {
-                        $data->price = 'Ask the seller';
-                    }
-                }
+                $data->price = number_format((float)(  $data->price ), 3);
                 $data->views = Product_view::where('product_id', $data->id)->count();
                 return $data;
             });
@@ -1166,13 +1130,7 @@ class ProductController extends Controller
             ->orderBy('created_at', 'desc')
             ->get()
         ->map(function($data) use ($lang){
-            if ($data->price == 0) {
-                if ($lang == 'ar') {
-                    $data->price = 'اسأل البائع';
-                } else {
-                    $data->price = 'Ask the seller';
-                }
-            }
+            $data->price = number_format((float)(  $data->price ), 3);
             $data->views = Product_view::where('product_id', $data->id)->count();
             return $data;
         });
@@ -1195,6 +1153,7 @@ class ProductController extends Controller
             ->select('product_id', 'user_id')
             ->orderBy('created_at', 'desc')->simplePaginate(12);
         for ($i = 0; $i < count($products); $i++) {
+            $products[$i]['Product']->price = number_format((float)($products[$i]['Product']->price), 3);
             $views = Product_view::where('product_id', $products[$i]['product_id']  )->get()->count();
             $products[$i]['Product']->views = $views;
             if ($user) {
