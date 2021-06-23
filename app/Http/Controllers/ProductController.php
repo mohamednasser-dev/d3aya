@@ -1187,38 +1187,48 @@ class ProductController extends Controller
 
     public function last_seen(Request $request)
     {
+        $lang = $request->lang ;
         $user = auth()->user();
         if ($user == null) {
             $response = APIHelpers::createApiResponse(true, 406, 'you should login first', 'يجب تسجيل الدخول اولا', null, $request->lang);
             return response()->json($response, 406);
         }
 
-        $ads = Product_view::where('user_id', auth()->user()->id)
+        $products = Product_view::where('user_id', auth()->user()->id)->has('Product')->with('Product')
             ->select('product_id', 'user_id')
-            ->orderBy('created_at', 'desc')
-            ->get();
+            ->orderBy('created_at', 'desc')->simplePaginate(12);
         $inc = 0;
-        $data=[];
-        foreach ($ads as $key => $row) {
-            $product = Product::where('id', $row->product_id)->first();
-            if ($product != null) {
-                if ($product->status == 1 && $product->deleted == 0 && $product->publish == 'Y') {
-                    $data[$inc]['id'] = $product->id;
-                    $data[$inc]['title'] = $product->title;
-                    $data[$inc]['image'] = $product->main_image;
-                    $data[$inc]['price'] = $product->price;
-                    $data[$inc]['description'] = $product->description;
-                    $favorite = Favorite::where('user_id', $user->id)->where('product_id', $product->id)->first();
-                    if ($favorite) {
-                        $data[$inc]['favorite'] = true;
-                    } else {
-                        $data[$inc]['favorite'] = false;
-                    }
-                    $inc = $inc + 1;
+
+
+        for ($i = 0; $i < count($products); $i++) {
+            if ($products[$i]['Product']->price == 0) {
+                if ($lang == 'ar') {
+                    $products[$i]['Product']->price = 'اسأل البائع';
+                } else {
+                    $products[$i]['Product']->price = 'Ask the seller';
                 }
             }
+            $user = auth()->user();
+            if ($user) {
+                $favorite = Favorite::where('user_id', $user->id)->where('product_id', $products[$i]['product_id'])->first();
+                if ($favorite) {
+                    $products[$i]['Product']->favorite  = true;
+                } else {
+                    $products[$i]['Product']->favorite = false;
+                }
+
+                $conversation = Participant::where('ad_product_id', $products[$i]['product_id'])->where('user_id', $user->id)->first();
+                if ($conversation == null) {
+                    $products[$i]['Product']->conversation_id = 0;
+                } else {
+                    $products[$i]['Product']->conversation_id = $conversation->conversation_id;
+                }
+            } else {
+                $products[$i]['favorite'] = false;
+                $products[$i]['conversation_id'] = 0;
+            }
         }
-        $response = APIHelpers::createApiResponse(false, 200, '', '', $data, $request->lang);
+        $response = APIHelpers::createApiResponse(false, 200, '', '', $products, $request->lang);
         return response()->json($response, 200);
     }
 
