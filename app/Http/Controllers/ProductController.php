@@ -1198,6 +1198,7 @@ class ProductController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
         $inc = 0;
+        $data=[];
         foreach ($ads as $key => $row) {
             $product = Product::where('id', $row->product_id)->first();
             if ($product != null) {
@@ -1217,13 +1218,8 @@ class ProductController extends Controller
                 }
             }
         }
-        if (count($data) == 0) {
-            $response = APIHelpers::createApiResponse(false, 200, 'no ads yet !', ' !لا يوجد اعلانات حتى الان', null, $request->lang);
-            return response()->json($response, 200);
-        } else {
-            $response = APIHelpers::createApiResponse(false, 200, '', '', $data, $request->lang);
-            return response()->json($response, 200);
-        }
+        $response = APIHelpers::createApiResponse(false, 200, '', '', $data, $request->lang);
+        return response()->json($response, 200);
     }
 
     public function offer_ads(Request $request)
