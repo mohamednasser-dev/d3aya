@@ -1098,49 +1098,75 @@ class ProductController extends Controller
 
     public function ended_ads(Request $request)
     {
-        $lang = $request->lang ;
-        $data = Product::where('status', 2)
+        $user = auth()->user();
+        $products = Product::where('status', 2)
             ->where('deleted', 0)
             ->where('user_id', auth()->user()->id)
             ->select('id', 'title', 'price', 'main_image','created_at')
             ->orderBy('created_at', 'desc')
-            ->get()
-            ->map(function($data) use ($lang){
-                $data->price = number_format((float)(  $data->price ), 3);
-                $data->views = Product_view::where('product_id', $data->id)->count();
-                return $data;
-            });
-        if (count($data) == 0) {
-            $response = APIHelpers::createApiResponse(false, 200, 'no ads yet !', ' !لا يوجد اعلانات حتى الان', null, $request->lang);
-            return response()->json($response, 200);
-        } else {
-            $response = APIHelpers::createApiResponse(false, 200, '', '', $data, $request->lang);
-            return response()->json($response, 200);
+            ->simplePaginate(12);
+
+        for ($i = 0; $i < count($products); $i++) {
+            $products[$i]['price'] = number_format((float)($products[$i]['price']), 3);
+            $products[$i]['views'] = Product_view::where('product_id', $products[$i]['id'])->get()->count();
+            if ($user) {
+                $favorite = Favorite::where('user_id', $user->id)->where('product_id', $products[$i]['id'])->first();
+                if ($favorite) {
+                    $products[$i]['favorite']  = true;
+                } else {
+                    $products[$i]['favorite'] = false;
+                }
+                $conversation = Participant::where('ad_product_id', $products[$i]['id'])->where('user_id', $user->id)->first();
+                if ($conversation == null) {
+                    $products[$i]['conversation_id'] = 0;
+                } else {
+                    $products[$i]['conversation_id'] = $conversation->conversation_id;
+                }
+            } else {
+                $products[$i]['favorite'] = false;
+                $products[$i]['conversation_id'] = 0;
+            }
         }
+            $response = APIHelpers::createApiResponse(false, 200, '', '', $products, $request->lang);
+            return response()->json($response, 200);
+
     }
 
     public function current_ads(Request $request)
     {
-        $lang = $request->lang ;
-        $data = Product::where('status', 1)
+        $user = auth()->user();
+        $products = Product::where('status', 1)
             ->where('publish', 'Y')
             ->where('deleted', 0)
             ->where('user_id', auth()->user()->id)
             ->select('id', 'title', 'price', 'main_image','created_at')
             ->orderBy('created_at', 'desc')
-            ->get()
-        ->map(function($data) use ($lang){
-            $data->price = number_format((float)(  $data->price ), 3);
-            $data->views = Product_view::where('product_id', $data->id)->count();
-            return $data;
-        });
-        if (count($data) == 0) {
-            $response = APIHelpers::createApiResponse(false, 200, 'no ads yet !', ' !لا يوجد اعلانات حتى الان', null, $request->lang);
-            return response()->json($response, 200);
-        } else {
-            $response = APIHelpers::createApiResponse(false, 200, '', '', $data, $request->lang);
-            return response()->json($response, 200);
+            ->simplePaginate(12);
+
+        for ($i = 0; $i < count($products); $i++) {
+            $products[$i]['price'] = number_format((float)($products[$i]['price']), 3);
+            $products[$i]['views'] = Product_view::where('product_id', $products[$i]['id'])->get()->count();
+            if ($user) {
+                $favorite = Favorite::where('user_id', $user->id)->where('product_id', $products[$i]['id'])->first();
+                if ($favorite) {
+                    $products[$i]['favorite']  = true;
+                } else {
+                    $products[$i]['favorite'] = false;
+                }
+                $conversation = Participant::where('ad_product_id', $products[$i]['id'])->where('user_id', $user->id)->first();
+                if ($conversation == null) {
+                    $products[$i]['conversation_id'] = 0;
+                } else {
+                    $products[$i]['conversation_id'] = $conversation->conversation_id;
+                }
+            } else {
+                $products[$i]['favorite'] = false;
+                $products[$i]['conversation_id'] = 0;
+            }
         }
+
+        $response = APIHelpers::createApiResponse(false, 200, '', '', $products, $request->lang);
+        return response()->json($response, 200);
     }
 
     public function last_seen(Request $request){
@@ -1170,8 +1196,8 @@ class ProductController extends Controller
                     $products[$i]['Product']->conversation_id = $conversation->conversation_id;
                 }
             } else {
-                $products[$i]['favorite'] = false;
-                $products[$i]['conversation_id'] = 0;
+                $products[$i]['Product']->favorite = false;
+                $products[$i]['Product']->conversation_id = 0;
             }
         }
         $response = APIHelpers::createApiResponse(false, 200, '', '', $products, $request->lang);
@@ -1189,8 +1215,8 @@ class ProductController extends Controller
         $Category = Category::select('id','title_'.$lang .' as title','offers_image')->has('Offers','>',0)->with('Offers')->where('deleted','0')
             ->get()
             ->map(function ($data) use ($user){
-
                 foreach ($data->Offers as $key => $row){
+                    $data->Offers[$key]['price'] = number_format((float)(  $data->Offers[$key]['price'] ), 3);
                     $data->Offers[$key]['views'] = Product_view::where('product_id', $row->id)->count();
                     $favorite = Favorite::where('user_id', $user->id)->where('product_id', $row->id)->first();
                     if ($favorite) {
