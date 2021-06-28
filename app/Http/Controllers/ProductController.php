@@ -391,7 +391,10 @@ class ProductController extends Controller
     {
         $user = auth()->user();
         $lang = $request->lang;
-        $data['basic_info'] = User::select('id', 'name', 'email', 'image', 'phone')->where('id', $id)->first();
+        $data['basic_info'] = User::select('id', 'name', 'email', 'image', 'phone','created_at')->where('id', $id)->first();
+        $data['current_ads_num'] = Product::where('user_id' , $id)->where('status' , 1)->orderBy('publication_date' , 'DESC')->select('id' , 'title' , 'price' , 'publication_date as date' , 'type')->get()->count();
+        $data['ended_ads_num'] = Product::where('user_id' , $id)->where('status' , 2)->orderBy('publication_date' , 'DESC')->select('id' , 'title' , 'price' , 'publication_date as date' , 'type')->get()->count();
+
         $data['ads'] = Product::select('id', 'title', 'price', 'main_image')
             ->where('user_id', $id)
             ->where('status', 1)
@@ -409,14 +412,10 @@ class ProductController extends Controller
                 } else {
                     $data->favorite = false;
                 }
-
                 return $data;
             });
-
-
         $response = APIHelpers::createApiResponse(false, 200, '', '', $data, $request->lang);
         return response()->json($response, 200);
-
     }
 
     public function getsearch(Request $request)
