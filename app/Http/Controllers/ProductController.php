@@ -198,7 +198,7 @@ class ProductController extends Controller
         $data = Product::with('Product_user')->with('Area_name')
             ->select('id', 'title', 'main_image', 'description', 'price', 'type', 'publication_date as date', 'user_id', 'category_id', 'latitude', 'longitude', 'share_location', 'area_id')
             ->find($request->id);
-        $data->price  = number_format((float)(  $data->pric ), 3);
+        $data->price  = number_format((float)(  $data->price ), 3);
 
         if ($data->share_location == '0') {
             $data->share_location = 0;
@@ -264,8 +264,11 @@ class ProductController extends Controller
 
 
         //to get ad images in array
+        $images = [];
         $images = ProductImage::where('product_id', $data->id)->pluck('image')->toArray();
-        $images[count($images)] = $data->main_image;
+        if($data->main_image != null){
+            $images[count($images)] = $data->main_image;
+        }
         $data->images = $images;
         $user_ids[] = null;
         $user_other_ads = (object)[];
