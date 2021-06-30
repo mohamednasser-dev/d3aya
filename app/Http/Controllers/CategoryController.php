@@ -863,9 +863,7 @@ class CategoryController extends Controller
         }
         if (count($data['sub_category_array']) == 0) {
             $data['sub_category_array'] = SubFiveCategory::where(function ($q) {
-                $q->has('SubCategories', '>', 0)->orWhere(function ($qq) {
-                    $qq->has('Products', '>', 0);
-                });
+                $q->has('products', '>', 0);
             })->where('deleted', '0')->where('sub_category_id', $request->sub_category_level4_id)->select('id', 'image', 'title_' . $lang . ' as title')->orderBy('sort', 'asc')->get()->toArray();
         }
 
