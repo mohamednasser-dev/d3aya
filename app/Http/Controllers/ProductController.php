@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Category_option;
 use App\ContactUs;
 use App\Conversation;
 use App\Participant;
@@ -1338,6 +1339,7 @@ class ProductController extends Controller
 
     public function select_ad_data(Request $request, $id)
     {
+        $lang = $request->lang;
         Session::put('local_api', $request->lang);
         $data['ad'] = Product::where('id', $id)
             ->with('City_api')
@@ -1438,7 +1440,41 @@ class ProductController extends Controller
             }
         }
 
-        $data['features'] = $features;
+        $data['options'] = Category_option::where('cat_id', $data['ad']->category_id)->where('cat_type', 'category')->where('deleted', '0')->select('id as option_id', 'title_'.$lang.' as title', 'is_required')->get();
+
+        if (count($data['options']) > 0) {
+            for ($i = 0; $i < count($data['options']); $i++) {
+                $option_id = $data['options'][$i]['option_id'] ;
+                $data['options'][$i]['type'] = 'input';
+                $optionValues = Category_option_value::where('option_id', $data['options'][$i]['option_id'])
+                    ->where('deleted', '0')->select('id as value_id', 'value_'.$lang.' as value')
+                    ->get()->map(function($data) use ($id,$option_id){
+                        $data->selected = false ;
+//                        dd($data->option_id);
+                        $inserted_in_db = Product_feature::where('option_id',$option_id)->where('product_id',$id)->first();
+                        if($inserted_in_db){
+                            if($data->value_id == $inserted_in_db->target_id ){
+                                $data->selected = true ;
+                            }
+                        }
+
+                        return $data;
+                    });
+                if (count($optionValues) > 0) {
+                    $data['options'][$i]['type'] = 'select';
+                    $data['options'][$i]['values'] = $optionValues;
+                }else{
+                    $inserted_in_db = Product_feature::where('option_id',$option_id)->where('product_id',$id)->first();
+                    if($inserted_in_db){
+                        $data['options'][$i]['value'] = $inserted_in_db->target_id;
+                    }else{
+                        $data['options'][$i]['value'] = "";
+                    }
+                }
+            }
+        }
+
+//        $data['features'] = $features;
         $response = APIHelpers::createApiResponse(false, 200, 'data shown', 'تم أظهار البيانات', $data, $request->lang);
         return response()->json($response, 200);
     }
