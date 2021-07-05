@@ -236,10 +236,11 @@ class CategoryController extends Controller
                                 $have_next_level = true;
                             }
                             if ($have_next_level == false) {
-                                $categories[$i]['next_level'] = false;
+                                $data['sub_categories'][$i]['next_level'] = false;
+                                break;
                             } else {
-                                $categories[$i]['next_level'] = true;
-//                                break;
+                                $data['sub_categories'][$i]['next_level'] = true;
+                                break;
                             }
                         }
                     }
@@ -386,9 +387,9 @@ class CategoryController extends Controller
                                 $have_next_level = true;
                             }
                             if ($have_next_level == false) {
-                                $categories[$i]['next_level'] = false;
+                                $data['sub_categories'][$i]['next_level'] = false;
                             } else {
-                                $categories[$i]['next_level'] = true;
+                                $data['sub_categories'][$i]['next_level'] = true;
                                 break;
                             }
                         }
