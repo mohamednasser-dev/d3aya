@@ -239,7 +239,7 @@ class CategoryController extends Controller
                                 $categories[$i]['next_level'] = false;
                             } else {
                                 $categories[$i]['next_level'] = true;
-                                break;
+//                                break;
                             }
                         }
                     }
