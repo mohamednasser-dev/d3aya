@@ -478,7 +478,9 @@ class CategoryController extends Controller
                 $q->has('SubCategories', '>', 0)->orWhere(function ($qq) {
                     $qq->has('Products', '>', 0);
                 });
-            })->where('sub_category_id', $request->sub_category_level1_id)->select('id', 'title_' . $lang . ' as title', 'sub_category_id')->orderBy('sort', 'asc')->get()->makeHidden('category_id');
+            })->where('sub_category_id', $request->sub_category_level1_id)
+                ->select('id', 'title_' . $lang . ' as title', 'sub_category_id')
+                ->orderBy('sort', 'asc')->get()->makeHidden('category_id')->toArray();
         }
         for ($n = 0; $n < count($data['sub_category_array']); $n++) {
             if ($data['sub_category_array'][$n]['id'] == $request->sub_category_id) {
@@ -497,6 +499,7 @@ class CategoryController extends Controller
         $all->title = $title;
         $all->sub_category_id = $request->sub_category_id;
         $all->selected = false;
+
         array_unshift($data['sub_category_array'], $all);
         array_unshift($data['sub_categories']);
         $products = Product::where('status', 1)->where('deleted', 0)->where('publish', 'Y')->where('category_id', $request->category_id)->select('id', 'title', 'price', 'main_image as image', 'pin', 'created_at');
