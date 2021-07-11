@@ -196,7 +196,7 @@ class ProductController extends Controller
         $user = auth()->user();
         $lang = $request->lang;
         Session::put('lang', $lang);
-        $data = Product::with('Product_user')->with('Area_name')
+        $data = Product::with('Product_user')->with('Area_name')->with('category_name')
             ->select('id', 'title', 'main_image', 'description', 'price', 'type', 'publication_date as date', 'user_id', 'category_id', 'latitude', 'longitude', 'share_location', 'area_id')
             ->find($request->id);
         $data->price  = number_format((float)(  $data->price ), 3);
