@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\SubCategory;
 use Illuminate\Http\Request;
 use App\Helpers\APIHelpers;
 use App\Balance_package;
@@ -111,25 +112,36 @@ class HomeController extends Controller
     public function getHomeAds(Request $request)
     {
         $user = auth()->user();
+        $lang = $request->lang;
         Session::put('lang_api', $request->lang);
         $one = Ad::select('id', 'image', 'type', 'content')->where('place', 1)->get();
-//        $three = Ad::select('id', 'image', 'type', 'content')->where('place', 3)->get();
         if (count($one) > 0) {
             $data['ads_top'] = $one;
         } else {
             $data['ads_top'] = (object)[];
         }
-        $lang = $request->lang;
-        if ($request->lang == 'en') {
-            $categories = Category::has('Sub_categories')->with('Sub_categories')->with('Category_ads')->where('deleted', 0)->select('id', 'title_en as title')->get();
-
-        } else {
-            $categories = Category::has('Sub_categories')->with('Sub_categories')->with('Category_ads')->where('deleted', 0)->select('id', 'title_ar as title')->get();
-
-        }
+        $categories = Category::has('Sub_categories')
+            ->with('Sub_categories')
+            ->with('Category_ads')
+            ->where('deleted', 0)
+            ->select('id', 'title_'.$lang.' as title')
+            ->get()->map(function($data){
+                foreach ($data->Sub_categories as $key=> $row){
+                    $exists_cats = SubCategory::where(function ($q) {
+                        $q->has('SubCategories', '>', 0)->orWhere(function ($qq) {
+                            $qq->has('Products_custom', '>', 0);
+                        });
+                    })->where('deleted', 0)->where('id', $row->id)->get();
+                    if(count($exists_cats) > 0){
+                        $data['Sub_categories'][$key]->next_level = true ;
+                    }else{
+                        $data['Sub_categories'][$key]->next_level = false ;
+                    }
+                }
+                return $data;
+            });
         $data['categories'] = $categories;
         $favorites = [];
-
         if ($user != null) {
             $my_favorites = Favorite::select('id', 'product_id', 'user_id')
                 ->with('Product')
