@@ -22,11 +22,14 @@ class Category extends Model
 
 
     public function Sub_categories() {
-        if(session('lang_api') == 'ar') {
-            return $this->hasMany('App\SubCategory', 'category_id')->select('id', 'title_ar as title','category_id')->where('deleted','0');
-        }else{
-            return $this->hasMany('App\SubCategory', 'category_id')->select('id', 'title_en as title','category_id')->where('deleted','0');
-        }
+        $lang = session('lang_api');
+        return $this->hasMany('App\SubCategory', 'category_id')
+            ->select('id', 'title_'.$lang.' as title','category_id')
+            ->where('deleted',0)->where(function ($q) {
+                $q->has('SubCategories', '>', 0)->orWhere(function ($qq) {
+                    $qq->has('Products_custom', '>', 0);
+                });
+            });
     }
 
     public function Category_ads() {

@@ -128,9 +128,7 @@ class HomeController extends Controller
             ->get()->map(function($data){
                 foreach ($data->Sub_categories as $key=> $row){
                     $exists_cats = SubCategory::where(function ($q) {
-                        $q->has('SubCategories', '>', 0)->orWhere(function ($qq) {
-                            $qq->has('Products_custom', '>', 0);
-                        });
+                        $q->has('SubCategories', '>', 0);
                     })->where('deleted', 0)->where('id', $row->id)->get();
                     if(count($exists_cats) > 0){
                         $data['Sub_categories'][$key]->next_level = true ;
