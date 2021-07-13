@@ -121,10 +121,10 @@ class HomeController extends Controller
         }
         $lang = $request->lang;
         if ($request->lang == 'en') {
-            $categories = Category::with('Sub_categories')->with('Category_ads')->where('deleted', 0)->select('id', 'title_en as title')->get();
+            $categories = Category::has('Sub_categories')->with('Sub_categories')->with('Category_ads')->where('deleted', 0)->select('id', 'title_en as title')->get();
 
         } else {
-            $categories = Category::with('Sub_categories')->with('Category_ads')->where('deleted', 0)->select('id', 'title_ar as title')->get();
+            $categories = Category::has('Sub_categories')->with('Sub_categories')->with('Category_ads')->where('deleted', 0)->select('id', 'title_ar as title')->get();
 
         }
         $data['categories'] = $categories;
