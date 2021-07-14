@@ -201,11 +201,6 @@ class ProductController extends Controller
             ->find($request->id);
         $data->price  = number_format((float)(  $data->price ), 3);
 
-        if ($data->share_location == '0') {
-            $data->share_location = 0;
-        } else {
-            $data->share_location = 1;
-        }
         $user_ip_address = $request->ip();
         if ($user == null) {
             $prod_view = Product_view::where('ip', $user_ip_address)->where('product_id', $data->id)->first();
@@ -1346,7 +1341,7 @@ class ProductController extends Controller
             ->with('Area_api')
             ->select('id', 'category_id', 'sub_category_id', 'sub_category_two_id', 'sub_category_three_id', 'sub_category_four_id', 'sub_category_five_id', 'title', 'price', 'description', 'main_image', 'city_id', 'area_id', 'share_location', 'latitude', 'longitude')
             ->first();
-        if ($data['ad']->share_location == '1') {
+        if ($data['ad']->share_location == 1) {
             $data['ad']->share_location = true;
         } else {
             $data['ad']->share_location = false;
@@ -1537,11 +1532,6 @@ class ProductController extends Controller
             'main_image' => '',
             'images' => ''
         ]);
-        if($request->share_location == 0 ){
-            $request->share_location = "0" ;
-        }elseif($request->share_location == 1 ){
-            $request->share_location = "1" ;
-        }
         if ($validator->fails()) {
             $response = APIHelpers::createApiResponse(true, 406, $validator->messages()->first(), $validator->messages()->first(), null, $request->lang);
             return response()->json($response, 406);
