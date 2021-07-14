@@ -1537,6 +1537,11 @@ class ProductController extends Controller
             'main_image' => '',
             'images' => ''
         ]);
+        if($request->share_location == 0 ){
+            $request->share_location = "0" ;
+        }elseif($request->share_location == 1 ){
+            $request->share_location = "1" ;
+        }
         if ($validator->fails()) {
             $response = APIHelpers::createApiResponse(true, 406, $validator->messages()->first(), $validator->messages()->first(), null, $request->lang);
             return response()->json($response, 406);
