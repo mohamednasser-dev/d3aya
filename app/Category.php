@@ -24,7 +24,7 @@ class Category extends Model
     public function Sub_categories() {
         $lang = session('lang_api');
         return $this->hasMany('App\SubCategory', 'category_id')
-            ->select('id', 'title_'.$lang.' as title','category_id')
+            ->select('id', 'title_'.$lang.' as title','category_id','image')
             ->where('deleted',0)->where(function ($q) {
                 $q->has('SubCategories', '>', 0)->orWhere(function ($qq) {
                     $qq->has('Products_custom', '>', 0);
