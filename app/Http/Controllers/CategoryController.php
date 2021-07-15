@@ -420,13 +420,13 @@ class CategoryController extends Controller
                     }
                     //End check
                 }
-                if ($All_sub_cat == false) {
-                    if ($data['sub_categories'][$i]['next_level'] == false) {
-                        $All_sub_cat = false;
-                    } else {
-                        $All_sub_cat = true;
-                    }
-                }
+//                if ($All_sub_cat == false) {
+//                    if ($data['sub_categories'][$i]['next_level'] == false) {
+//                        $All_sub_cat = false;
+//                    } else {
+//                        $All_sub_cat = true;
+//                    }
+//                }
 
             }
         }
