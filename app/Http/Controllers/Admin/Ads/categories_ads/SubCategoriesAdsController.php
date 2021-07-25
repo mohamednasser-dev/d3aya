@@ -37,12 +37,8 @@ class SubCategoriesAdsController extends AdminController
         $data['image'] = $image_new_name;
         $data['cat_id'] = $request->id;
         $data['type'] = 'sub_category';
-        if($request->ad_type == 'out'){
-            $data['ad_type'] = $request->ad_type;
-            $data['content'] = $request->content;
-        }else{
-            $data['ad_type'] = $request->ad_type;
-        }
+        $data['content'] = $request->content;
+        $data['ad_type'] = $request->ad_type;
         Categories_ad::create($data);
         session()->flash('success', trans('messages.added_s'));
         return redirect(route('sub_categories_ads.show',$request->id));
@@ -60,12 +56,8 @@ class SubCategoriesAdsController extends AdminController
             $data['image'] = $image_new_name;
             $data['cat_id'] = $row->id;
             $data['type'] = 'sub_category';
-            if($request->ad_type == 'out'){
-                $data['ad_type'] = $request->ad_type;
-                $data['content'] = $request->content;
-            }else{
-                $data['ad_type'] = $request->ad_type;
-            }
+            $data['content'] = $request->content;
+            $data['ad_type'] = $request->ad_type;
             Categories_ad::create($data);
         }
         session()->flash('success', trans('messages.added_s'));

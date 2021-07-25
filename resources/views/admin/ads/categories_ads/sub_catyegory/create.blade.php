@@ -22,7 +22,7 @@
             })
         })
         $("#ad_type").on("change", function() {
-            if(this.value == 1) {
+            if(this.value == 'out') {
                 $(".outside").show()
                 $('.productsParent').hide()
                 $('select#products').prop("disabled", true)
@@ -32,6 +32,7 @@
                 $(".outside").hide()
                 $(".outside input").prop("disabled", true)
                 $(".inside").show()
+                $("#users_cont").show()
             }
         })
     </script>
@@ -76,7 +77,7 @@
                     <label for="link">{{ __('messages.link') }}</label>
                     <input required type="text" name="content" class="form-control" id="link" placeholder="{{ __('messages.link') }}" value="" >
                 </div>
-                <div style="display: none" class="form-group inside">
+                <div style="display: none" id="users_cont" class="form-group inside">
                     <label for="users">{{ __('messages.user') }}</label>
                     <select id="users" class="form-control">
                         <option selected disabled>{{ __('messages.select') }}</option>

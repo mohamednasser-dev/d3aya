@@ -22,7 +22,7 @@
             })
         })
         $("#ad_type").on("change", function() {
-            if(this.value == 1) {
+            if(this.value == 'out') {
                 $(".outside").show()
                 $('.productsParent').hide()
                 $('select#products').prop("disabled", true)

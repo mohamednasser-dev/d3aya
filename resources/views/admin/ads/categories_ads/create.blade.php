@@ -22,7 +22,7 @@
             })
         })
         $("#ad_type").on("change", function() {
-            if(this.value == 1) {
+            if(this.value == 'out') {
                 $(".outside").show()
                 $('.productsParent').hide()
                 $('select#products').prop("disabled", true)
@@ -32,6 +32,7 @@
                 $(".outside").hide()
                 $(".outside input").prop("disabled", true)
                 $(".inside").show()
+                $("#users_cont").show()
             }
         })
     </script>
@@ -65,17 +66,17 @@
             </div>
                 <div class="form-group">
                     <label for="sel1">{{ __('messages.ad_type') }}</label>
-                    <select id="ad_type" name="type" class="form-control">
+                    <select id="ad_type" name="ad_type" class="form-control">
                         <option selected>{{ __('messages.select') }}</option>
-                        <option value="1">{{ __('messages.outside_the_app') }}</option>
-                        <option value="2">{{ __('messages.inside_the_app') }}</option>
+                        <option value="out">{{ __('messages.outside_the_app') }}</option>
+                        <option value="in">{{ __('messages.inside_the_app') }}</option>
                     </select>
                 </div>
                 <div style="display: none" class="form-group mb-4 outside">
                     <label for="link">{{ __('messages.link') }}</label>
                     <input required type="text" name="content" class="form-control" id="link" placeholder="{{ __('messages.link') }}" value="" >
                 </div>
-                <div style="display: none" class="form-group inside">
+                <div style="display: none" id="users_cont" class="form-group inside">
                     <label for="users">{{ __('messages.user') }}</label>
                     <select id="users" class="form-control">
                         <option selected disabled>{{ __('messages.select') }}</option>

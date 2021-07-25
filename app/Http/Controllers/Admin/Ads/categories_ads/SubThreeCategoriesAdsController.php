@@ -28,6 +28,7 @@ class SubThreeCategoriesAdsController extends AdminController
 
     public function store(Request $request)
     {
+
         $image_name = $request->file('image')->getRealPath();
         Cloudder::upload($image_name, null);
         $imagereturned = Cloudder::getResult();
@@ -38,12 +39,8 @@ class SubThreeCategoriesAdsController extends AdminController
         $data['image'] = $image_new_name;
         $data['cat_id'] = $request->id;
         $data['type'] = 'sub_three_category';
-        if($request->ad_type == 'out'){
-            $data['ad_type'] = $request->ad_type;
-            $data['content'] = $request->content;
-        }else{
-            $data['ad_type'] = $request->ad_type;
-        }
+        $data['content'] = $request->content;
+        $data['ad_type'] = $request->ad_type;
         Categories_ad::create($data);
 
         session()->flash('success', trans('messages.added_s'));
@@ -63,14 +60,9 @@ class SubThreeCategoriesAdsController extends AdminController
                 $data['image'] = $image_new_name;
                 $data['cat_id'] = $row->id;
                 $data['type'] = 'sub_three_category';
-                if($request->ad_type == 'out'){
-                    $data['ad_type'] = $request->ad_type;
-                    $data['content'] = $request->content;
-                }else{
-                    $data['ad_type'] = $request->ad_type;
-                }
+                $data['content'] = $request->content;
+                $data['ad_type'] = $request->ad_type;
                 Categories_ad::create($data);
-
             }
             session()->flash('success', trans('messages.added_s'));
         }else{
