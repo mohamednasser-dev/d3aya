@@ -38,7 +38,12 @@ class CategoriesAdsController extends AdminController
         $data['cat_id'] = $request->id;
         $data['type'] = 'category';
         $data['content'] = $request->content;
-        $data['ad_type'] = $request->ad_type;
+
+        if($request->ad_type == 'out'){
+            $data['ad_type'] = 'link';
+        }else{
+            $data['ad_type'] = 'id';
+        }
         Categories_ad::create($data);
         session()->flash('success', trans('messages.added_s'));
         return redirect(route('categories_ads.show',$request->id));
@@ -58,7 +63,11 @@ class CategoriesAdsController extends AdminController
             $data['cat_id'] = $row->id;
             $data['type'] = 'category';
             $data['content'] = $request->content;
-            $data['ad_type'] = $request->ad_type;
+            if($request->ad_type == 'out'){
+                $data['ad_type'] = 'link';
+            }else{
+                $data['ad_type'] = 'id';
+            }
             Categories_ad::create($data);
         }
         session()->flash('success', trans('messages.added_s'));

@@ -40,7 +40,11 @@ class SubThreeCategoriesAdsController extends AdminController
         $data['cat_id'] = $request->id;
         $data['type'] = 'sub_three_category';
         $data['content'] = $request->content;
-        $data['ad_type'] = $request->ad_type;
+        if($request->ad_type == 'out'){
+            $data['ad_type'] = 'link';
+        }else{
+            $data['ad_type'] = 'id';
+        }
         Categories_ad::create($data);
 
         session()->flash('success', trans('messages.added_s'));
@@ -61,7 +65,11 @@ class SubThreeCategoriesAdsController extends AdminController
                 $data['cat_id'] = $row->id;
                 $data['type'] = 'sub_three_category';
                 $data['content'] = $request->content;
-                $data['ad_type'] = $request->ad_type;
+                if($request->ad_type == 'out'){
+                    $data['ad_type'] = 'link';
+                }else{
+                    $data['ad_type'] = 'id';
+                }
                 Categories_ad::create($data);
             }
             session()->flash('success', trans('messages.added_s'));
