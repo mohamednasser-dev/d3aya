@@ -286,7 +286,7 @@ class CategoryController extends Controller
                 })->whereIn('sub_category_id',$sub_categories)
                     ->where('deleted', 0)->select('id')->get();
         if(count($subThreeCats) == 0 ){
-            $data['sub_category_array'] = $all ;
+            $data['sub_category_array'] = [$all] ;
         }
 
         array_unshift($data['sub_categories']);
