@@ -199,7 +199,7 @@ class ProductController extends Controller
         $data = Product::with('Product_user')->with('Area_name')->with('category_name')
             ->select('id', 'title', 'main_image', 'description', 'price', 'type', 'publication_date as date', 'user_id', 'category_id', 'latitude', 'longitude', 'share_location', 'area_id')
             ->find($request->id);
-        $data->price  = number_format((float)(  $data->price ), 3);
+        $data->price = number_format((float)($data->price), 3);
 
         $user_ip_address = $request->ip();
         if ($user == null) {
@@ -262,7 +262,7 @@ class ProductController extends Controller
         //to get ad images in array
         $images = [];
         $images = ProductImage::where('product_id', $data->id)->pluck('image')->toArray();
-        if($data->main_image != null){
+        if ($data->main_image != null) {
             $images[count($images)] = $data->main_image;
         }
         $data->images = $images;
@@ -277,7 +277,7 @@ class ProductController extends Controller
             ->limit(3)
             ->get()
             ->map(function ($ads) use ($lang) {
-                $ads->price  = number_format((float)(  $ads->price ), 3);
+                $ads->price = number_format((float)($ads->price), 3);
                 $ads->time = APIHelpers::get_month_year($ads->created_at, $lang);
                 return $ads;
             });
@@ -300,7 +300,7 @@ class ProductController extends Controller
             ->limit(3)
             ->get()
             ->map(function ($ads) use ($lang) {
-                $ads->price  = number_format((float)(  $ads->price ), 3);
+                $ads->price = number_format((float)($ads->price), 3);
                 $ads->time = APIHelpers::get_month_year($ads->created_at, $lang);
                 return $ads;
             });
@@ -390,9 +390,9 @@ class ProductController extends Controller
     {
         $user = auth()->user();
         $lang = $request->lang;
-        $data['basic_info'] = User::select('id', 'name', 'email', 'image', 'phone','created_at')->where('id', $id)->first();
-        $data['current_ads_num'] = Product::where('user_id' , $id)->where('status' , 1)->orderBy('publication_date' , 'DESC')->select('id' , 'title' , 'price' , 'publication_date as date' , 'type')->get()->count();
-        $data['ended_ads_num'] = Product::where('user_id' , $id)->where('status' , 2)->orderBy('publication_date' , 'DESC')->select('id' , 'title' , 'price' , 'publication_date as date' , 'type')->get()->count();
+        $data['basic_info'] = User::select('id', 'name', 'email', 'image', 'phone', 'created_at')->where('id', $id)->first();
+        $data['current_ads_num'] = Product::where('user_id', $id)->where('status', 1)->orderBy('publication_date', 'DESC')->select('id', 'title', 'price', 'publication_date as date', 'type')->get()->count();
+        $data['ended_ads_num'] = Product::where('user_id', $id)->where('status', 2)->orderBy('publication_date', 'DESC')->select('id', 'title', 'price', 'publication_date as date', 'type')->get()->count();
 
         $data['ads'] = Product::select('id', 'title', 'price', 'main_image')
             ->where('user_id', $id)
@@ -400,7 +400,7 @@ class ProductController extends Controller
             ->where('publish', 'Y')
             ->where('deleted', '0')
             ->get()->map(function ($data) use ($lang, $user) {
-                $data->price  = number_format((float)(  $data->price ), 3);
+                $data->price = number_format((float)($data->price), 3);
                 if ($user != null) {
                     $favorite = Favorite::where('user_id', $user->id)->where('product_id', $data->id)->first();
                     if ($favorite) {
@@ -498,7 +498,7 @@ class ProductController extends Controller
             ->orderBy('created_at', 'desc')
             ->simplePaginate(12);
         for ($i = 0; $i < count($products); $i++) {
-            $products[$i]['price']  = number_format((float)(  $products[$i]['price'] ), 3);
+            $products[$i]['price'] = number_format((float)($products[$i]['price']), 3);
             $views = Product_view::where('product_id', $products[$i]['id'])->get()->count();
             $products[$i]['views'] = $views;
             $user = auth()->user();
@@ -1100,7 +1100,7 @@ class ProductController extends Controller
         $products = Product::where('status', 2)
             ->where('deleted', 0)
             ->where('user_id', auth()->user()->id)
-            ->select('id', 'title', 'price', 'main_image','created_at')
+            ->select('id', 'title', 'price', 'main_image', 'created_at')
             ->orderBy('created_at', 'desc')
             ->simplePaginate(12);
 
@@ -1110,7 +1110,7 @@ class ProductController extends Controller
             if ($user) {
                 $favorite = Favorite::where('user_id', $user->id)->where('product_id', $products[$i]['id'])->first();
                 if ($favorite) {
-                    $products[$i]['favorite']  = true;
+                    $products[$i]['favorite'] = true;
                 } else {
                     $products[$i]['favorite'] = false;
                 }
@@ -1125,8 +1125,8 @@ class ProductController extends Controller
                 $products[$i]['conversation_id'] = 0;
             }
         }
-            $response = APIHelpers::createApiResponse(false, 200, '', '', $products, $request->lang);
-            return response()->json($response, 200);
+        $response = APIHelpers::createApiResponse(false, 200, '', '', $products, $request->lang);
+        return response()->json($response, 200);
 
     }
 
@@ -1137,7 +1137,7 @@ class ProductController extends Controller
             ->where('publish', 'Y')
             ->where('deleted', 0)
             ->where('user_id', auth()->user()->id)
-            ->select('id', 'title', 'price', 'main_image','created_at')
+            ->select('id', 'title', 'price', 'main_image', 'created_at')
             ->orderBy('created_at', 'desc')
             ->simplePaginate(12);
 
@@ -1147,7 +1147,7 @@ class ProductController extends Controller
             if ($user) {
                 $favorite = Favorite::where('user_id', $user->id)->where('product_id', $products[$i]['id'])->first();
                 if ($favorite) {
-                    $products[$i]['favorite']  = true;
+                    $products[$i]['favorite'] = true;
                 } else {
                     $products[$i]['favorite'] = false;
                 }
@@ -1167,7 +1167,8 @@ class ProductController extends Controller
         return response()->json($response, 200);
     }
 
-    public function last_seen(Request $request){
+    public function last_seen(Request $request)
+    {
         $user = auth()->user();
         if ($user == null) {
             $response = APIHelpers::createApiResponse(true, 406, 'you should login first', 'يجب تسجيل الدخول اولا', null, $request->lang);
@@ -1178,12 +1179,12 @@ class ProductController extends Controller
             ->orderBy('created_at', 'desc')->simplePaginate(12);
         for ($i = 0; $i < count($products); $i++) {
             $products[$i]['Product']->price = number_format((float)($products[$i]['Product']->price), 3);
-            $views = Product_view::where('product_id', $products[$i]['product_id']  )->get()->count();
+            $views = Product_view::where('product_id', $products[$i]['product_id'])->get()->count();
             $products[$i]['Product']->views = $views;
             if ($user) {
                 $favorite = Favorite::where('user_id', $user->id)->where('product_id', $products[$i]['product_id'])->first();
                 if ($favorite) {
-                    $products[$i]['Product']->favorite  = true;
+                    $products[$i]['Product']->favorite = true;
                 } else {
                     $products[$i]['Product']->favorite = false;
                 }
@@ -1206,41 +1207,46 @@ class ProductController extends Controller
     {
         $user = auth()->user();
         $lang = $request->lang;
-        if ($user == null) {
-            $response = APIHelpers::createApiResponse(true, 406, 'you should login first', 'يجب تسجيل الدخول اولا', null, $request->lang);
-            return response()->json($response, 406);
-        }
-        $Category = Category::select('id','title_'.$lang .' as title','offers_image')->has('Offers','>',0)->with('Offers')->where('deleted','0')
+        $Category = Category::select('id', 'title_' . $lang . ' as title', 'offers_image')->has('Offers', '>', 0)->with('Offers')->where('deleted', '0')
             ->get()
-            ->map(function ($data) use ($user){
-                foreach ($data->Offers as $key => $row){
-                    $data->Offers[$key]['price'] = number_format((float)(  $data->Offers[$key]['price'] ), 3);
+            ->map(function ($data) use ($user) {
+                foreach ($data->Offers as $key => $row) {
+                    $data->Offers[$key]['price'] = number_format((float)($data->Offers[$key]['price']), 3);
                     $data->Offers[$key]['views'] = Product_view::where('product_id', $row->id)->count();
-                    $favorite = Favorite::where('user_id', $user->id)->where('product_id', $row->id)->first();
-                    if ($favorite) {
-                        $data->Offers[$key]['favorite'] = true;
+                    if ($user != null) {
+                        $favorite = Favorite::where('user_id', $user->id)->where('product_id', $row->id)->first();
+                        if ($favorite) {
+                            $data->Offers[$key]['favorite'] = true;
+                        } else {
+                            $data->Offers[$key]['favorite'] = false;
+                        }
                     } else {
                         $data->Offers[$key]['favorite'] = false;
                     }
                 }
-            return $data;
-        });
+                return $data;
+            });
 
-        $ads = Product::select('id','title','main_image as image','price','description')->where('offer', 1)
+        $ads = Product::select('id', 'title', 'main_image as image', 'price', 'description')->where('offer', 1)
             ->where('status', 1)
             ->where('deleted', 0)
             ->where('publish', 'Y')
             ->orderBy('created_at', 'desc')
             ->get()
-        ->map(function ($data) use ($user){
-            $favorite = Favorite::where('user_id', $user->id)->where('product_id', $data->id)->first();
-            if ($favorite) {
-                $data->favorite = true;
-            } else {
-                $data->favorite = false;
-            }
-            return $data;
-        });
+            ->map(function ($data) use ($user) {
+                if ($user != null) {
+
+                    $favorite = Favorite::where('user_id', $user->id)->where('product_id', $data->id)->first();
+                    if ($favorite) {
+                        $data->favorite = true;
+                    } else {
+                        $data->favorite = false;
+                    }
+                } else {
+                    $data->favorite = false;
+                }
+                return $data;
+            });
 //        $inc = 0;
 //        foreach ($ads as $key => $row) {
 //            $data[$inc]['id'] = $row->id;
@@ -1260,7 +1266,7 @@ class ProductController extends Controller
             $response = APIHelpers::createApiResponse(false, 200, 'no ads yet !', ' !لا يوجد اعلانات حتى الان', null, $request->lang);
             return response()->json($response, 200);
         } else {
-            $response = APIHelpers::createApiResponse(false, 200, '', '', array( 'data' => $Category), $request->lang);
+            $response = APIHelpers::createApiResponse(false, 200, '', '', array('data' => $Category), $request->lang);
             return response()->json($response, 200);
         }
     }
@@ -1435,21 +1441,21 @@ class ProductController extends Controller
             }
         }
 
-        $data['options'] = Category_option::where('cat_id', $data['ad']->category_id)->where('cat_type', 'category')->where('deleted', '0')->select('id as option_id', 'title_'.$lang.' as title', 'is_required')->get();
+        $data['options'] = Category_option::where('cat_id', $data['ad']->category_id)->where('cat_type', 'category')->where('deleted', '0')->select('id as option_id', 'title_' . $lang . ' as title', 'is_required')->get();
 
         if (count($data['options']) > 0) {
             for ($i = 0; $i < count($data['options']); $i++) {
-                $option_id = $data['options'][$i]['option_id'] ;
+                $option_id = $data['options'][$i]['option_id'];
                 $data['options'][$i]['type'] = 'input';
                 $optionValues = Category_option_value::where('option_id', $data['options'][$i]['option_id'])
-                    ->where('deleted', '0')->select('id as value_id', 'value_'.$lang.' as value')
-                    ->get()->map(function($data) use ($id,$option_id){
-                        $data->selected = false ;
+                    ->where('deleted', '0')->select('id as value_id', 'value_' . $lang . ' as value')
+                    ->get()->map(function ($data) use ($id, $option_id) {
+                        $data->selected = false;
 //                        dd($data->option_id);
-                        $inserted_in_db = Product_feature::where('option_id',$option_id)->where('product_id',$id)->first();
-                        if($inserted_in_db){
-                            if($data->value_id == $inserted_in_db->target_id ){
-                                $data->selected = true ;
+                        $inserted_in_db = Product_feature::where('option_id', $option_id)->where('product_id', $id)->first();
+                        if ($inserted_in_db) {
+                            if ($data->value_id == $inserted_in_db->target_id) {
+                                $data->selected = true;
                             }
                         }
 
@@ -1458,11 +1464,11 @@ class ProductController extends Controller
                 if (count($optionValues) > 0) {
                     $data['options'][$i]['type'] = 'select';
                     $data['options'][$i]['values'] = $optionValues;
-                }else{
-                    $inserted_in_db = Product_feature::where('option_id',$option_id)->where('product_id',$id)->first();
-                    if($inserted_in_db){
+                } else {
+                    $inserted_in_db = Product_feature::where('option_id', $option_id)->where('product_id', $id)->first();
+                    if ($inserted_in_db) {
                         $data['options'][$i]['value'] = $inserted_in_db->target_id;
-                    }else{
+                    } else {
                         $data['options'][$i]['value'] = "";
                     }
                 }
