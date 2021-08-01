@@ -153,8 +153,7 @@ class CategoryController extends Controller
         return response()->json($response, 200);
     }
 
-    public function get_sub_categories_level2(Request $request)
-    {
+    public function get_sub_categories_level2(Request $request){
         $lang = $request->lang;
         $validator = Validator::make($request->all(), [
             'category_id' => 'required'
@@ -227,7 +226,8 @@ class CategoryController extends Controller
         }
         if (count($data['sub_categories']) > 0) {
             for ($i = 0; $i < count($data['sub_categories']); $i++) {
-                $subThreeCats = SubThreeCategory::where('sub_category_id', $data['sub_categories'][$i]['id'])->where('deleted', 0)->select('id')->first();
+                $subThreeCats = SubThreeCategory::where('sub_category_id', $data['sub_categories'][$i]['id'])
+                    ->where('deleted', 0)->select('id')->first();
                 if ($subThreeCats != null) {
                     $data['sub_categories'][$i]['next_level'] = true;
                 } else {
@@ -269,6 +269,25 @@ class CategoryController extends Controller
         $all->sub_category_id = $request->sub_category_id;
         $all->selected = false;
         array_unshift($data['sub_category_array'], $all);
+
+        $sub_categories = SubTwoCategory::where(function ($q) {
+            $q->has('SubCategories', '>', 0)->orWhere(function ($qq) {
+                $qq->has('Products', '>', 0);
+            });
+        })->where('deleted', 0)->where('sub_category_id', $request->sub_category_id)
+            ->select('id')
+            ->orderBy('sort', 'asc')->get()->toArray();
+
+
+                $subThreeCats = SubThreeCategory::where(function ($q) {
+                    $q->has('SubCategories', '>', 0)->orWhere(function ($qq) {
+                        $qq->has('Products', '>', 0);
+                    });
+                })->whereIn('sub_category_id',$sub_categories)
+                    ->where('deleted', 0)->select('id')->get();
+        if(count($subThreeCats) == 0 ){
+            $data['sub_category_array'] = $all ;
+        }
 
         array_unshift($data['sub_categories']);
         if ($request->sub_category_id == 0) {
@@ -394,7 +413,9 @@ class CategoryController extends Controller
 
 
         $All_sub_cat = false;
+
         if (count($data['sub_categories']) > 0) {
+
             for ($i = 0; $i < count($data['sub_categories']); $i++) {
                 $subThreeCats = SubFourCategory::where(function ($q) {
                     $q->has('SubCategories', '>', 0)->orWhere(function ($qq) {
@@ -406,17 +427,22 @@ class CategoryController extends Controller
                 }else{
                     $data['sub_categories'][$i]['next_level'] = false;
                 }
+
                 if ($data['sub_categories'][$i]['next_level'] == true) {
+
                     // check after this level layers
                     $data['sub_next_categories'] = SubFourCategory::where(function ($q) {
                         $q->has('SubCategories', '>', 0)->orWhere(function ($qq) {
                             $qq->has('Products', '>', 0);
                         });
-                    })->where('deleted', 0)->where('sub_category_id', $data['sub_categories'][$i]['id'])->get()->toArray();
+                    })->where('deleted', 0)->where('sub_category_id', $data['sub_categories'][$i]['id'])->pluck('id')->toArray();
+
+
+
                     if (count($data['sub_next_categories']) > 0) {
 
-                        for ($i = 0; $i < count($data['sub_next_categories']); $i++) {
-                            $subFiveCats = SubFiveCategory::where('sub_category_id', $data['sub_next_categories'][$i]['id'])
+
+                            $subFiveCats = SubFiveCategory::whereIn('sub_category_id', $data['sub_next_categories'] )
                                 ->where('deleted', '0')->get();
 
                             if (count($subFiveCats) == 0) {
@@ -425,14 +451,6 @@ class CategoryController extends Controller
                                 $data['sub_categories'][$i]['next_level'] = true;
                                 break;
                             }
-//                            if ($have_next_level == false) {
-//                                $data['sub_categories'][$i]['next_level'] = false;
-//                            } else {
-//                                $data['sub_categories'][$i]['next_level'] = true;
-//                                break;
-//                            }
-                        }
-
 
                     }
                     //End check

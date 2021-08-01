@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\SubCategory;
+use App\SubTwoCategory;
 use Illuminate\Http\Request;
 use App\Helpers\APIHelpers;
 use App\Balance_package;
@@ -127,9 +128,9 @@ class HomeController extends Controller
             ->select('id', 'title_'.$lang.' as title')
             ->get()->map(function($data){
                 foreach ($data->Sub_categories as $key=> $row){
-                    $exists_cats = SubCategory::where(function ($q) {
+                    $exists_cats = SubTwoCategory::where(function ($q) {
                         $q->has('SubCategories', '>', 0);
-                    })->where('deleted', 0)->where('id', $row->id)->get();
+                    })->where('deleted', 0)->where('sub_category_id', $row->id)->get();
                     if(count($exists_cats) > 0){
                         $data['Sub_categories'][$key]->next_level = true ;
                     }else{
