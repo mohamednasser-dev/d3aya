@@ -406,35 +406,37 @@ class CategoryController extends Controller
                 }else{
                     $data['sub_categories'][$i]['next_level'] = false;
                 }
-//                if ($data['sub_categories'][$i]['next_level'] == true) {
-//                    // check after this level layers
-//                    $data['sub_next_categories'] = SubFourCategory::where('deleted', 0)
-//                        ->where('sub_category_id', $data['sub_categories'][$i]['id'])
-//                        ->select('id', 'image', 'title_' . $lang . ' as title')->orderBy('sort', 'asc')->get()->toArray();
-//                    if (count($data['sub_next_categories']) > 0) {
-//
-//                        for ($i = 0; $i < count($data['sub_next_categories']); $i++) {
-//                            $subFiveCats = SubFiveCategory::where('sub_category_id', $data['sub_next_categories'][$i]['id'])
-//                                ->where('deleted', '0')->get();
-//
-//                            if (count($subFiveCats) == 0) {
+                if ($data['sub_categories'][$i]['next_level'] == true) {
+                    // check after this level layers
+                    $data['sub_next_categories'] = SubFourCategory::where(function ($q) {
+                        $q->has('SubCategories', '>', 0)->orWhere(function ($qq) {
+                            $qq->has('Products', '>', 0);
+                        });
+                    })->where('deleted', 0)->where('sub_category_id', $data['sub_categories'][$i]['id'])->get()->toArray();
+                    if (count($data['sub_next_categories']) > 0) {
+
+                        for ($i = 0; $i < count($data['sub_next_categories']); $i++) {
+                            $subFiveCats = SubFiveCategory::where('sub_category_id', $data['sub_next_categories'][$i]['id'])
+                                ->where('deleted', '0')->get();
+
+                            if (count($subFiveCats) == 0) {
+                                $data['sub_categories'][$i]['next_level'] = false;
+                            } else {
+                                $data['sub_categories'][$i]['next_level'] = true;
+                                break;
+                            }
+//                            if ($have_next_level == false) {
 //                                $data['sub_categories'][$i]['next_level'] = false;
 //                            } else {
 //                                $data['sub_categories'][$i]['next_level'] = true;
 //                                break;
 //                            }
-////                            if ($have_next_level == false) {
-////                                $data['sub_categories'][$i]['next_level'] = false;
-////                            } else {
-////                                $data['sub_categories'][$i]['next_level'] = true;
-////                                break;
-////                            }
-//                        }
-//
-//
-//                    }
-//                    //End check
-//                }
+                        }
+
+
+                    }
+                    //End check
+                }
 //                if ($All_sub_cat == false) {
 //                    if ($data['sub_categories'][$i]['next_level'] == false) {
 //                        $All_sub_cat = false;
@@ -445,6 +447,7 @@ class CategoryController extends Controller
 
             }
         }
+
         if ($All_sub_cat == false) {
             if ($request->sub_category_id != 0) {
                 if ($request->sub_category_id != 0) {
@@ -497,6 +500,7 @@ class CategoryController extends Controller
                 ->select('id', 'title_' . $lang . ' as title', 'sub_category_id')
                 ->orderBy('sort', 'asc')->get()->makeHidden('category_id')->toArray();
         }
+
         for ($n = 0; $n < count($data['sub_category_array']); $n++) {
             if ($data['sub_category_array'][$n]['id'] == $request->sub_category_id) {
                 $data['sub_category_array'][$n]['selected'] = true;
@@ -554,7 +558,7 @@ class CategoryController extends Controller
         }
 
         $cat_ids[] = null;
-//        dd($data['sub_categories']);
+
         for ($i = 0; $i < count($data['sub_categories']); $i++) {
             $cat_ids[$i] = $data['sub_categories'][$i]['id'];
         }
