@@ -69,53 +69,54 @@ class APIHelpers
     // get month day for the api
     public static function get_month_day($created_at, $lang)
     {
-        $month = $created_at->format('F');
-        if ($lang == 'ar') {
-            if ($month == 'January') {
-                $month = 'يناير';
-            } else if ($month == 'February') {
-                $month = 'فبراير';
-            } else if ($month == 'March') {
-                $month = 'مارس';
-            } else if ($month == 'April') {
-                $month = 'ابريل';
-            } else if ($month == 'May') {
-                $month = 'مايو';
-            } else if ($month == 'June') {
-                $month = 'يونيو';
-            } else if ($month == 'July') {
-                $month = 'يوليو';
-            } else if ($month == 'August') {
-                $month = 'أغسطي';
-            } else if ($month == 'September') {
-                $month = 'سبتمبر';
-            } else if ($month == 'October') {
-                $month = 'أكتوبر';
-            } else if ($month == 'November') {
-                $month = 'نوفمبر';
-            } else if ($month == 'December') {
-                $month = 'ديسمبر';
-            }
-        }
-        $day = $created_at->format('l');
-        if ($lang == 'ar') {
-            if ($day == 'Saturday') {
-                $day = 'السبت';
-            } else if ($day == 'Sunday') {
-                $day = 'الاحد';
-            } else if ($day == 'Monday') {
-                $day = 'الاثنين';
-            } else if ($day == 'Tuesday') {
-                $day = 'الثلاثاء';
-            } else if ($day == 'Wednesday') {
-                $day = 'الاربعاء';
-            } else if ($day == 'Thursday') {
-                $day = 'الخميس';
-            } else if ($month == 'Friday') {
-                $day = 'الجمعة';
-            }
-        }
-        $time = $day . ',' . $month . ' ' . $created_at->format('d,Y');
+//        $month = $created_at->format('F');
+//        if ($lang == 'ar') {
+//            if ($month == 'January') {
+//                $month = 'يناير';
+//            } else if ($month == 'February') {
+//                $month = 'فبراير';
+//            } else if ($month == 'March') {
+//                $month = 'مارس';
+//            } else if ($month == 'April') {
+//                $month = 'ابريل';
+//            } else if ($month == 'May') {
+//                $month = 'مايو';
+//            } else if ($month == 'June') {
+//                $month = 'يونيو';
+//            } else if ($month == 'July') {
+//                $month = 'يوليو';
+//            } else if ($month == 'August') {
+//                $month = 'أغسطي';
+//            } else if ($month == 'September') {
+//                $month = 'سبتمبر';
+//            } else if ($month == 'October') {
+//                $month = 'أكتوبر';
+//            } else if ($month == 'November') {
+//                $month = 'نوفمبر';
+//            } else if ($month == 'December') {
+//                $month = 'ديسمبر';
+//            }
+//        }
+//        $day = $created_at->format('l');
+//        if ($lang == 'ar') {
+//            if ($day == 'Saturday') {
+//                $day = 'السبت';
+//            } else if ($day == 'Sunday') {
+//                $day = 'الاحد';
+//            } else if ($day == 'Monday') {
+//                $day = 'الاثنين';
+//            } else if ($day == 'Tuesday') {
+//                $day = 'الثلاثاء';
+//            } else if ($day == 'Wednesday') {
+//                $day = 'الاربعاء';
+//            } else if ($day == 'Thursday') {
+//                $day = 'الخميس';
+//            } else if ($month == 'Friday') {
+//                $day = 'الجمعة';
+//            }
+//        }
+//        $time = $day . ',' . $month . ' ' . $created_at->format('d,Y');
+        $time = $created_at;
         return $time;
     }
 

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
@@ -65,5 +66,17 @@ class Product extends Model
         }else{
             return $this->belongsTo('App\Area', 'area_id')->select('id','title_en as title');
         }
+    }
+
+
+//    public function getCreatedAtAttribute($value)
+//    {
+////        2021-07-13 16:24:23
+//        return Carbon::createFromFormat('y-m-d h:i:s', $value)->translatedformat('F');
+//    }
+
+    public function getCreatedAtAttribute($date)
+    {
+        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->translatedformat('F d');
     }
 }
