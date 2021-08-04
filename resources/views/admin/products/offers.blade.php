@@ -49,7 +49,7 @@
                             <th class="text-center">{{ __('messages.user') }}</th>
                             <th class="text-center">{{ __('messages.archived_or_not') }}</th>
                             <th class="text-center">{{ __('messages.our_offers') }}</th>
-                            <th class="text-center">{{ __('messages.choose_to_you') }}</th>
+{{--                            <th class="text-center">{{ __('messages.choose_to_you') }}</th>--}}
                             <th class="text-center">{{ __('messages.details') }}</th>
                             {{--                            @if(Auth::user()->update_data)--}}
                             {{--                                <th class="text-center">{{ __('messages.edit') }}</th>--}}
@@ -101,21 +101,21 @@
                                         </a>
                                     @endif
                                 </td>
-                                <td class="text-center">
-                                    @if($product->choose_it == 1 )
-                                        <a href="{{route('products.make_choose',$product->id)}}"
-                                           class="btn btn-danger  mb-2 mr-2 rounded-circle" title=""
-                                           data-original-title="Tooltip using BUTTON tag">
-                                            <i class="far fa-gem"></i>
-                                        </a>
-                                    @else
-                                        <a href="{{route('products.make_choose',$product->id)}}"
-                                           class="btn btn-warning  mb-2 mr-2 rounded-circle" title=""
-                                           data-original-title="Tooltip using BUTTON tag">
-                                            <i class="far fa-gem"></i>
-                                        </a>
-                                    @endif
-                                </td>
+{{--                                <td class="text-center">--}}
+{{--                                    @if($product->choose_it == 1 )--}}
+{{--                                        <a href="{{route('products.make_choose',$product->id)}}"--}}
+{{--                                           class="btn btn-danger  mb-2 mr-2 rounded-circle" title=""--}}
+{{--                                           data-original-title="Tooltip using BUTTON tag">--}}
+{{--                                            <i class="far fa-gem"></i>--}}
+{{--                                        </a>--}}
+{{--                                    @else--}}
+{{--                                        <a href="{{route('products.make_choose',$product->id)}}"--}}
+{{--                                           class="btn btn-warning  mb-2 mr-2 rounded-circle" title=""--}}
+{{--                                           data-original-title="Tooltip using BUTTON tag">--}}
+{{--                                            <i class="far fa-gem"></i>--}}
+{{--                                        </a>--}}
+{{--                                    @endif--}}
+{{--                                </td>--}}
                                 <td class="text-center blue-color"><a
                                         href="{{ route('products.details', $product->id) }}"><i class="far fa-eye"></i></a>
                                 </td>

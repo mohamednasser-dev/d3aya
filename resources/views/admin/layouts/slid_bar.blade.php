@@ -79,9 +79,9 @@
                             <li class="our_offers">
                                 <a href="/admin-panel/products/our_offers">{{ __('messages.our_offers') }}</a>
                             </li>
-                            <li class="choose_to_you">
-                                <a href="/admin-panel/products/choose_to_you">{{ __('messages.choose_to_you') }}</a>
-                            </li>
+{{--                            <li class="choose_to_you">--}}
+{{--                                <a href="/admin-panel/products/choose_to_you">{{ __('messages.choose_to_you') }}</a>--}}
+{{--                            </li>--}}
                         </ul>
                     </li>
                 @endif
