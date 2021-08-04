@@ -11,30 +11,30 @@
                         <h4>{{ __('messages.our_offers') }} {{ isset($data['user']) ? '( ' . $data['user'] . ' )' : '' }} {{ isset($data['category']) ? '( ' . $data['category'] . ' )' : '' }}</h4>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <h4>{{ __('messages.offer_image') }}</h4>
-                        <div class="form-group mb-4">
-                            <img style="height: 100px;"
-                                 src="{{image_cloudinary_url()}}{{$data['offer_image']}}">
-                        </div>
-                        <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                            <a class="btn btn-primary" data-toggle="modal"
-                               data-target="#offer_image_Modal">{{ __('messages.edit_offer_image') }}</a>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <h4>{{ __('messages.offer_image_en') }}</h4>
-                        <div class="form-group mb-4">
-                            <img style="height: 100px;"
-                                 src="{{image_cloudinary_url()}}{{$data['offer_image_en']}}">
-                        </div>
-                        <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                            <a class="btn btn-primary" data-toggle="modal"
-                               data-target="#offer_image_en_Modal">{{ __('messages.edit_offer_image') }}</a>
-                        </div>
-                    </div>
-                </div>
+{{--                <div class="row">--}}
+{{--                    <div class="col-md-6">--}}
+{{--                        <h4>{{ __('messages.offer_image') }}</h4>--}}
+{{--                        <div class="form-group mb-4">--}}
+{{--                            <img style="height: 100px;"--}}
+{{--                                 src="{{image_cloudinary_url()}}{{$data['offer_image']}}">--}}
+{{--                        </div>--}}
+{{--                        <div class="col-xl-12 col-md-12 col-sm-12 col-12">--}}
+{{--                            <a class="btn btn-primary" data-toggle="modal"--}}
+{{--                               data-target="#offer_image_Modal">{{ __('messages.edit_offer_image') }}</a>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="col-md-6">--}}
+{{--                        <h4>{{ __('messages.offer_image_en') }}</h4>--}}
+{{--                        <div class="form-group mb-4">--}}
+{{--                            <img style="height: 100px;"--}}
+{{--                                 src="{{image_cloudinary_url()}}{{$data['offer_image_en']}}">--}}
+{{--                        </div>--}}
+{{--                        <div class="col-xl-12 col-md-12 col-sm-12 col-12">--}}
+{{--                            <a class="btn btn-primary" data-toggle="modal"--}}
+{{--                               data-target="#offer_image_en_Modal">{{ __('messages.edit_offer_image') }}</a>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
             </div>
             <div class="widget-content widget-content-area">
                 <div class="table-responsive">
