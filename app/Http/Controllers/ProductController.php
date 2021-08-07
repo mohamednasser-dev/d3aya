@@ -1077,14 +1077,20 @@ class ProductController extends Controller
             ->where('user_id', auth()->user()->id)
             ->select('id', 'title', 'price', 'main_image')
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->get()->map(function($data){
+                $data->price  = number_format((float)(  $data->price ), 3);
+                return $data;
+            });
         $ads['current_ads'] = Product::where('status', 1)
             ->where('publish', 'Y')
             ->where('deleted', 0)
             ->where('user_id', auth()->user()->id)
             ->select('id', 'title', 'price', 'main_image')
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->get()->map(function($data){
+                $data->price  = number_format((float)(  $data->price ), 3);
+                return $data;
+            });
         if (count($ads) == 0) {
             $response = APIHelpers::createApiResponse(false, 200, 'no ads yet !', ' !لا يوجد اعلانات حتى الان', null, $request->lang);
             return response()->json($response, 200);
