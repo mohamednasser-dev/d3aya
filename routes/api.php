@@ -18,8 +18,8 @@ use Illuminate\Http\Request;
         'prefix' => 'auth'
     ], function ($router) {
         Route::post('login/{lang}/{v}', [ 'as' => 'login', 'uses' => 'AuthController@login'])->middleware('checkguest');
-        Route::post('logout/{lang}/{v}', 'AuthController@logout');
-        Route::post('refresh/{lang}/{v}', 'AuthController@refresh');
+        Route::post('refresh/{lang}/{v}', 'AuthController@refresh');        Route::post('logout/{lang}/{v}', 'AuthController@logout');
+
         Route::post('me/{lang}/{v}', 'AuthController@me');
         Route::post('register/{lang}/{v}' , [ 'as' => 'register', 'uses' => 'AuthController@register'])->middleware('checkguest');
     });
