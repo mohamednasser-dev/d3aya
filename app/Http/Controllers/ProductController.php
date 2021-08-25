@@ -589,7 +589,7 @@ class ProductController extends Controller
             'sub_category_id' => 'required',
             'title' => 'required',
             'main_image' => 'required',
-            'images' => 'required',
+            'images' => '',
             'city_id' => 'required|exists:cities,id',
             'area_id' => 'required|exists:areas,id',
             'latitude' => 'required',
@@ -703,17 +703,20 @@ class ProductController extends Controller
                             }
                         }
                     }
-                    foreach ($request->images as $image) {
-                        Cloudder::upload("data:image/jpeg;base64," . $image, null);
-                        $imagereturned = Cloudder::getResult();
-                        $image_id = $imagereturned['public_id'];
-                        $image_format = $imagereturned['format'];
-                        $image_name = $image_id . '.' . $image_format;
+                    if($request->images != null){
+                        foreach ($request->images as $image) {
+                            Cloudder::upload("data:image/jpeg;base64," . $image, null);
+                            $imagereturned = Cloudder::getResult();
+                            $image_id = $imagereturned['public_id'];
+                            $image_format = $imagereturned['format'];
+                            $image_name = $image_id . '.' . $image_format;
 
-                        $data['product_id'] = $ad_data->id;
-                        $data['image'] = $image_name;
-                        ProductImage::create($data);
+                            $data['product_id'] = $ad_data->id;
+                            $data['image'] = $image_name;
+                            ProductImage::create($data);
+                        }
                     }
+
                     $response = APIHelpers::createApiResponse(false, 200, 'your ad added successfully', 'تم أنشاء الاعلان بنجاح', null, $request->lang);
                     return response()->json($response, 200);
                 } else {
