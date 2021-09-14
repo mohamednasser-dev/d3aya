@@ -1543,7 +1543,7 @@ class ProductController extends Controller
             'latitude' => 'required',
             'longitude' => 'required',
             'options' => '',
-            'price' => 'required|numeric',
+            'price' => 'required',
             'description' => '',
             'main_image' => '',
             'images' => ''
