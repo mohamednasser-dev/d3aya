@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Admin\categories;
 
 use App\Http\Controllers\Admin\AdminController;
+use App\User_category;
 use JD\Cloudder\Facades\Cloudder;
 use Illuminate\Http\Request;
 use App\Category;
@@ -40,13 +41,16 @@ class CategoryController extends AdminController{
             $category->offers_image = $image_new_name;
         }
         $category->save();
-
+        $cat_data['user_id'] = auth()->user()->id ;
+        $cat_data['category_id'] = $category->id ;
+        User_category::create($cat_data);
         session()->flash('success', trans('messages.added_s'));
         return redirect('admin-panel/categories/show');
     }
     // get all categories
     public function show(){
-        $data['categories'] = Category::where('deleted' , 0)->orderBy('sort' , 'asc')->get();
+        $view_cats =  User_category::where('user_id',auth()->user()->id)->get()->pluck('category_id')->toArray();
+        $data['categories'] = Category::whereIn('id',$view_cats)->where('deleted' , 0)->orderBy('sort' , 'asc')->get();
         return view('admin.categories.index' , ['data' => $data]);
     }
     // get edit page
