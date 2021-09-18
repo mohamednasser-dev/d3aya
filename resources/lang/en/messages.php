@@ -2,7 +2,7 @@
     return [
         //new
 
-
+        'cat_permissions' => 'category permissions',
         'statuschanged' => 'status changes successfully',
         'hidden_show' => "hidden / show",
         'category_image' => "category image",

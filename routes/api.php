@@ -184,6 +184,7 @@ use Illuminate\Http\Request;
 
     //terms and condition
     Route::get('/terms/{lang}/{v}' , 'SettingController@terms');
+    Route::get('/is_show_buy_online/{lang}/{v}' , 'SettingController@is_show_buy_online');
     Route::get('/social_media/{lang}/{v}' , 'SettingController@social_media');
     Route::get('/about_app/{lang}/{v}' , 'SettingController@about_app');
     Route::get('/app_address/{lang}/{v}' , 'SettingController@app_address');

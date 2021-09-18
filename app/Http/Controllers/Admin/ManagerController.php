@@ -1,6 +1,9 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
+use App\Category;
+use App\User_category;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\AdminPermission;
@@ -8,22 +11,27 @@ use App\Permission;
 use App\Admin;
 
 
-class ManagerController extends AdminController{
+class ManagerController extends AdminController
+{
 
     // get add manager page
-    public function AddGet(){
-        $data['permissions'] = Permission::where('status','show')->where('order_by_it','!=',0)->orderBy('order_by_it','asc')->get();
-        return view('admin.manager_form' , ['data' => $data]);
+    public function AddGet()
+    {
+        $data['permissions'] = Permission::where('status', 'show')->where('order_by_it', '!=', 0)->orderBy('order_by_it', 'asc')->get();
+        $data['categories'] = Category::where('deleted', 0)->orderBy('sort', 'asc')->get();
+
+        return view('admin.manager_form', ['data' => $data]);
     }
 
-   // post add manager
-   public function AddPost(Request $request){
-        $check_manager_mail = Admin::where('email' , $request->email)->first();
-        if($check_manager_mail){
+    // post add manager
+    public function AddPost(Request $request)
+    {
+        $check_manager_mail = Admin::where('email', $request->email)->first();
+        if ($check_manager_mail) {
             return redirect('admin-panel/managers/add')->with('status', 'Email Exists Before');
         }
 
-        if(empty($request->permission)){
+        if (empty($request->permission)) {
             return redirect('admin-panel/managers/add')->with('status', 'You must add at least one permission');
         }
 
@@ -39,58 +47,67 @@ class ManagerController extends AdminController{
         $permissions = $request->permission;
         $manager_id = $manager->id;
 
-        for($i = 0; $i < count($permissions) ; $i++){
+        for ($i = 0; $i < count($permissions); $i++) {
             $admin_permission = new AdminPermission();
             $admin_permission->admin_id = $manager_id;
             $admin_permission->permission_id = $permissions[$i];
             $admin_permission->save();
         }
+
+        foreach ($request->selected_cats as $row) {
+            $data['user_id'] = $manager_id;
+            $data['category_id'] = $row;
+            User_category::create($data);
+        }
         return redirect('/admin-panel/managers/show');
-   }
+    }
 
-   // get all managers
-   public function show(Request $request){
-     $data['managers']  = Admin::orderBy('id' , 'desc')->get();
-     return view('admin.managers' , ['data' => $data]);
-   }
+    // get all managers
+    public function show(Request $request)
+    {
+        $data['managers'] = Admin::orderBy('id', 'desc')->get();
+        return view('admin.managers', ['data' => $data]);
+    }
 
-   // get edit manager page
-   public function edit(Request $request){
-     $data['manager'] = Admin::find($request->id);
-       $data['permissions'] = Permission::where('status','show')->where('order_by_it','!=',0)->orderBy('order_by_it','asc')->get();
+    // get edit manager page
+    public function edit(Request $request)
+    {
+        $data['manager'] = Admin::find($request->id);
+        $data['permissions'] = Permission::where('status', 'show')->where('order_by_it', '!=', 0)->orderBy('order_by_it', 'asc')->get();
 
-       $admin_permission = AdminPermission::where('admin_id' , $request->id)->pluck('permission_id');
-     $admin_permission  = (array) $admin_permission;
-     $admin_permission = array_values($admin_permission);
-     $admin_permission = $admin_permission[0];
-     for($i = 0; $i < count($data['permissions']); $i++){
-        if(in_array($data['permissions'][$i]['id'] , $admin_permission)){
-            $data['permissions'][$i]['checked'] = "checked";
-        }else{
-            $data['permissions'][$i]['checked'] = "";
-        }
-     }
-
-      return view('admin.manager_edit' , ['data' => $data]);
-   }
-
-   // post edit manager
-   public function EditPost(Request $request){
-        $check_manager_email = Admin::where('email' , $request->email)->where('id' , '!=' , $request->id)->first();
-        if($check_manager_email){
-            return redirect('/admin-panel/managers/edit/'.$request->id)->with('status' , 'Email Exists Before');
+        $admin_permission = AdminPermission::where('admin_id', $request->id)->pluck('permission_id');
+        $admin_permission = (array)$admin_permission;
+        $admin_permission = array_values($admin_permission);
+        $admin_permission = $admin_permission[0];
+        for ($i = 0; $i < count($data['permissions']); $i++) {
+            if (in_array($data['permissions'][$i]['id'], $admin_permission)) {
+                $data['permissions'][$i]['checked'] = "checked";
+            } else {
+                $data['permissions'][$i]['checked'] = "";
+            }
         }
 
-        if(empty($request->permission)){
-            return redirect('admin-panel/managers/edit/'.$request->id)->with('status', 'You must add at least one permission');
+        return view('admin.manager_edit', ['data' => $data]);
+    }
+
+    // post edit manager
+    public function EditPost(Request $request)
+    {
+        $check_manager_email = Admin::where('email', $request->email)->where('id', '!=', $request->id)->first();
+        if ($check_manager_email) {
+            return redirect('/admin-panel/managers/edit/' . $request->id)->with('status', 'Email Exists Before');
         }
 
-        $admin_permissions = AdminPermission::where('admin_id' , $request->id)->delete();
+        if (empty($request->permission)) {
+            return redirect('admin-panel/managers/edit/' . $request->id)->with('status', 'You must add at least one permission');
+        }
+
+        $admin_permissions = AdminPermission::where('admin_id', $request->id)->delete();
 
         $permissions = $request->permission;
         $manager_id = $request->id;
 
-        for($i = 0; $i < count($permissions) ; $i++){
+        for ($i = 0; $i < count($permissions); $i++) {
             $admin_permission = new AdminPermission();
             $admin_permission->admin_id = $manager_id;
             $admin_permission->permission_id = $permissions[$i];
@@ -100,7 +117,7 @@ class ManagerController extends AdminController{
         $current_manager = Admin::find($request->id);
         $current_manager->name = $request->name;
         $current_manager->email = $request->email;
-        if($request->password){
+        if ($request->password) {
             $current_manager->password = Hash::make($request->password);
         }
 
@@ -110,15 +127,16 @@ class ManagerController extends AdminController{
 
         $current_manager->save();
         return redirect('/admin-panel/managers/show');
-   }
+    }
 
-   // delete manager
-   public function delete(Request $request){
+    // delete manager
+    public function delete(Request $request)
+    {
         $manager = Admin::find($request->id);
-        if($manager){
+        if ($manager) {
             $manager->delete();
         }
         return redirect()->back();
-   }
+    }
 
 }

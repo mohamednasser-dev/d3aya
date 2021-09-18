@@ -19,6 +19,17 @@ class SettingController extends Controller
         $response = APIHelpers::createApiResponse(false , 200 ,  '', '' , $setting['app_phone'], $request->lang );
         return response()->json($response , 200);
     }
+    public function is_show_buy_online(Request $request){
+        $setting = Setting::select('show_buy')->find(1);
+
+if($setting->show_buy == 0){
+    $status['show'] = false ;
+}elseif($setting->show_buy == 1){
+    $status['show'] = true;
+}
+        $response = APIHelpers::createApiResponse(false , 200 ,  '', '' , $status, $request->lang );
+        return response()->json($response , 200);
+    }
 
 	public function showbuybutton(Request $request){
 	        $setting = Setting::select('show_buy')->find(1);

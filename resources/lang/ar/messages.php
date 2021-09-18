@@ -6,6 +6,7 @@ return [
 
 
 
+    'cat_permissions' => 'صلاحيات الاقسام',
     'statuschanged' => 'تم تعديل الحالة بنجاح',
     'hidden_show' => "اخفاء / اظهار",
     'category_image' => "صوره القسم",
@@ -321,6 +322,7 @@ return [
     "main_image" => "الصورة الرئيسية",
     "upload_main_image" => "رفع الصورة الرئيسية",
     "product_images" => "صور اعلان المستخدم",
-    "show_buy" => "اظهار الشراء",
+    "show_buy" => "اظهار الدفع اونلاين",
+
 ];
 ?>

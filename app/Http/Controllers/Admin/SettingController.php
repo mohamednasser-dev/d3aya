@@ -45,6 +45,11 @@ class SettingController extends AdminController{
 		}else{
 			$setting->is_loop_free_balance = 'n';
 		}
+		if($request->show_buy){
+			$setting->show_buy = 1;
+		}else{
+			$setting->show_buy = 0;
+		}
         $setting->free_loop_period = $request->free_loop_period;
         $setting->free_loop_balance = $request->free_loop_balance;
 
