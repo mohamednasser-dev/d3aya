@@ -44,9 +44,9 @@ class AuthController extends Controller
         $visitor = Visitor::where('unique_id' , $request->unique_id)->first();
         if($visitor){
             $visitor->user_id = $user->id;
+            $visitor->fcm_token = $request->fcm_token;
             $visitor->save();
         }else{
-
             $visitor = new Visitor();
             $visitor->unique_id = $request->unique_id;
             $visitor->fcm_token = $request->fcm_token;
