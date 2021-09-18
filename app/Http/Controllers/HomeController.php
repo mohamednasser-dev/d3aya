@@ -125,12 +125,13 @@ class HomeController extends Controller
             ->with('Sub_categories')
             ->with('Category_ads')
             ->where('deleted', 0)
+            ->where('is_show', 1)
             ->select('id', 'title_'.$lang.' as title')
             ->get()->map(function($data){
                 foreach ($data->Sub_categories as $key=> $row){
                     $exists_cats = SubTwoCategory::where(function ($q) {
                         $q->has('SubCategories', '>', 0);
-                    })->where('deleted', 0)->where('sub_category_id', $row->id)->get();
+                    })->where('deleted', 0)->where('is_show', 1)->where('sub_category_id', $row->id)->get();
                     if(count($exists_cats) > 0){
                         $data['Sub_categories'][$key]->next_level = true ;
                     }else{

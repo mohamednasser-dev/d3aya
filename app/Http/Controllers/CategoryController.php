@@ -1047,13 +1047,14 @@ class CategoryController extends Controller
     public function show_first_cat(Request $request)
     {
         if ($request->lang == 'en') {
-            $data['categories'] = Category::where('deleted', 0)->select('id', 'title_en as title', 'image')->orderBy('sort', 'asc')->get();
+            $data['categories'] = Category::where('deleted', 0)->where('is_show', 1)->select('id', 'title_en as title', 'image')->orderBy('sort', 'asc')->get();
         } else {
-            $data['categories'] = Category::where('deleted', 0)->select('id', 'title_ar as title', 'image')->orderBy('sort', 'asc')->get();
+            $data['categories'] = Category::where('deleted', 0)->where('is_show', 1)->select('id', 'title_ar as title', 'image')->orderBy('sort', 'asc')->get();
         }
         if (count($data['categories']) > 0) {
             for ($i = 0; $i < count($data['categories']); $i++) {
-                $subThreeCats = SubCategory::where('category_id', $data['categories'][$i]['id'])->where('deleted', 0)->select('id')->first();
+                $subThreeCats = SubCategory::where('category_id', $data['categories'][$i]['id'])->where('is_show', 1)->where('deleted', 0)->select('id')->first();
+                $subThreeCats = SubCategory::where('category_id', $data['categories'][$i]['id'])->where('is_show', 1)->where('deleted', 0)->select('id')->first();
                 $data['categories'][$i]['next_level'] = false;
                 if (isset($subThreeCats['id'])) {
                     $data['categories'][$i]['next_level'] = true;
@@ -1067,13 +1068,13 @@ class CategoryController extends Controller
     public function show_second_cat(Request $request, $cat_id)
     {
         if ($request->lang == 'en') {
-            $data['categories'] = SubCategory::where('category_id', $cat_id)->where('deleted', 0)->select('id', 'title_en as title', 'image')->orderBy('sort', 'asc')->get();
+            $data['categories'] = SubCategory::where('category_id', $cat_id)->where('is_show', 1)->where('deleted', 0)->select('id', 'title_en as title', 'image')->orderBy('sort', 'asc')->get();
         } else {
-            $data['categories'] = SubCategory::where('category_id', $cat_id)->where('deleted', 0)->select('id', 'title_ar as title', 'image')->orderBy('sort', 'asc')->get();
+            $data['categories'] = SubCategory::where('category_id', $cat_id)->where('is_show', 1)->where('deleted', 0)->select('id', 'title_ar as title', 'image')->orderBy('sort', 'asc')->get();
         }
         if (count($data['categories']) > 0) {
             for ($i = 0; $i < count($data['categories']); $i++) {
-                $subThreeCats = SubTwoCategory::where('sub_category_id', $data['categories'][$i]['id'])->where('deleted', 0)->where('deleted', 0)->select('id')->first();
+                $subThreeCats = SubTwoCategory::where('sub_category_id', $data['categories'][$i]['id'])->where('is_show', 1)->where('deleted', 0)->where('deleted', 0)->select('id')->first();
                 $data['categories'][$i]['next_level'] = false;
                 if (isset($subThreeCats['id'])) {
                     $data['categories'][$i]['next_level'] = true;
@@ -1087,13 +1088,13 @@ class CategoryController extends Controller
     public function show_third_cat(Request $request, $sub_cat_id)
     {
         if ($request->lang == 'en') {
-            $data['categories'] = SubTwoCategory::where('sub_category_id', $sub_cat_id)->where('deleted', 0)->select('id', 'title_en as title', 'image')->orderBy('sort', 'asc')->get();
+            $data['categories'] = SubTwoCategory::where('sub_category_id', $sub_cat_id)->where('is_show', 1)->where('deleted', 0)->select('id', 'title_en as title', 'image')->orderBy('sort', 'asc')->get();
         } else {
-            $data['categories'] = SubTwoCategory::where('sub_category_id', $sub_cat_id)->where('deleted', 0)->select('id', 'title_ar as title', 'image')->orderBy('sort', 'asc')->get();
+            $data['categories'] = SubTwoCategory::where('sub_category_id', $sub_cat_id)->where('is_show', 1)->where('deleted', 0)->select('id', 'title_ar as title', 'image')->orderBy('sort', 'asc')->get();
         }
         if (count($data['categories']) > 0) {
             for ($i = 0; $i < count($data['categories']); $i++) {
-                $subThreeCats = SubThreeCategory::where('sub_category_id', $data['categories'][$i]['id'])->where('deleted', 0)->select('id')->first();
+                $subThreeCats = SubThreeCategory::where('sub_category_id', $data['categories'][$i]['id'])->where('is_show', 1)->where('deleted', 0)->select('id')->first();
                 $data['categories'][$i]['next_level'] = false;
                 if (isset($subThreeCats['id'])) {
                     $data['categories'][$i]['next_level'] = true;
@@ -1107,13 +1108,13 @@ class CategoryController extends Controller
     public function show_four_cat(Request $request, $sub_sub_cat_id)
     {
         if ($request->lang == 'en') {
-            $data['categories'] = SubThreeCategory::where('sub_category_id', $sub_sub_cat_id)->where('deleted', 0)->select('id', 'title_en as title', 'image')->orderBy('sort', 'asc')->get();
+            $data['categories'] = SubThreeCategory::where('sub_category_id', $sub_sub_cat_id)->where('is_show', 1)->where('deleted', 0)->select('id', 'title_en as title', 'image')->orderBy('sort', 'asc')->get();
         } else {
-            $data['categories'] = SubThreeCategory::where('sub_category_id', $sub_sub_cat_id)->where('deleted', 0)->select('id', 'title_ar as title', 'image')->orderBy('sort', 'asc')->get();
+            $data['categories'] = SubThreeCategory::where('sub_category_id', $sub_sub_cat_id)->where('is_show', 1)->where('deleted', 0)->select('id', 'title_ar as title', 'image')->orderBy('sort', 'asc')->get();
         }
         if (count($data['categories']) > 0) {
             for ($i = 0; $i < count($data['categories']); $i++) {
-                $subThreeCats = SubFourCategory::where('sub_category_id', $data['categories'][$i]['id'])->where('deleted', 0)->select('id')->first();
+                $subThreeCats = SubFourCategory::where('sub_category_id', $data['categories'][$i]['id'])->where('is_show', 1)->where('deleted', 0)->select('id')->first();
                 $data['categories'][$i]['next_level'] = false;
                 if (isset($subThreeCats['id'])) {
                     $data['categories'][$i]['next_level'] = true;
@@ -1127,13 +1128,13 @@ class CategoryController extends Controller
     public function show_five_cat(Request $request, $sub_sub_cat_id)
     {
         if ($request->lang == 'en') {
-            $data['categories'] = SubFourCategory::where('sub_category_id', $sub_sub_cat_id)->where('deleted', 0)->select('id', 'title_en as title', 'image')->orderBy('sort', 'asc')->get();
+            $data['categories'] = SubFourCategory::where('sub_category_id', $sub_sub_cat_id)->where('is_show', 1)->where('deleted', 0)->select('id', 'title_en as title', 'image')->orderBy('sort', 'asc')->get();
         } else {
-            $data['categories'] = SubFourCategory::where('sub_category_id', $sub_sub_cat_id)->where('deleted', 0)->select('id', 'title_ar as title', 'image')->orderBy('sort', 'asc')->get();
+            $data['categories'] = SubFourCategory::where('sub_category_id', $sub_sub_cat_id)->where('is_show', 1)->where('deleted', 0)->select('id', 'title_ar as title', 'image')->orderBy('sort', 'asc')->get();
         }
         if (count($data['categories']) > 0) {
             for ($i = 0; $i < count($data['categories']); $i++) {
-                $subThreeCats = SubFiveCategory::where('sub_category_id', $data['categories'][$i]['id'])->where('deleted', '0')->select('id')->first();
+                $subThreeCats = SubFiveCategory::where('sub_category_id', $data['categories'][$i]['id'])->where('is_show', 1)->where('deleted', '0')->select('id')->first();
                 $data['categories'][$i]['next_level'] = false;
                 if (isset($subThreeCats['id'])) {
                     $data['categories'][$i]['next_level'] = true;

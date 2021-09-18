@@ -45,7 +45,7 @@
         <link href="/admin/rtl/assets/css/components/tabs-accordian/custom-accordions.css" rel="stylesheet" type="text/css" />
         <!--  END CUSTOM STYLE FILE  -->
         <link href="/admin/rtl/assets/css/scrollspyNav.css" rel="stylesheet" type="text/css" />
-        <link href="/admin/rtl/assets/css/components/tabs-accordian/custom-tabs.css" rel="stylesheet" type="text/css" />   
+        <link href="/admin/rtl/assets/css/components/tabs-accordian/custom-tabs.css" rel="stylesheet" type="text/css" />
     @endif
     @if (App::isLocale('en'))
         <meta charset="utf-8">
@@ -96,6 +96,7 @@
         <link href="/admin/plugins/toast-master/css/jquery.toast.css" rel="stylesheet">
         <link href="/admin/plugins/toastr/toastr.min.css" rel="stylesheet" type="text/css">
         <link href="/css/new_styles.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" type="text/css" href="/admin/assets/css/forms/switches.css">
 
 
 

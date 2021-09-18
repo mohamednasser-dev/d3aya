@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\categories;
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Product;
 use JD\Cloudder\Facades\Cloudder;
 use Illuminate\Http\Request;
 use App\SubThreeCategory;
@@ -16,7 +17,13 @@ class SubThreeCategoryController extends AdminController
     }
     public function create($id)
     {
-        return view('admin.categories.sub_category.sub_two_category.sub_three_category.create',compact('id'));
+        $products = Product::where('sub_category_two_id',$id)->where('status',1)->where('deleted',0)->where('publish','Y')->get()->count();
+        if($products > 0){
+            session()->flash('danger', trans('messages.can_not_add_cat'));
+            return back();
+        }else{
+            return view('admin.categories.sub_catyegory.sub_two_category.sub_three_category.create',compact('id'));
+        }
     }
     public function store(Request $request)
     {
@@ -44,7 +51,11 @@ class SubThreeCategoryController extends AdminController
         $data = SubThreeCategory::where('sub_category_id',$id)->where('deleted','0')->orderBy('sort' , 'asc')->get();
         return view('admin.categories.sub_category.sub_two_category.sub_three_category.index',compact('data','cat_id'));
     }
-
+    public function change_is_show(Request $request){
+        $data['is_show'] = $request->status ;
+        SubThreeCategory::where('id', $request->id)->update($data);
+        return 1;
+    }
     // sorting
     public function sort(Request $request) {
         $post = $request->all();

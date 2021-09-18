@@ -109,6 +109,12 @@ class CategoryController extends AdminController{
         return view('admin.products.products', ['data' => $data]);
     }
 
+
+    public function change_is_show(Request $request){
+        $data['is_show'] = $request->status ;
+        Category::where('id', $request->id)->update($data);
+        return 1;
+    }
     // sorting
     public function sort(Request $request) {
         $post = $request->all();

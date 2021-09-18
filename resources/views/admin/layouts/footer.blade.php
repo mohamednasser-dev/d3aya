@@ -1,14 +1,14 @@
-            </div>
-        </div>
+</div>
+</div>
+</div>
+<div class="footer-wrapper">
+    <div class="footer-section f-section-1">
+        <p class="">{{ __('messages.copyright') }} © 2020
+            <a target="_blank" class="website-link" href="https://u-smart.co/">{{ __('messages.usmart') }}</a>
+            , {{ __('messages.all_rights_reserved') }}
+        </p>
     </div>
-    <div class="footer-wrapper">
-        <div class="footer-section f-section-1">
-            <p class="">{{ __('messages.copyright') }} © 2020
-                <a target="_blank" class="website-link" href="https://u-smart.co/">{{ __('messages.usmart') }}</a>
-                , {{ __('messages.all_rights_reserved') }}
-            </p>
-        </div>
-    </div>
+</div>
 </div>
 <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
 <script src="/admin/assets/js/libs/jquery-3.1.1.min.js"></script>

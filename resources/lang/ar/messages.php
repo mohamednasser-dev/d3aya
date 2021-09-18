@@ -1,13 +1,17 @@
 <?php
 return [
     //new
+
+
+
+
+
+    'statuschanged' => 'تم تعديل الحالة بنجاح',
+    'hidden_show' => "اخفاء / اظهار",
     'category_image' => "صوره القسم",
     'offers_cover' => "غلاف العروض",
-
-
-
-
-
+    'can_not_add_cat' => "لا يمكن اضافة اقسام فرعية لقسم يحتوى على اعلانات",
+    'can_not_delete_cat' => "لا يمكن حذف القسم لوجود اعلانات به",
     'our_offers' => "عروضنا",
     'choose_to_you' => "اخترنالك",
     'show_all' => "اخترنالك",
@@ -20,7 +24,6 @@ return [
     'with_english' => "(بالانجليزية)",
     'offer_image' => "صورة بانر العرض فالصفحة الرئيسية (بالعربية)",
     'offer_image_en' => "صورة بانر العرض فالصفحة الرئيسية (بالانجليزية)",
-
     'feature_hoursfeature_hours' => "عدد ساعات الخاصية",
     'feature_type' => "نوع الخاصية",
     'expier_num' => "يعرض لمدة",

@@ -1,6 +1,14 @@
 <?php
     return [
         //new
+
+
+        'statuschanged' => 'status changes successfully',
+        'hidden_show' => "hidden / show",
+        'category_image' => "category image",
+        'offers_cover' => "offers cover",
+        'can_not_add_cat' => "It is not possible to add sub-sections to a section containing ads",
+        'can_not_delete_cat' => "It is not possible to delete category containing ads",
         'our_offers' => "our offers",
         'choose_to_you' => "choose to you",
         'show_all' => "choose to you",
@@ -13,7 +21,6 @@
         'with_english' => "(with english)",
         'offer_image' => "Banner image display in home page (Arabic)",
         'offer_image_en' => "Banner image display as home page (English)",
-
         'ad_settings' => "Ads settings",
         'cities' => "Provinces",
         'areas' => "Regions",

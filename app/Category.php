@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $fillable = ['image', 'title_en', 'title_ar', 'deleted','offers_image','sort'];
+    protected $fillable = ['image', 'title_en', 'title_ar', 'deleted','offers_image','sort','is_show'];
 
     public function products() {
         return $this->hasMany('App\Product', 'category_id')->where('status', 1)->where('publish', 'Y')->where('deleted', 0);
     }
 
     public function SubCategories() {
-        return $this->hasMany('App\SubCategory', 'category_id')->where('deleted', 0)->where(function ($q) {
+        return $this->hasMany('App\SubCategory', 'category_id')->where('deleted', 0)->where('is_show', 1)->where(function ($q) {
             $q->has('SubCategories', '>', 0)->orWhere(function ($qq) {
                 $qq->has('Products_custom', '>', 0);
             });
@@ -25,7 +25,7 @@ class Category extends Model
         $lang = session('lang_api');
         return $this->hasMany('App\SubCategory', 'category_id')
             ->select('id', 'title_'.$lang.' as title','category_id','image')
-            ->where('deleted',0)->where(function ($q) {
+            ->where('deleted',0)->where('is_show', 1)->where(function ($q) {
                 $q->has('SubCategories', '>', 0)->orWhere(function ($qq) {
                     $qq->has('Products_custom', '>', 0);
                 });

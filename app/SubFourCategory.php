@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SubFourCategory extends Model
 {
-    protected $fillable = ['title_en', 'title_ar', 'image', 'deleted', 'sub_category_id','sort'];
+    protected $fillable = ['title_en', 'title_ar', 'image', 'deleted', 'sub_category_id','sort','is_show'];
 
 
     public function category() {
@@ -21,7 +21,7 @@ class SubFourCategory extends Model
     public function SubCategories()
     {
         return $this->hasMany('App\SubFiveCategory', 'sub_category_id')
-            ->where('deleted', '0')
+            ->where('deleted', '0')->where('is_show', 1)
             ->where(function ($q) {
                 $q->has('Products', '>', 0);
             });

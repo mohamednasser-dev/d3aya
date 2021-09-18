@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class SubFiveCategory extends Model
 {
-    protected $fillable = ['title_en', 'title_ar', 'image', 'deleted', 'sub_category_id','sort'];
+    protected $fillable = ['title_en', 'title_ar', 'image', 'deleted', 'sub_category_id','sort','is_show'];
 
 
     public function Category() {
-        return $this->belongsTo('App\SubFourCategory', 'sub_category_id');
+        return $this->belongsTo('App\SubFourCategory', 'sub_category_id')->where('is_show', 1);
     }
 
     public function products() {
