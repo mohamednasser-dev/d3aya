@@ -62,7 +62,7 @@ class CityController extends AdminController
      * @return \Illuminate\Http\Response
      */
     public function edit($id) {
-        $data = City::findOrFail($id)->first();
+        $data = City::find($id);
         return view('admin.cities.edit', compact('data'));
     }
     public function update(Request $request, $id) {

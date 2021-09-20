@@ -28,21 +28,25 @@
                                 <th class="text-center">{{ __('messages.edit') }}</th>
                             @endif
                             @if(Auth::user()->delete_data)
-                                <th class="text-center" >{{ __('messages.delete') }}</th>
+                                <th class="text-center">{{ __('messages.delete') }}</th>
                             @endif
                         </tr>
                         </thead>
                         <tbody>
                         <?php $i = 1; ?>
                         @foreach ($data as $row)
-                            <tr >
+                            <tr>
                                 <td class="text-center"><?=$i;?></td>
                                 <td class="text-center blue-color">{{ app()->getLocale() == 'en' ? $row->title_en : $row->title_ar }}</td>
                                 @if(Auth::user()->update_data)
-                                    <td class="text-center blue-color" ><a href="{{ route('area.edit', $row->id) }}" ><i class="far fa-edit"></i></a></td>
+                                    <td class="text-center blue-color"><a href="{{ route('area.edit', $row->id) }}"><i
+                                                class="far fa-edit"></i></a></td>
                                 @endif
                                 @if(Auth::user()->delete_data)
-                                    <td class="text-center blue-color" ><a onclick="return confirm('{{ __('messages.are_you_sure') }}');" href="{{ route('area.delete', $row->id) }}" ><i class="far fa-trash-alt"></i></a></td>
+                                    <td class="text-center blue-color"><a
+                                            onclick="return confirm('{{ __('messages.are_you_sure') }}');"
+                                            href="{{ route('area.delete', $row->id) }}"><i class="far fa-trash-alt"></i></a>
+                                    </td>
                                 @endif
                                 <?php $i++; ?>
                             </tr>
@@ -52,4 +56,5 @@
                 </div>
             </div>
         </div>
+    </div>
 @endsection
