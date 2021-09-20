@@ -567,8 +567,8 @@ class CategoryController extends Controller
 
         $cat_ids[] = null;
         $All_sub_cat = false;
-//        for ($i = 0; $i < count($data['sub_categories']); $i++) {
-//            $cat_ids[$i] = $data['sub_categories'][$i]['id'];
+        for ($i = 0; $i < count($data['sub_categories']); $i++) {
+            $cat_ids[$i] = $data['sub_categories'][$i]['id'];
 //            $subThreeCats = SubFiveCategory::where('sub_category_id', $data['sub_categories'][$i]['id'])->where('deleted', '0')->select('id')->first();
 //            $data['sub_categories'][$i]['next_level'] = false;
 //            if (isset($subThreeCats['id'])) {
@@ -595,7 +595,7 @@ class CategoryController extends Controller
 //                }
 //                //End check
 //            }
-//        }
+        }
         if (count($data['sub_category_array']) == 0) {
             $data['sub_category_array'] = SubThreeCategory::where('deleted', 0)->where('sub_category_id', $request->sub_category_level2_id)->select('id', 'image', 'title_' . $lang . ' as title')->orderBy('sort', 'asc')->get()->toArray();
         }
@@ -723,16 +723,16 @@ class CategoryController extends Controller
             $data['category'] = Category::where('id', $request->category_id)->select('id', 'title_' . $lang . ' as title')->first();
         }
         $cat_ids[] = null;
-//        for ($i = 0; $i < count($data['sub_categories']); $i++) {
-//            $cat_ids[$i] = $data['sub_categories'][$i]['id'];
+        for ($i = 0; $i < count($data['sub_categories']); $i++) {
+            $cat_ids[$i] = $data['sub_categories'][$i]['id'];
 //            $five_products = Product::where('sub_category_five_id', $data['sub_categories'][$i]['id'])->where('status', 1)->where('publish', 'Y')->where('deleted', 0)->first();
 ////            $subFiveCats = SubFiveCategory::where('sub_category_id', $data['sub_categories'][$i]['id'])->where('deleted', '0')->select('id', 'deleted')->first();
 //            $data['sub_categories'][$i]['next_level'] = false;
 //            if (isset($five_products['id'])) {
 //                $data['sub_categories'][$i]['next_level'] = true;
 //            }
-//
-//        }
+
+        }
 
         $data['ad_image'] = Categories_ad::select('image', 'ad_type as type', 'content')->where('deleted', '0')->wherein('cat_id', $cat_ids)->where('deleted', '0')->where('type', 'sub_five_category')->inRandomOrder()->take(1)->get();
 
@@ -855,6 +855,20 @@ class CategoryController extends Controller
             $data['sub_category_array'] = SubFiveCategory::where('deleted', '0')->where('sub_category_id', $request->sub_category_level4_id)
                 ->select('id', 'image', 'title_' . $lang . ' as title')->orderBy('sort', 'asc')->get()->toArray();
         }
+
+        $cat_ids[] = null;
+        for ($i = 0; $i < count($data['sub_categories']); $i++) {
+            $cat_ids[$i] = $data['sub_categories'][$i]['id'];
+//            $five_products = Product::where('sub_category_five_id', $data['sub_categories'][$i]['id'])->where('status', 1)->where('publish', 'Y')->where('deleted', 0)->first();
+////            $subFiveCats = SubFiveCategory::where('sub_category_id', $data['sub_categories'][$i]['id'])->where('deleted', '0')->select('id', 'deleted')->first();
+//            $data['sub_categories'][$i]['next_level'] = false;
+//            if (isset($five_products['id'])) {
+//                $data['sub_categories'][$i]['next_level'] = true;
+//            }
+
+        }
+
+        $data['ad_image'] = Categories_ad::select('image', 'ad_type as type', 'content')->where('deleted', '0')->wherein('cat_id', $cat_ids)->where('deleted', '0')->where('type', 'sub_five_category')->inRandomOrder()->take(1)->get();
 
 
         //to add all button
