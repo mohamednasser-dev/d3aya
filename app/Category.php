@@ -13,11 +13,7 @@ class Category extends Model
     }
 
     public function SubCategories() {
-        return $this->hasMany('App\SubCategory', 'category_id')->where('deleted', 0)->where('is_show', 1)->where(function ($q) {
-            $q->has('SubCategories', '>', 0)->orWhere(function ($qq) {
-                $qq->has('Products_custom', '>', 0);
-            });
-        });
+        return $this->hasMany('App\SubCategory', 'category_id')->where('deleted', 0)->where('is_show', 1);
     }
 
 
@@ -25,11 +21,7 @@ class Category extends Model
         $lang = session('lang_api');
         return $this->hasMany('App\SubCategory', 'category_id')
             ->select('id', 'title_'.$lang.' as title','category_id','image')
-            ->where('deleted',0)->where('is_show', 1)->where(function ($q) {
-                $q->has('SubCategories', '>', 0)->orWhere(function ($qq) {
-                    $qq->has('Products_custom', '>', 0);
-                });
-            });
+            ->where('deleted',0)->where('is_show', 1)->orderBy('sort','asc');
     }
 
     public function Category_ads() {

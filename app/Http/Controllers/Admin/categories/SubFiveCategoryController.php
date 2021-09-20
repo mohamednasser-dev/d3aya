@@ -21,7 +21,7 @@ class SubFiveCategoryController extends AdminController
             session()->flash('danger', trans('messages.can_not_add_cat'));
             return back();
         }else{
-            return view('admin.categories.sub_catyegory.sub_two_category.sub_three_category.sub_four_category.sub_five_category.create',compact('id'));
+            return view('admin.categories.sub_category.sub_two_category.sub_three_category.sub_four_category.sub_five_category.create',compact('id'));
         }
     }
     public function store(Request $request)

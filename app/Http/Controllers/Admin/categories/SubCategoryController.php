@@ -22,7 +22,7 @@ class SubCategoryController extends AdminController
             session()->flash('danger', trans('messages.can_not_add_cat'));
             return back();
         }else{
-            return view('admin.categories.sub_catyegory.create',compact('id'));
+            return view('admin.categories.sub_category.create',compact('id'));
         }
     }
     public function store(Request $request)
