@@ -104,7 +104,7 @@ class CityController extends AdminController
         return redirect( route('cities.show',$request->city_id));
     }
     public function edit_area($id) {
-        $data = Area::findOrFail($id)->first();
+        $data = Area::find($id);
         return view('admin.cities.areas.edit', compact('data'));
     }
     public function update_area(Request $request, $id) {
