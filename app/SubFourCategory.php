@@ -27,12 +27,12 @@ class SubFourCategory extends Model
     }
 
     public function getNextLevelAttribute(){
-        $result = false ;
-        if(count($this->SubCategories) > 0 ){
-             $result = true ;
-        }else{
-            $result = false ;
-        }
-        return $result ;
+//        $result = false ;
+//        if(count($this->SubCategories) > 0 ){
+//             $result = true ;
+//        }else{
+//            $result = false ;
+//        }
+        return false ;
     }
 }

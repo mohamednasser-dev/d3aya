@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class SubFiveCategory extends Model
 {
+    protected  $appends = ['next_level'];
+    protected  $hidden = ['SubCategories'];
     protected $fillable = ['title_en', 'title_ar', 'image', 'deleted', 'sub_category_id','sort','is_show'];
 
 
@@ -15,5 +17,11 @@ class SubFiveCategory extends Model
 
     public function products() {
         return $this->hasMany('App\Product', 'sub_category_five_id')->where('status', 1)->where('publish', 'Y')->where('deleted', 0);
+    }
+
+
+    public function getNextLevelAttribute(){
+
+        return false ;
     }
 }
