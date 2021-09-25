@@ -63,6 +63,7 @@
                     <form action="{{route('sub_cat_options.store')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <input required type="hidden" name="cat_id" value="{{$id}}">
+                        <input type="hidden" name="category_type" value="1" />
                         <div class="modal-body">
                             <div class="custom-file-container" data-upload-id="myFirstImage">
                                 <label>{{ __('messages.upload') }} ({{ __('messages.single_image') }}) <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">x</a></label>
