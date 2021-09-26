@@ -41,4 +41,19 @@ class SubTwoCategory extends Model
         }
         return $result ;
     }
+
+    public function getCatNextAttribute(){
+        $result = false ;
+        if(count($this->SubCategories) > 0 ){
+            foreach ($this->SubCategories as $row){
+                if($row){
+                    $result = true ;
+                    break;
+                }else{
+                    $result = false ;
+                }
+            }
+        }
+        return $result ;
+    }
 }

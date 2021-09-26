@@ -153,6 +153,21 @@ class CategoryController extends Controller
             $data['sub_categories'] = SubTwoCategory::where('deleted', 0)->where('sub_category_id', $request->sub_category_id)
                 ->select('id', 'image', 'title_' . $lang . ' as title','sub_category_id')
                 ->orderBy('sort', 'asc')->get()->toArray();
+//                ->map(function($data){
+//                    $data->next_level = false ;
+//                    if(count($data->SubCategories) > 0 ){
+//                        $sub_Three_cat = SubThreeCategory::where();
+//                        foreach ($data->SubCategories as $row){
+//                            if(count($row->SubCategories) > 0 ){
+//                                $data->next_level = true ;
+//                                break;
+//                            }else{
+//                                $data->next_level = false ;
+//                            }
+//                        }
+//                    }
+//                    return $data ;
+//                });
 
             $data['sub_category_level1'] = SubCategory::where('id', $request->sub_category_id)->select('id', 'title_' . $lang . ' as title', 'category_id')->first();
             $data['sub_category_array'] = SubTwoCategory::where('sub_category_id', $request->sub_category_id)
@@ -932,7 +947,7 @@ class CategoryController extends Controller
     {
 
             $data['categories'] = Category::where('deleted', 0)->where('is_show', 1)->select('id', 'title_'.$request->lang.' as title', 'image')
-                ->orderBy('sort', 'asc')->get()->makeHidden('next_level');
+                ->orderBy('sort', 'asc')->get();
         if (count($data['categories']) > 0) {
             for ($i = 0; $i < count($data['categories']); $i++) {
                 $subThreeCats = SubCategory::where('category_id', $data['categories'][$i]['id'])->where('is_show', 1)->where('deleted', 0)->select('id')->first();
@@ -951,7 +966,8 @@ class CategoryController extends Controller
     {
 
             $data['categories'] = SubCategory::where('category_id', $cat_id)->where('is_show', 1)
-                ->where('deleted', 0)->select('id', 'title_'.$request->lang.' as title', 'image')->orderBy('sort', 'asc')->get()->makeHidden('next_level');
+                ->where('deleted', 0)->select('id', 'title_'.$request->lang.' as title', 'image')
+                ->orderBy('sort', 'asc')->get()->makeHidden('next_level');
 
         if (count($data['categories']) > 0) {
             for ($i = 0; $i < count($data['categories']); $i++) {
@@ -962,6 +978,8 @@ class CategoryController extends Controller
                 }
             }
         }
+
+
         $response = APIHelpers::createApiResponse(false, 200, '', '', $data, $request->lang);
         return response()->json($response, 200);
     }
@@ -970,7 +988,8 @@ class CategoryController extends Controller
     {
 
         $data['categories'] = SubTwoCategory::where('sub_category_id', $sub_cat_id)->where('is_show', 1)
-            ->where('deleted', 0)->select('id', 'title_'.$request->lang.' as title', 'image')->orderBy('sort', 'asc')->get()->makeHidden('next_level');
+            ->where('deleted', 0)->select('id', 'title_'.$request->lang.' as title', 'image')
+            ->orderBy('sort', 'asc')->get()->makeHidden('next_level');
 
         if (count($data['categories']) > 0) {
             for ($i = 0; $i < count($data['categories']); $i++) {
@@ -1023,10 +1042,13 @@ class CategoryController extends Controller
 
     public function show_six_cat(Request $request, $sub_sub_cat_id)
     {
-        if ($request->lang == 'en') {
-            $data['categories'] = SubFiveCategory::where('sub_category_id', $sub_sub_cat_id)->where('deleted', '0')->select('id', 'title_en as title', 'image')->orderBy('sort', 'asc')->get();
-        } else {
-            $data['categories'] = SubFiveCategory::where('sub_category_id', $sub_sub_cat_id)->where('deleted', '0')->select('id', 'title_ar as title', 'image')->orderBy('sort', 'asc')->get();
+        $data['categories'] = SubFiveCategory::where('sub_category_id', $sub_sub_cat_id)
+                ->where('deleted', '0')->select('id', 'title_'.$request->lang.' as title', 'image')
+                ->orderBy('sort', 'asc')->get()->makeHidden('next_level');
+        if (count($data['categories']) > 0) {
+            for ($i = 0; $i < count($data['categories']); $i++) {
+                $data['categories'][$i]['cat_next'] = false;
+            }
         }
         $response = APIHelpers::createApiResponse(false, 200, '', '', $data, $request->lang);
         return response()->json($response, 200);
