@@ -155,7 +155,7 @@ use Illuminate\Http\Request;
     Route::get('/ad/get_marka_types/{marka_id}/{lang}/{v}' , 'MarkaController@get_marka_types');
     Route::get('/ad/get_type_model/{marka_type_id}/{lang}/{v}' , 'MarkaController@get_type_model');
     Route::get('/ad/category_options/{category}/{lang}/{v}' , 'CategoryController@getCategoryOptions');
-
+    Route::get('/ad/category_options/{lang}/{v}' , 'CategoryController@getCategoryOptionsAllLevels');
     //store ad with steps
     Route::post('/ad/save_new_ad/{lang}/{v}' , 'ProductController@save_first_step');
     Route::post('/ad/save_second_step/{lang}/{v}' , 'ProductController@save_second_step');

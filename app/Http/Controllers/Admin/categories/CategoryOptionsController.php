@@ -16,6 +16,14 @@ class CategoryOptionsController extends AdminController{
         return view('admin.categories.category_options.index',compact('data','id'));
     }
 
+    // get category options in all levels
+    public function getCategoryOptions(Request $request) {
+        $data = Category_option::where('deleted','0')->where('cat_id',$request->id)->where('category_type', $request->type)->get();
+        $id = $request->id;
+        $type = $request->type;
+        return view('admin.categories.category_options.index',compact('data','id', 'type'));
+    }
+
     public function store(Request $request){
         $data = $this->validate(\request(),
             [
@@ -23,7 +31,8 @@ class CategoryOptionsController extends AdminController{
                 'image' => 'required',
                 'title_ar' => 'required',
                 'title_en' => 'required',
-                'is_required' => 'required'
+                'is_required' => 'required',
+                'category_type' => 'required'
             ]);
 
         $image_name = $request->file('image')->getRealPath();
@@ -33,6 +42,9 @@ class CategoryOptionsController extends AdminController{
         $image_format = $imagereturned['format'];
         $image_new_name = $image_id.'.'.$image_format;
         $data['image'] = $image_new_name ;
+        if ($data['category_type'] != 0) {
+            $data['cat_type'] = 'subcategory';
+        }
         Category_option::create($data);
         session()->flash('success', trans('messages.added_s'));
         return back();

@@ -34,7 +34,7 @@
                         @foreach ($data as $row)
                             <tr>
                                 <td><?=$i;?></td>
-                                <td class="text-center"><img src="https://res.cloudinary.com/carsads2021/image/upload/w_100,q_100/v1581928924/{{ $row->image }}"  /></td>
+                                <td class="text-center"><img src="https://res.cloudinary.com/dsiwuyzs4/image/upload/w_100,q_100/v1581928924/{{ $row->image }}"  /></td>
                                 <td>{{ app()->getLocale() == 'en' ? $row->title_en : $row->title_ar }}</td>
                                 <td class="text-center blue-color"><a
                                         href="{{ route('options_values.show', $row->id) }}"><i
@@ -63,6 +63,7 @@
                     <form action="{{route('cat_options.store')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <input required type="hidden" name="cat_id" value="{{$id}}">
+                        <input type="hidden" name="category_type" value="{{ $type }}" />
                         <div class="modal-body">
                             <div class="custom-file-container" data-upload-id="myFirstImage">
                                 <label>{{ __('messages.upload') }} ({{ __('messages.single_image') }}) <a href="javascript:void(0)" class="custom-file-container__image-clear" title="Clear Image">x</a></label>

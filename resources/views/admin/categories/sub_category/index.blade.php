@@ -71,7 +71,7 @@
                                     </a>
                                 </td>
                                 <td class="text-center blue-color">
-                                    <a href="{{route('cat_options.show',$row->id)}}">
+                                    <a href="{{route('cat_options.levels',[$row->id, 1])}}">
                                         <div class="">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                  viewBox="0 0 24 24"
