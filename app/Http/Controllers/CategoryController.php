@@ -948,7 +948,7 @@ class CategoryController extends Controller
 
             $data['categories'] = Category::where('deleted', 0)->where('is_show', 1)->select('id', 'title_'.$request->lang.' as title', 'image')
                 ->orderBy('sort', 'asc')->get();
-                
+
         if (count($data['categories']) > 0) {
             for ($i = 0; $i < count($data['categories']); $i++) {
                 $subThreeCats = SubCategory::where('category_id', $data['categories'][$i]['id'])->where('is_show', 1)->where('deleted', 0)->select('id')->first();
@@ -1032,9 +1032,9 @@ class CategoryController extends Controller
         if (count($data['categories']) > 0) {
             for ($i = 0; $i < count($data['categories']); $i++) {
                 $subThreeCats = SubFiveCategory::where('sub_category_id', $data['categories'][$i]['id'])->where('is_show', 1)->where('deleted', '0')->select('id')->first();
-                $data['categories'][$i]['cat_next'] = false;
+                $data['categories'][$i]['next_level'] = false;
                 if (isset($subThreeCats['id'])) {
-                    $data['categories'][$i]['cat_next'] = true;
+                    $data['categories'][$i]['next_level'] = true;
                 }
             }
         }
@@ -1050,7 +1050,7 @@ class CategoryController extends Controller
         $data['categories'] = $dd;
         if (count($data['categories']) > 0) {
             for ($i = 0; $i < count($data['categories']); $i++) {
-                $data['categories'][$i]['cat_next'] = false;
+                $data['categories'][$i]['next_level'] = false;
             }
         }
         $response = APIHelpers::createApiResponse(false, 200, '', '', $data, $request->lang);
