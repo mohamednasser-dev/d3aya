@@ -235,7 +235,7 @@ class ProductController extends Controller
             $feature_data[$key]['image'] = $feature->Option->image;
             if ($feature->type == 'manual') {
                 $feature_data[$key]['title'] = $feature->Option->title;
-                if($feature->Option_value->value == 0){
+                if($feature->target_id == 0){
                     $feature_data[$key]['value'] = $not_found;
                 }else{
                     $feature_data[$key]['value'] =  $feature->target_id;
