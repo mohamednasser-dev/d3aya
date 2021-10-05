@@ -22,7 +22,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api' , ['except' => ['pay_sucess','pay_error','excute_pay','my_account','my_balance','resetforgettenpassword' , 'checkphoneexistance','checkphoneexistanceandroid' , 'getownerprofile']]);
+        $this->middleware('auth:api' , ['except' => ['addbalance','pay_sucess','pay_error','excute_pay','my_account','my_balance','resetforgettenpassword' , 'checkphoneexistance','checkphoneexistanceandroid' , 'getownerprofile']]);
     }
 
     public function getprofile(Request $request){
@@ -580,7 +580,7 @@ class UserController extends Controller
         return response()->json($response , 200);
     }
 // add balance to wallet
-    public function addBalance(Request $request) {
+    public function addbalance(Request $request) {
 
         $validator = Validator::make($request->all(), [
             'package_id' => 'required|exists:balance_packages,id'
@@ -623,7 +623,6 @@ class UserController extends Controller
         $result=curl_exec($curl_session);
         curl_close($curl_session);
         $result = json_decode($result);
-
         $data['url'] = $result->Data->InvoiceURL;
         $response = APIHelpers::createApiResponse(false , 200 ,  '' , '' , $data , $request->lang );
         return response()->json($response , 200);
