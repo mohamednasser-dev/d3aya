@@ -162,6 +162,7 @@ class HomeController extends Controller
                         $favorites[$inc]['favorite'] = true;
                         $favorites[$inc]['created_at'] = $product->created_at;
                         $favorites[$inc]['views'] = count($product->Views);
+                        $favorites[$inc]['region'] = $product->region;
                         $inc = $inc + 1;
                     }
                 }
