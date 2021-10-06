@@ -69,7 +69,7 @@ class ProductController extends Controller
             $product_re_post->save();
         }
 
-        $pin_ad = Product::where('status', 1)->where('pin', '1')->whereDate('expire_pin_date', '<', Carbon::now())->get();
+        $pin_ad = Product::where('status', 1)->where('pin', 1)->whereDate('expire_pin_date', '<', Carbon::now())->get();
         foreach ($pin_ad as $row) {
             $product_pined = Product::find($row->id);
             $product_pined->pin = '0';
