@@ -936,7 +936,6 @@ class CategoryController extends Controller
                 $products[$i]['favorite'] = false;
                 $products[$i]['conversation_id'] = 0;
             }
-            $month = $products[$i]['created_at']->format('F');
             $products[$i]['time'] = APIHelpers::get_month_day($products[$i]['created_at'], $lang);
         }
         $data['products'] = $products;

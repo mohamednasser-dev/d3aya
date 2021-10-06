@@ -225,14 +225,28 @@ class ProductController extends Controller
             ->select('id', 'type', 'product_id', 'target_id', 'option_id')
             ->get();
         $feature_data = [];
+        $not_found = "";
+        if($lang == 'ar'){
+            $not_found = "غير متوفر";
+        }else{
+            $not_found = "unavailable";
+        }
         foreach ($features as $key => $feature) {
             $feature_data[$key]['image'] = $feature->Option->image;
             if ($feature->type == 'manual') {
                 $feature_data[$key]['title'] = $feature->Option->title;
-                $feature_data[$key]['value'] = $feature->target_id;
+                if($feature->target_id == 0){
+                    $feature_data[$key]['value'] = $not_found;
+                }else{
+                    $feature_data[$key]['value'] =  $feature->target_id;
+                }
             } else if ($feature->type == 'option') {
                 $feature_data[$key]['title'] = $feature->Option->title;
-                $feature_data[$key]['value'] = $feature->Option_value->value;
+                if($feature->Option_value->value == 0){
+                    $feature_data[$key]['value'] = $not_found;
+                }else{
+                    $feature_data[$key]['value'] = $feature->Option_value->value;
+                }
             }
         }
         if ($user) {
