@@ -158,7 +158,7 @@ class HomeController extends Controller
                         $favorites[$inc]['id'] = $product->id;
                         $favorites[$inc]['title'] = $product->title;
                         $favorites[$inc]['image'] = $product->main_image;
-                        $favorites[$inc]['price']  = number_format((float)( $product->price), 3);
+                        $favorites[$inc]['price']  = (string) $product->price;
                         $favorites[$inc]['favorite'] = true;
                         $favorites[$inc]['created_at'] = $product->created_at;
                         $favorites[$inc]['views'] = count($product->Views);

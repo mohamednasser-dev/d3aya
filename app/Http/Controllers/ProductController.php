@@ -199,7 +199,7 @@ class ProductController extends Controller
         $data = Product::with('Product_user')->with('Area_name')->with('category_name')
             ->select('id', 'title', 'main_image', 'description', 'price', 'type', 'publication_date as date', 'user_id', 'category_id', 'latitude', 'longitude', 'share_location', 'area_id')
             ->find($request->id);
-        $data->price = number_format((float)($data->price), 3);
+        $data->price = (string)$data->price;
 
         $user_ip_address = $request->ip();
         if ($user == null) {
@@ -277,7 +277,7 @@ class ProductController extends Controller
             ->limit(3)
             ->get()
             ->map(function ($ads) use ($lang) {
-                $ads->price = number_format((float)($ads->price), 3);
+                $ads->price = (string)$ads->price;
                 $ads->time = APIHelpers::get_month_year($ads->created_at, $lang);
                 return $ads;
             });
@@ -300,7 +300,7 @@ class ProductController extends Controller
             ->limit(3)
             ->get()
             ->map(function ($ads) use ($lang) {
-                $ads->price = number_format((float)($ads->price), 3);
+                $ads->price = (string)$ads->price;
                 $ads->time = APIHelpers::get_month_year($ads->created_at, $lang);
                 return $ads;
             });
@@ -400,7 +400,7 @@ class ProductController extends Controller
             ->where('publish', 'Y')
             ->where('deleted', '0')
             ->get()->map(function ($data) use ($lang, $user) {
-                $data->price = number_format((float)($data->price), 3);
+                $data->price = (string)$data->price;
                 if ($user != null) {
                     $favorite = Favorite::where('user_id', $user->id)->where('product_id', $data->id)->first();
                     if ($favorite) {
@@ -498,7 +498,7 @@ class ProductController extends Controller
             ->orderBy('created_at', 'desc')
             ->simplePaginate(12);
         for ($i = 0; $i < count($products); $i++) {
-            $products[$i]['price'] = number_format((float)($products[$i]['price']), 3);
+            $products[$i]['price'] = (string)$products[$i]['price'];
             $views = Product_view::where('product_id', $products[$i]['id'])->get()->count();
             $products[$i]['views'] = $views;
             $user = auth()->user();
@@ -703,7 +703,7 @@ class ProductController extends Controller
                             }
                         }
                     }
-                    if($request->images != null){
+                    if ($request->images != null) {
                         foreach ($request->images as $image) {
                             Cloudder::upload("data:image/jpeg;base64," . $image, null);
                             $imagereturned = Cloudder::getResult();
@@ -1081,8 +1081,8 @@ class ProductController extends Controller
             ->where('user_id', auth()->user()->id)
             ->select('id', 'title', 'price', 'main_image')
             ->orderBy('created_at', 'desc')
-            ->get()->map(function($data){
-                $data->price  = number_format((float)(  $data->price ), 3);
+            ->get()->map(function ($data) {
+                $data->price = (string)$data->price;
                 return $data;
             });
         $ads['current_ads'] = Product::where('status', 1)
@@ -1091,8 +1091,8 @@ class ProductController extends Controller
             ->where('user_id', auth()->user()->id)
             ->select('id', 'title', 'price', 'main_image')
             ->orderBy('created_at', 'desc')
-            ->get()->map(function($data){
-                $data->price  = number_format((float)(  $data->price ), 3);
+            ->get()->map(function ($data) {
+                $data->price = (string)$data->price;
                 return $data;
             });
         if (count($ads) == 0) {
@@ -1115,7 +1115,7 @@ class ProductController extends Controller
             ->simplePaginate(12);
 
         for ($i = 0; $i < count($products); $i++) {
-            $products[$i]['price'] = number_format((float)($products[$i]['price']), 3);
+            $products[$i]['price'] = (string)$products[$i]['price'];
             $products[$i]['views'] = Product_view::where('product_id', $products[$i]['id'])->get()->count();
             if ($user) {
                 $favorite = Favorite::where('user_id', $user->id)->where('product_id', $products[$i]['id'])->first();
@@ -1152,7 +1152,7 @@ class ProductController extends Controller
             ->simplePaginate(12);
 
         for ($i = 0; $i < count($products); $i++) {
-            $products[$i]['price'] = number_format((float)($products[$i]['price']), 3);
+            $products[$i]['price'] = (string)$products[$i]['price'];
             $products[$i]['views'] = Product_view::where('product_id', $products[$i]['id'])->get()->count();
             if ($user) {
                 $favorite = Favorite::where('user_id', $user->id)->where('product_id', $products[$i]['id'])->first();
@@ -1188,7 +1188,7 @@ class ProductController extends Controller
             ->select('product_id', 'user_id')
             ->orderBy('created_at', 'desc')->simplePaginate(12);
         for ($i = 0; $i < count($products); $i++) {
-            $products[$i]['Product']->price = number_format((float)($products[$i]['Product']->price), 3);
+            $products[$i]['Product']->price = (string)$products[$i]['Product']->price;
             $views = Product_view::where('product_id', $products[$i]['product_id'])->get()->count();
             $products[$i]['Product']->views = $views;
             if ($user) {
@@ -1221,7 +1221,7 @@ class ProductController extends Controller
             ->get()
             ->map(function ($data) use ($user) {
                 foreach ($data->Offers as $key => $row) {
-                    $data->Offers[$key]['price'] = number_format((float)($data->Offers[$key]['price']), 3);
+                    $data->Offers[$key]['price'] = (string)$data->Offers[$key]['price'];
                     $data->Offers[$key]['views'] = Product_view::where('product_id', $row->id)->count();
                     if ($user != null) {
                         $favorite = Favorite::where('user_id', $user->id)->where('product_id', $row->id)->first();
@@ -1357,7 +1357,7 @@ class ProductController extends Controller
             ->with('Area_api')
             ->select('id', 'category_id', 'sub_category_id', 'sub_category_two_id', 'sub_category_three_id', 'sub_category_four_id', 'sub_category_five_id', 'title', 'price', 'description', 'main_image', 'city_id', 'area_id', 'share_location', 'latitude', 'longitude')
             ->first();
-        $data['ad']->price  = number_format((float)( $data['ad']->price), 3);
+        $data['ad']->price = (string)$data['ad']->price;
         if ($data['ad']->share_location == 1) {
             $data['ad']->share_location = true;
         } else {
