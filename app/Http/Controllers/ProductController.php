@@ -197,7 +197,7 @@ class ProductController extends Controller
         $lang = $request->lang;
         Session::put('lang', $lang);
         $data = Product::with('Product_user')->with('Area_name')->with('category_name')
-            ->select('id', 'title', 'main_image', 'description', 'price', 'type', 'publication_date as date', 'user_id', 'category_id', 'latitude', 'longitude', 'share_location', 'area_id')
+            ->select('id', 'title', 'main_image', 'description', 'price', 'type', 'publication_date as date','pin', 'user_id', 'category_id', 'latitude', 'longitude', 'share_location', 'area_id')
             ->find($request->id);
         $data->price = (string)$data->price;
 
@@ -1093,7 +1093,7 @@ class ProductController extends Controller
         $ads['ended_ads'] = Product::where('status', 2)
             ->where('deleted', 0)
             ->where('user_id', auth()->user()->id)
-            ->select('id', 'title', 'price', 'main_image')
+            ->select('id', 'title', 'price', 'main_image','pin')
             ->orderBy('created_at', 'desc')
             ->get()->map(function ($data) {
                 $data->price = (string)$data->price;
@@ -1103,7 +1103,7 @@ class ProductController extends Controller
             ->where('publish', 'Y')
             ->where('deleted', 0)
             ->where('user_id', auth()->user()->id)
-            ->select('id', 'title', 'price', 'main_image')
+            ->select('id', 'title', 'price', 'main_image','pin')
             ->orderBy('created_at', 'desc')
             ->get()->map(function ($data) {
                 $data->price = (string)$data->price;
@@ -1124,7 +1124,7 @@ class ProductController extends Controller
         $products = Product::where('status', 2)
             ->where('deleted', 0)
             ->where('user_id', auth()->user()->id)
-            ->select('id', 'title', 'price', 'main_image', 'created_at')
+            ->select('id', 'title', 'price', 'main_image', 'created_at','pin')
             ->orderBy('created_at', 'desc')
             ->simplePaginate(12);
 
@@ -1161,7 +1161,7 @@ class ProductController extends Controller
             ->where('publish', 'Y')
             ->where('deleted', 0)
             ->where('user_id', auth()->user()->id)
-            ->select('id', 'title', 'price', 'main_image', 'created_at')
+            ->select('id', 'title', 'price', 'main_image', 'created_at','pin')
             ->orderBy('created_at', 'desc')
             ->simplePaginate(12);
 
