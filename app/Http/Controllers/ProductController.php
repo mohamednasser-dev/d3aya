@@ -287,7 +287,8 @@ class ProductController extends Controller
             ->where('publish', 'Y')
             ->where('deleted', 0)
             ->where('user_id', $data->user_id)
-            ->select('id', 'title', 'price', 'type', 'main_image as image', 'created_at')
+            ->select('id', 'title', 'price', 'type', 'main_image as image', 'created_at','pin')
+            ->orderBy('pin','desc')
             ->limit(3)
             ->get()
             ->map(function ($ads) use ($lang) {
@@ -310,7 +311,8 @@ class ProductController extends Controller
             ->where('status', 1)
             ->where('publish', 'Y')
             ->where('deleted', 0)
-            ->select('id', 'title', 'price', 'type', 'main_image as image', 'created_at')
+            ->select('id', 'title', 'price', 'type', 'main_image as image', 'created_at','pin')
+            ->orderBy('pin','desc')
             ->limit(3)
             ->get()
             ->map(function ($ads) use ($lang) {
@@ -408,7 +410,7 @@ class ProductController extends Controller
         $data['current_ads_num'] = Product::where('user_id', $id)->where('status', 1)->orderBy('publication_date', 'DESC')->select('id', 'title', 'price', 'publication_date as date', 'type')->get()->count();
         $data['ended_ads_num'] = Product::where('user_id', $id)->where('status', 2)->orderBy('publication_date', 'DESC')->select('id', 'title', 'price', 'publication_date as date', 'type')->get()->count();
 
-        $data['ads'] = Product::select('id', 'title', 'price', 'main_image')
+        $data['ads'] = Product::select('id', 'title', 'price', 'main_image','pin')
             ->where('user_id', $id)
             ->where('status', 1)
             ->where('publish', 'Y')
