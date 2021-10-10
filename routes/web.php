@@ -137,7 +137,7 @@ Route::group(['middleware'=>'language','prefix' => "admin-panel",'namespace' => 
     // get category options
     Route::get('cat_options/{id}/{type}' , 'categories\CategoryOptionsController@getCategoryOptions')->name('cat_options.levels');
     
-    Route::get('cat_options/deleted/{id}' , 'categories\CategoryOptionsController@destroy')->name('cat_options.deleted');
+    Route::get('cat_options/delete/{id}/destroy' , 'categories\CategoryOptionsController@destroy')->name('cat_options.deleted');
     Route::resource('options_values' , 'categories\OptionsValuesController');
     Route::get('options_values/create_new/{option_id}' , 'categories\OptionsValuesController@create')->name('options_values.create_new');
     Route::get('options_values/deleted/{id}' , 'categories\OptionsValuesController@destroy')->name('options_values.deleted');
