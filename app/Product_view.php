@@ -10,7 +10,7 @@ class Product_view extends Model
 
     public function Product() {
         return $this->belongsTo('App\Product', 'product_id')
-            ->select('id','title','main_image','price','description','created_at')
+            ->select('id','title','main_image','price','description','created_at','pin')
             ->where('deleted',0)->where('status',1)->where('publish','Y');
     }
 }
