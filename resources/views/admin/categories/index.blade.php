@@ -46,7 +46,7 @@
                             <th class="text-center">{{ __('messages.sub_category_first') }}</th>
                             <th class="text-center">{{ __('messages.cat_options') }}</th>
                             <th class="text-center">{{ __('messages.hidden_show') }}</th>
-                            <th class="text-center">{{ __('messages.category_user') }}</th>
+{{--                            <th class="text-center">{{ __('messages.category_user') }}</th>--}}
                             <th class="text-center">{{ __('messages.products') }}</th>
                             @if(Auth::user()->update_data)
                                 <th class="text-center">{{ __('messages.edit') }}</th>@endif
