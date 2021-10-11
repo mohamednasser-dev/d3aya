@@ -46,6 +46,7 @@
                             <th class="text-center">{{ __('messages.sub_category_first') }}</th>
                             <th class="text-center">{{ __('messages.cat_options') }}</th>
                             <th class="text-center">{{ __('messages.hidden_show') }}</th>
+                            <th class="text-center">{{ __('messages.category_user') }}</th>
                             <th class="text-center">{{ __('messages.products') }}</th>
                             @if(Auth::user()->update_data)
                                 <th class="text-center">{{ __('messages.edit') }}</th>@endif
@@ -98,6 +99,7 @@
                                         <span class="slider round"></span>
                                     </label>
                                 </td>
+
                                 <td class="text-center blue-color"><a
                                         href="{{ route('category.products', $category->id) }}"><i
                                             class="far fa-eye"></i></a></td>
@@ -131,6 +133,24 @@
                 var status = 0;
             }
             $.post('{{ route('category.change_is_show') }}', {
+                _token: '{{ csrf_token() }}',
+                id: el.value,
+                status: status
+            }, function (data) {
+                if (data == 1) {
+                    toastr.success("{{trans('messages.statuschanged')}}");
+                } else {
+                    toastr.error("{{trans('messages.statuschanged')}}");
+                }
+            });
+        }
+        function update_create_show(el) {
+            if (el.checked) {
+                var status = 1;
+            } else {
+                var status = 0;
+            }
+            $.post('{{ route('category.change_create_show') }}', {
                 _token: '{{ csrf_token() }}',
                 id: el.value,
                 status: status

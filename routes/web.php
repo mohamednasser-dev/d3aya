@@ -126,6 +126,7 @@ Route::group(['middleware'=>'language','prefix' => "admin-panel",'namespace' => 
         Route::post('add' , 'CategoryController@AddPost');
         Route::get('show' , 'CategoryController@show');
         Route::post('change/is_show', 'CategoryController@change_is_show')->name('category.change_is_show');
+        Route::post('change/create_show', 'CategoryController@change_create_show')->name('category.change_create_show');
         Route::get('edit/{id}' , 'CategoryController@EditGet');
         Route::post('edit/{id}' , 'CategoryController@EditPost');
         Route::get('delete/{id}' , 'CategoryController@delete');
@@ -136,7 +137,7 @@ Route::group(['middleware'=>'language','prefix' => "admin-panel",'namespace' => 
     Route::resource('cat_options' , 'categories\CategoryOptionsController');
     // get category options
     Route::get('cat_options/{id}/{type}' , 'categories\CategoryOptionsController@getCategoryOptions')->name('cat_options.levels');
-    
+
     Route::get('cat_options/deleted/{id}' , 'categories\CategoryOptionsController@destroy')->name('cat_options.deleted');
     Route::resource('options_values' , 'categories\OptionsValuesController');
     Route::get('options_values/create_new/{option_id}' , 'categories\OptionsValuesController@create')->name('options_values.create_new');

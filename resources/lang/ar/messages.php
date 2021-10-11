@@ -6,6 +6,7 @@ return [
 
 
 
+    'show_in_create' => 'الظهور في اضافة اعلان',
     'cat_permissions' => 'صلاحيات الاقسام',
     'statuschanged' => 'تم تعديل الحالة بنجاح',
     'hidden_show' => "اخفاء / اظهار",
@@ -89,7 +90,6 @@ return [
     'sub_category_fiveth' => "القسم الفرعى الخامس",
     'main_ads_second' => "اعلانات الصفحة الرئيسية",
     'categories_ads' => "اعلانات الاقسام",
-    'show_ads' => "الاعلانات",
     'mandatory' => "اجبارى",
     'choice' => "اختيارى",
     'type' => "النوع",
@@ -157,7 +157,6 @@ return [
     'sub_category_fifth' => "القسم الفرعى الخامس",
     'are_you_sure_delete' => "هل أنت متأكد أنك تريد حذف هذا البند؟",
     'users' => "المستخدمين",
-    'add' => "إضافة",
     "show" => "عرض",
     "show_users" => "عرض المستخدمين",
     "dashboard" => "لوحة التحكم",
@@ -170,7 +169,6 @@ return [
     "password" => "كلمة المرور",
     "gender" => "الجنس",
     "date_of_birth" => "تاريخ الميلاد",
-    "select" => "إختر",
     "male" => "ذكر",
     "female" => "أنثي",
     "submit" => "إرسل",
@@ -313,7 +311,6 @@ return [
     "yes" => "نعم",
     "no" => "لا",
     "plans_count" => "عدد الباقات الاعلانية",
-    "ads_count" => "عدد الإعلانات",
     "show_plans" => "عرض الباقات الاعلانية",
     "archived_or_not" => "مأرشف | منشور",
     "archived" => "مأرشف",

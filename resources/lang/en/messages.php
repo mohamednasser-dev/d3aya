@@ -2,6 +2,7 @@
     return [
         //new
 
+        'show_in_create' => 'show in create ad',
         'cat_permissions' => 'category permissions',
         'statuschanged' => 'status changes successfully',
         'hidden_show' => "hidden / show",
@@ -93,11 +94,9 @@
         'choose_brand_type' => "Choose the brand type",
         'choose_model_year' => "Choose a model year",
         'add_ad_to_all' => "Add Ad to all categories",
-        'main_ads' => "Income screen ads",
         'sub_category_fiveth' => "The fifth subcategory",
         'main_ads_second' => "Home page ads",
         'categories_ads' => "Catregory ads",
-        'show_ads' => "Ads",
         'mandatory' => "Mandatory",
         'choice' => "choice",
         'type' => "النوع",
@@ -160,7 +159,6 @@
 
 
         'users' => 'Users',
-        'add' => 'Add',
         'show' => 'Show',
         'show_users' => 'Show Users',
         "dashboard" => "Dashboard",
@@ -173,7 +171,6 @@
         "password" => "Password",
         "gender" => "Gender",
         "date_of_birth" => "Date Of Birth",
-        "select" => "Select",
         "male" => "Male",
         "female" => "Female",
         "submit" => "Submit",
@@ -207,8 +204,6 @@
         "upload" => "Upload",
         "single_image" => "Single Image",
         "show_ads" => "Show Ads",
-        "image" => "Image",
-        "delete" => "Delete",
         "ad_details" => "Ad Details",
         "ad_edit" => "Edit Ad",
         "current_image" => "Current Image",
@@ -305,7 +300,6 @@
         "are_you_sure" => "Are You Sure ?",
         "plan_price" => "Plan Price",
         "plans" => "Plans",
-        "ads_count" => "Ads Count",
         "add_plan" => "Add Plan",
         "plan_edit" => "Edit plan",
         "product_edit" => "Edit product",

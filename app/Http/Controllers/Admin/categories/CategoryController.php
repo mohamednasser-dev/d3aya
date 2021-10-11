@@ -119,6 +119,11 @@ class CategoryController extends AdminController{
         Category::where('id', $request->id)->update($data);
         return 1;
     }
+    public function change_create_show(Request $request){
+        $data['create_show'] = $request->status ;
+        Category::where('id', $request->id)->update($data);
+        return 1;
+    }
     // sorting
     public function sort(Request $request) {
         $post = $request->all();
