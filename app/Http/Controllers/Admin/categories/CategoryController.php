@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Admin\categories;
 
+use App\Category_user;
 use App\Http\Controllers\Admin\AdminController;
 use App\User_category;
 use JD\Cloudder\Facades\Cloudder;
@@ -52,6 +53,10 @@ class CategoryController extends AdminController{
         $view_cats =  User_category::where('user_id',auth()->user()->id)->get()->pluck('category_id')->toArray();
         $data['categories'] = Category::whereIn('id',$view_cats)->where('deleted' , 0)->orderBy('sort' , 'asc')->get();
         return view('admin.categories.index' , ['data' => $data]);
+    }
+    public function get_users( $id ){
+        $data = Category_user::where('cat_id',$id)->get();
+        return view('admin.categories.users' , compact('data'));
     }
     // get edit page
     public function EditGet(Request $request){

@@ -6,7 +6,8 @@ return [
 
 
 
-    'show_in_create' => 'الظهور في اضافة اعلان',
+    'add_user' => 'اضافة مستخدمة',
+    'category_user' => 'مستخدمين القسم',
     'cat_permissions' => 'صلاحيات الاقسام',
     'statuschanged' => 'تم تعديل الحالة بنجاح',
     'hidden_show' => "اخفاء / اظهار",

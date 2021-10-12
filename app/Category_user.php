@@ -6,12 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category_user extends Model
 {
-    protected $fillable = ['cat_id', 'user_id'];
-    protected $table = 'category_users';
+    protected $guarded = [];
+
 
     public function Category() {
         return $this->belongsTo('App\Category', 'cat_id');
     }
+
+
     public function User() {
         return $this->belongsTo('App\User', 'user_id');
     }

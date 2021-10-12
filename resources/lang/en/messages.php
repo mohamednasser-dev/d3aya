@@ -2,7 +2,9 @@
     return [
         //new
 
-        'show_in_create' => 'show in create ad',
+        'add_user' => 'add user',
+
+        'category_user' => 'category users',
         'cat_permissions' => 'category permissions',
         'statuschanged' => 'status changes successfully',
         'hidden_show' => "hidden / show",
