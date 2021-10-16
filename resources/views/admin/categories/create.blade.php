@@ -54,7 +54,7 @@
                            placeholder="{{ __('messages.name_en') }}" value="">
                 </div>
                 <div class="form-group inside">
-                    <label for="users">{{ __('messages.user') }}</label>
+                    <label for="users">{{ __('messages.users') }}</label>
                     <select class="form-control tagging" name="users[]" id="cmb_sub_cat" multiple="multiple">
                         <option disabled>{{ __('messages.select') }}</option>
                         @foreach ($users as $row)
