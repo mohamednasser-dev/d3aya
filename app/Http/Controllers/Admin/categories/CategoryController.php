@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Admin\categories;
 
 use App\Category_user;
 use App\Http\Controllers\Admin\AdminController;
+use App\User;
 use App\User_category;
 use JD\Cloudder\Facades\Cloudder;
 use Illuminate\Http\Request;
@@ -11,7 +12,9 @@ use App\Category;
 class CategoryController extends AdminController{
     // type : get -> to add new
     public function AddGet(){
-        return view('admin.categories.create');
+        $users = User::where('active',1)->get();
+
+        return view('admin.categories.create',compact('users'));
     }
     // type : post -> add new category
     public function AddPost(Request $request){
@@ -45,8 +48,27 @@ class CategoryController extends AdminController{
         $cat_data['user_id'] = auth()->user()->id ;
         $cat_data['category_id'] = $category->id ;
         User_category::create($cat_data);
+        if($request->users){
+            $cat_user_data['cat_id'] = $category->id ;
+            foreach ($request->users as $row){
+                $cat_user_data['user_id'] = $row ;
+                Category_user::create($cat_user_data);
+            }
+        }
         session()->flash('success', trans('messages.added_s'));
         return redirect('admin-panel/categories/show');
+    }
+
+    public function store_users(Request $request){
+        if($request->users){
+            $cat_user_data['cat_id'] = $request->cat_id ;
+            foreach ($request->users as $row){
+                $cat_user_data['user_id'] = $row ;
+                Category_user::create($cat_user_data);
+            }
+        }
+        session()->flash('success', trans('messages.added_s'));
+        return redirect('admin-panel/categories/users/'.$request->cat_id);
     }
     // get all categories
     public function show(){
@@ -56,7 +78,11 @@ class CategoryController extends AdminController{
     }
     public function get_users( $id ){
         $data = Category_user::where('cat_id',$id)->get();
-        return view('admin.categories.users' , compact('data'));
+        return view('admin.categories.users.users' , compact('data','id'));
+    }
+    public function create_users( $id ){
+        $users = User::where('active',1)->get();
+        return view('admin.categories.users.create' , compact('users','id'));
     }
     // get edit page
     public function EditGet(Request $request){
@@ -128,6 +154,12 @@ class CategoryController extends AdminController{
         $data['create_show'] = $request->status ;
         Category::where('id', $request->id)->update($data);
         return 1;
+    }
+    public function destroy_users($id){
+
+        Category_user::where('id', $id)->delete();
+        session()->flash('success', trans('messages.deleted_s'));
+        return back();
     }
     // sorting
     public function sort(Request $request) {

@@ -6,7 +6,7 @@ return [
 
 
 
-    'add_user' => 'اضافة مستخدمة',
+    'add_user' => 'اضافة مستخدمة جديد',
     'category_user' => 'مستخدمين القسم',
     'cat_permissions' => 'صلاحيات الاقسام',
     'statuschanged' => 'تم تعديل الحالة بنجاح',
