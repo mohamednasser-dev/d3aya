@@ -235,18 +235,14 @@ class ProductController extends Controller
             $feature_data[$key]['image'] = $feature->Option->image;
             if ($feature->type == 'manual') {
                 $feature_data[$key]['title'] = $feature->Option->title;
-                if($feature->target_id == 0){
-                    $feature_data[$key]['value'] = $not_found;
-                }else{
+
                     $feature_data[$key]['value'] =  $feature->target_id;
-                }
+                
             } else if ($feature->type == 'option') {
                 $feature_data[$key]['title'] = $feature->Option->title;
-                if($feature->Option_value->value == 0){
-                    $feature_data[$key]['value'] = $not_found;
-                }else{
+
                     $feature_data[$key]['value'] = $feature->Option_value->value;
-                }
+
             }
         }
         if ($user) {
