@@ -137,6 +137,7 @@ Route::group(['middleware'=>'language','prefix' => "admin-panel",'namespace' => 
     Route::resource('cat_options' , 'categories\CategoryOptionsController');
     // get category options
     Route::get('cat_options/{id}/{type}' , 'categories\CategoryOptionsController@getCategoryOptions')->name('cat_options.levels');
+    Route::post('cat_options/update/new' , 'categories\CategoryOptionsController@update')->name('cat_options.update_new');
     Route::get('cat_options/delete/{id}/destroy' , 'categories\CategoryOptionsController@destroy')->name('cat_options.deleted');
 
     //users in category

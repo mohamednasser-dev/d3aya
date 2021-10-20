@@ -2,8 +2,8 @@
     return [
         //new
 
+        'category_options_edit' => 'edit category options',
         'add_user' => 'add user',
-
         'category_user' => 'category users',
         'cat_permissions' => 'category permissions',
         'statuschanged' => 'status changes successfully',

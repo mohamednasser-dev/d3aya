@@ -16,6 +16,11 @@ class CategoryOptionsController extends AdminController{
         return view('admin.categories.category_options.index',compact('data','id'));
     }
 
+    public function edit($id){
+        $data = Category_option::find($id);
+        return view('admin.categories.category_options.edit',compact('data','id'));
+    }
+
     // get category options in all levels
     public function getCategoryOptions(Request $request) {
         $data = Category_option::where('deleted','0')->where('cat_id',$request->id)->where('category_type', $request->type)->get();
@@ -48,6 +53,33 @@ class CategoryOptionsController extends AdminController{
         Category_option::create($data);
         session()->flash('success', trans('messages.added_s'));
         return back();
+    }
+
+    public function update(Request $request){
+        $data = $this->validate(\request(),
+            [
+                'option_id' => 'required',
+                'title_ar' => 'required',
+                'title_en' => 'required',
+                'is_required' => 'required'
+            ]);
+
+        if($request->image != null){
+            $image_name = $request->file('image')->getRealPath();
+            Cloudder::upload($image_name, null);
+            $imagereturned = Cloudder::getResult();
+            $image_id = $imagereturned['public_id'];
+            $image_format = $imagereturned['format'];
+            $image_new_name = $image_id.'.'.$image_format;
+            $data['image'] = $image_new_name ;
+        }else{
+            unset($data['image']);
+        }
+        unset($data['option_id']);
+        Category_option::where('id',$request->option_id)->update($data);
+        $option = Category_option::find($request->option_id);
+        session()->flash('success', trans('messages.updated_s'));
+        return redirect(route('cat_options.levels',[$option->cat_id, $option->category_type]));
     }
 
     public function destroy($id){

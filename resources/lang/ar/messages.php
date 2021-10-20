@@ -6,6 +6,7 @@ return [
 
 
 
+    'category_options_edit' => 'تعديل خيارات القسم',
     'add_user' => 'اضافة مستخدمة جديد',
     'category_user' => 'مستخدمين القسم',
     'cat_permissions' => 'صلاحيات الاقسام',
