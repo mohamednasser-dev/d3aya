@@ -11,8 +11,8 @@ class Category extends Model
         return $this->hasMany('App\SubCategory', 'category_id')->where('deleted', 0)->where('is_show', 1);
     }
     public function Category_users() {
-//        return $this->belongsToMany('App\Category_user', 'cat_id');
-        return $this->belongsToMany(User::class, 'category_users', 'cat_id', 'user_id');
+        return $this->belongsToMany(User::class, 'category_users', 'cat_id', 'user_id')
+            ->where('category_type',0);
     }
     public function Sub_categories() {
         $lang = session('lang_api');

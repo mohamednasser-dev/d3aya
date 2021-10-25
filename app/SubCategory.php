@@ -14,6 +14,10 @@ class SubCategory extends Model
         return $this->belongsTo('App\Brand', 'brand_id');
     }
 
+    public function Category_users() {
+        return $this->belongsToMany(User::class, 'category_users', 'cat_id', 'user_id')
+            ->where('category_type',1);
+    }
     public function category() {
         return $this->belongsTo('App\Category', 'category_id');
     }

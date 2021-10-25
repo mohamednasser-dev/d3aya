@@ -15,6 +15,11 @@ class SubFiveCategory extends Model
         return $this->belongsTo('App\SubFourCategory', 'sub_category_id')->where('is_show', 1);
     }
 
+    public function Category_users() {
+        return $this->belongsToMany(User::class, 'category_users', 'cat_id', 'user_id')
+            ->where('category_type',5);
+    }
+
     public function products() {
         return $this->hasMany('App\Product', 'sub_category_five_id')->where('status', 1)->where('publish', 'Y')->where('deleted', 0);
     }

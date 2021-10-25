@@ -16,6 +16,10 @@ class SubTwoCategory extends Model
         return $this->belongsTo('App\SubCategory', 'sub_category_id');
     }
 
+    public function Category_users() {
+        return $this->belongsToMany(User::class, 'category_users', 'cat_id', 'user_id')
+            ->where('category_type',2);
+    }
 
     public function products() {
         return $this->hasMany('App\Product', 'sub_category_two_id')->where('status', 1)->where('publish', 'Y')->where('deleted', 0);

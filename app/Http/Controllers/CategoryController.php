@@ -948,6 +948,10 @@ class CategoryController extends Controller
     public function show_first_cat(Request $request)
     {
         $user = auth()->user();
+        if ($user == null) {
+            $response = APIHelpers::createApiResponse(true, 406, 'you should login first', 'يجب تسجيل الدخول اولا', null, $request->lang);
+            return response()->json($response, 406);
+        }
         $data['categories'] = Category::whereHas('Category_users', function ($q) use ($user) {
             $q->where('user_id', $user->id);
         })->orWhere(function ($w) {
@@ -972,7 +976,17 @@ class CategoryController extends Controller
 
     public function show_second_cat(Request $request, $cat_id)
     {
+        $user = auth()->user();
+        if ($user == null) {
+            $response = APIHelpers::createApiResponse(true, 406, 'you should login first', 'يجب تسجيل الدخول اولا', null, $request->lang);
+            return response()->json($response, 406);
+        }
         $dd = SubCategory::where('category_id', $cat_id)->where('is_show', 1)
+            ->whereHas('Category_users', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })->orWhere(function ($w) use ($user,$cat_id){
+                $w->has('Category_users','<',1)->where('category_id', $cat_id)->where('is_show', 1);
+            })
             ->where('deleted', 0)->select('id', 'title_' . $request->lang . ' as title', 'image')
             ->orderBy('sort', 'asc')->get()->makeHidden('next_level')->toArray();
         $data['categories'] = $dd;
@@ -991,7 +1005,17 @@ class CategoryController extends Controller
 
     public function show_third_cat(Request $request, $sub_cat_id)
     {
+        $user = auth()->user();
+        if ($user == null) {
+            $response = APIHelpers::createApiResponse(true, 406, 'you should login first', 'يجب تسجيل الدخول اولا', null, $request->lang);
+            return response()->json($response, 406);
+        }
         $dd = SubTwoCategory::where('sub_category_id', $sub_cat_id)->where('is_show', 1)
+            ->whereHas('Category_users', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })->orWhere(function ($w) use ($user,$sub_cat_id){
+                $w->has('Category_users','<',1)->where('sub_category_id', $sub_cat_id)->where('is_show', 1);
+            })
             ->where('deleted', 0)->select('id', 'title_' . $request->lang . ' as title', 'image')
             ->orderBy('sort', 'asc')->get()->makeHidden('next_level')->toArray();
         $data['categories'] = $dd;
@@ -1010,7 +1034,17 @@ class CategoryController extends Controller
 
     public function show_four_cat(Request $request, $sub_sub_cat_id)
     {
+        $user = auth()->user();
+        if ($user == null) {
+            $response = APIHelpers::createApiResponse(true, 406, 'you should login first', 'يجب تسجيل الدخول اولا', null, $request->lang);
+            return response()->json($response, 406);
+        }
         $dd = SubThreeCategory::where('sub_category_id', $sub_sub_cat_id)->where('is_show', 1)
+            ->whereHas('Category_users', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })->orWhere(function ($w) use ($user,$sub_sub_cat_id){
+                $w->has('Category_users','<',1)->where('sub_category_id', $sub_sub_cat_id)->where('is_show', 1);
+            })
             ->where('deleted', 0)->select('id', 'title_' . $request->lang . ' as title', 'image')->orderBy('sort', 'asc')->get()->makeHidden('next_level')->toArray();
         $data['categories'] = $dd;
         if (count($data['categories']) > 0) {
@@ -1028,7 +1062,18 @@ class CategoryController extends Controller
 
     public function show_five_cat(Request $request, $sub_sub_cat_id)
     {
-        $dd = SubFourCategory::where('sub_category_id', $sub_sub_cat_id)->where('is_show', 1)->where('deleted', 0)
+        $user = auth()->user();
+        if ($user == null) {
+            $response = APIHelpers::createApiResponse(true, 406, 'you should login first', 'يجب تسجيل الدخول اولا', null, $request->lang);
+            return response()->json($response, 406);
+        }
+        $dd = SubFourCategory::where('sub_category_id', $sub_sub_cat_id)->where('is_show', 1)
+            ->whereHas('Category_users', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })->orWhere(function ($w) use ($user,$sub_sub_cat_id){
+                $w->has('Category_users','<',1)->where('sub_category_id', $sub_sub_cat_id)->where('is_show', 1);
+            })
+            ->where('deleted', 0)
             ->select('id', 'title_' . $request->lang . ' as title', 'image')->orderBy('sort', 'asc')->get()->makeHidden('next_level')->toArray();
         $data['categories'] = $dd;
         if (count($data['categories']) > 0) {
@@ -1046,7 +1091,17 @@ class CategoryController extends Controller
 
     public function show_six_cat(Request $request, $sub_sub_cat_id)
     {
+        $user = auth()->user();
+        if ($user == null) {
+            $response = APIHelpers::createApiResponse(true, 406, 'you should login first', 'يجب تسجيل الدخول اولا', null, $request->lang);
+            return response()->json($response, 406);
+        }
         $dd = SubFiveCategory::where('sub_category_id', $sub_sub_cat_id)
+            ->whereHas('Category_users', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })->orWhere(function ($w) use ($user,$sub_sub_cat_id){
+                $w->has('Category_users','<',1)->where('sub_category_id', $sub_sub_cat_id)->where('is_show', 1);
+            })
             ->where('deleted', '0')->select('id', 'title_' . $request->lang . ' as title', 'image')
             ->orderBy('sort', 'asc')->get()->makeHidden('next_level')->toArray();
         $data['categories'] = $dd;
