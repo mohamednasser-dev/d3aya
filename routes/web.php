@@ -141,8 +141,8 @@ Route::group(['middleware'=>'language','prefix' => "admin-panel",'namespace' => 
     Route::get('cat_options/delete/{id}/destroy' , 'categories\CategoryOptionsController@destroy')->name('cat_options.deleted');
 
     //users in category
-    Route::get('categories/users/create/{id}' , 'categories\CategoryController@create_users')->name('categories.create.users');
-    Route::get('categories/users/{id}' , 'categories\CategoryController@get_users')->name('categories.get_users');
+    Route::get('categories/users/create/{id}/{type}' , 'categories\CategoryController@create_users')->name('categories.create.users');
+    Route::get('categories/users/{id}/{type}' , 'categories\CategoryController@get_users')->name('categories.get_users');
     Route::get('categories/destroy/users/{id}' , 'categories\CategoryController@destroy_users')->name('categories.destroy_users');
     Route::post('categories/users/store' , 'categories\CategoryController@store_users')->name('category.users.store');
 

@@ -17,6 +17,7 @@
             </div>
             <form action="{{route('category.users.store')}}" method="post" enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" name="category_type" value="{{$type}}">
                 <input type="hidden" name="cat_id" value="{{$id}}">
                 <div class="form-group inside">
                     <label for="users">{{ __('messages.users') }}</label>

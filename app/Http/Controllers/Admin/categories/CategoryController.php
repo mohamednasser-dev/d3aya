@@ -62,13 +62,14 @@ class CategoryController extends AdminController{
     public function store_users(Request $request){
         if($request->users){
             $cat_user_data['cat_id'] = $request->cat_id ;
+            $cat_user_data['category_type'] = $request->category_type ;
             foreach ($request->users as $row){
                 $cat_user_data['user_id'] = $row ;
                 Category_user::create($cat_user_data);
             }
         }
         session()->flash('success', trans('messages.added_s'));
-        return redirect('admin-panel/categories/users/'.$request->cat_id);
+        return redirect('admin-panel/categories/users/'.$request->cat_id.'/'.$request->category_type);
     }
     // get all categories
     public function show(){
@@ -76,13 +77,13 @@ class CategoryController extends AdminController{
         $data['categories'] = Category::whereIn('id',$view_cats)->where('deleted' , 0)->orderBy('sort' , 'asc')->get();
         return view('admin.categories.index' , ['data' => $data]);
     }
-    public function get_users( $id ){
-        $data = Category_user::where('cat_id',$id)->get();
-        return view('admin.categories.users.users' , compact('data','id'));
+    public function get_users( $id , $type){
+        $data = Category_user::where('cat_id',$id)->where('category_type',$type)->get();
+        return view('admin.categories.users.users' , compact('data','id','type'));
     }
-    public function create_users( $id ){
+    public function create_users( $id ,$type){
         $users = User::where('active',1)->get();
-        return view('admin.categories.users.create' , compact('users','id'));
+        return view('admin.categories.users.create' , compact('users','id','type'));
     }
     // get edit page
     public function EditGet(Request $request){

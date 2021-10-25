@@ -15,7 +15,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                        <a class="btn btn-primary" href="{{route('categories.create.users',$id)}}">{{ __('messages.add_user') }}</a>
+                        <a class="btn btn-primary" href="{{route('categories.create.users',[$id,$type])}}">{{ __('messages.add_user') }}</a>
                     </div>
                 </div>
             </div>
