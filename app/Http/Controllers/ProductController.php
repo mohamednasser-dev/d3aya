@@ -694,13 +694,9 @@ class ProductController extends Controller
                     if ($request->options != null) {
                         foreach ($request->options as $key => $option) {
                             if ($option['option_value'] != null) {
-                                if (is_numeric($option['option_value'])) {
-                                    $option_values = Category_option_value::where('id', $option['option_value'])->first();
-                                    if ($option_values != null) {
-                                        $feature_data['type'] = 'option';
-                                    } else {
-                                        $feature_data['type'] = 'manual';
-                                    }
+                                $selected_option = Category_option::with('Values')->where('id',$option['option_id'])->first();
+                                if ($selected_option->Values != null) {
+                                    $feature_data['type'] = 'option';
                                 } else {
                                     $feature_data['type'] = 'manual';
                                 }
