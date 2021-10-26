@@ -695,7 +695,8 @@ class ProductController extends Controller
                         foreach ($request->options as $key => $option) {
                             if ($option['option_value'] != null) {
                                 $selected_option = Category_option::with('Values')->where('id',$option['option_id'])->first();
-                                if ($selected_option->Values != null) {
+
+                                if (count($selected_option->Values) > 0) {
                                     $feature_data['type'] = 'option';
                                 } else {
                                     $feature_data['type'] = 'manual';
