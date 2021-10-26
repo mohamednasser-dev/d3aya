@@ -58,7 +58,7 @@
                     <select class="form-control tagging" name="users[]" id="cmb_sub_cat" multiple="multiple">
                         <option disabled>{{ __('messages.select') }}</option>
                         @foreach ($users as $row)
-                            <option value="{{ $row->id }}">{{ $row->name }}</option>
+                            <option value="{{ $row->id }}">{{ $row->name }} &nbsp; &nbsp; &nbsp; {{ $row->phone }}</option>
                         @endforeach
                     </select>
                 </div>

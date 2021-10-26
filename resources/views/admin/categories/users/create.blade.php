@@ -26,7 +26,7 @@
                         @foreach ($users as $row)
                             @php $exist_user = \App\Category_user::where('user_id',$row->id)->where('cat_id',$id)->where('category_type',$type)->first() @endphp
                             @if(!$exist_user)
-                                <option value="{{ $row->id }}">{{ $row->name }}</option>
+                                <option value="{{ $row->id }}">{{ $row->name }} &nbsp; &nbsp; &nbsp; {{ $row->phone }}</option>
                             @endif
                         @endforeach
                     </select>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\categories;
 
+use App\Category_user;
 use App\Http\Controllers\Admin\AdminController;
 use App\Product;
 use JD\Cloudder\Facades\Cloudder;
@@ -42,7 +43,15 @@ class SubTwoCategoryController extends AdminController
         $image_format = $imagereturned['format'];
         $image_new_name = $image_id.'.'.$image_format;
         $data['image'] = $image_new_name;
-        SubTwoCategory::create($data);
+        $category = SubTwoCategory::create($data);
+        if($request->users){
+            $cat_user_data['cat_id'] = $category->id ;
+            foreach ($request->users as $row){
+                $cat_user_data['user_id'] = $row ;
+                $cat_user_data['category_type'] = 2 ;
+                Category_user::create($cat_user_data);
+            }
+        }
         session()->flash('success', trans('messages.added_s'));
         return redirect( route('sub_two_cat.show',$request->sub_category_id));
     }

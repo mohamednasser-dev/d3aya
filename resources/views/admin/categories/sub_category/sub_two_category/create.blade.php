@@ -30,6 +30,15 @@
                 <label for="plan_price">{{ __('messages.name_en') }}</label>
                 <input required type="text" name="title_en" class="form-control" >
             </div>
+            <div class="form-group inside">
+                <label for="users">{{ __('messages.users') }}</label>
+                <select class="form-control tagging" name="users[]" id="cmb_sub_cat" multiple="multiple">
+                    <option disabled>{{ __('messages.select') }}</option>
+                    @foreach ($users as $row)
+                        <option value="{{ $row->id }}">{{ $row->name }} &nbsp; &nbsp; &nbsp; {{ $row->phone }}</option>
+                    @endforeach
+                </select>
+            </div>
             <input type="submit" value="{{ __('messages.add') }}" class="btn btn-primary">
         </form>
     </div>

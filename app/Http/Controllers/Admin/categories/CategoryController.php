@@ -52,6 +52,7 @@ class CategoryController extends AdminController{
             $cat_user_data['cat_id'] = $category->id ;
             foreach ($request->users as $row){
                 $cat_user_data['user_id'] = $row ;
+                $cat_user_data['category_type'] = 0 ;
                 Category_user::create($cat_user_data);
             }
         }
