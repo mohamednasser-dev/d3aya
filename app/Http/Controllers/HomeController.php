@@ -119,7 +119,7 @@ class HomeController extends Controller
         if (count($one) > 0) {
             $data['ads_top'] = $one;
         } else {
-            $data['ads_top'] = (object)[];
+            $data['ads_top'] = [];
         }
         $categories = Category::with('Sub_categories')
             ->with('Category_ads')
