@@ -22,7 +22,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['addbalance', 'pay_sucess', 'pay_error', 'excute_pay', 'my_account', 'my_balance', 'resetforgettenpassword', 'checkphoneexistance', 'checkphoneexistanceandroid', 'getownerprofile']]);
+        $this->middleware('auth:api', ['except' => ['notifications','addbalance', 'pay_sucess', 'pay_error', 'excute_pay', 'my_account', 'my_balance', 'resetforgettenpassword', 'checkphoneexistance', 'checkphoneexistanceandroid', 'getownerprofile']]);
     }
 
     public function getprofile(Request $request)

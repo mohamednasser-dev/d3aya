@@ -2,17 +2,6 @@
 
 use Illuminate\Http\Request;
 
-    /*
-    |--------------------------------------------------------------------------
-    | API Routes
-    |--------------------------------------------------------------------------
-    |
-    | Here is where you can register API routes for your application. These
-    | routes are loaded by the RouteServiceProvider within a group which
-    | is assigned the "api" middleware group. Enjoy building your API!
-    |
-    */
-
     Route::group([
         'middleware' => 'api',
         'prefix' => 'auth'
@@ -25,7 +14,6 @@ use Illuminate\Http\Request;
     });
 
     Route::get('/invalid/{lang}/{v}', [ 'as' => 'invalid', 'uses' => 'AuthController@invalid']);
-
 
     // users apis group
     Route::group([
@@ -121,7 +109,6 @@ use Illuminate\Http\Request;
 
     Route::get('/showbuybutton/{lang}/{v}' , 'SettingController@showbuybutton')->middleware('checkguest');
 
-
     //nasser code
     //for get cat toads/search create ad
     Route::get('/ad/sub_categories/level0/{lang}/{v}' , 'CategoryController@show_first_cat');
@@ -165,7 +152,6 @@ use Illuminate\Http\Request;
 
     Route::get('/ad/save_third_step_with_money/{ad_id}/{plan_id}/{lang}/{v}' , 'ProductController@save_third_step_with_money');
     Route::get('/ad/save_third_step/excute_pay' , 'ProductController@third_step_excute_pay');
-
 
     Route::get('/ad/select_my_ads/{lang}/{v}' , 'ProductController@select_ended_ads');
     Route::get('/ad/ended_ads/{lang}/{v}' , 'ProductController@ended_ads');
@@ -212,7 +198,6 @@ use Illuminate\Http\Request;
     //visitor
     Route::post('/visitor/create/{lang}/{v}' , 'VisitorController@create')->middleware('checkguest');
 
-
     Route::get('/ad/cities/{lang}/{v}' , 'ProductController@cities');
     Route::get('/ad/areas/{lang}/{v}' , 'ProductController@areas');
     Route::get('/ad/last_seen/{lang}/{v}' , 'ProductController@last_seen');
@@ -226,6 +211,3 @@ use Illuminate\Http\Request;
     Route::get('/chat/get_ad_message/{id}/{conversation_id}/{lang}/{v}' , 'ChatController@get_ad_message');
     Route::get('/chat/search_conversation/{search}/{lang}/{v}' , 'ChatController@search_conversation');
     Route::get('/chat/make_read/{message_id}/{lang}/{v}' , 'ChatController@make_read');
-
-
-
