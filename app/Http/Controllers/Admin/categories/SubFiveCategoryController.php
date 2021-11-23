@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin\categories;
 
-use App\Category_user;
 use App\Http\Controllers\Admin\AdminController;
-use App\Product;
 use JD\Cloudder\Facades\Cloudder;
 use Illuminate\Http\Request;
 use App\SubFiveCategory;
+use App\Category_user;
+use App\Product;
 
 class SubFiveCategoryController extends AdminController
 {
