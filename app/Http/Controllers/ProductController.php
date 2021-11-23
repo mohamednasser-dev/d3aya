@@ -696,15 +696,20 @@ class ProductController extends Controller
                             if ($option['option_value'] != null) {
                                 $selected_option = Category_option::with('Values')->where('id',$option['option_id'])->first();
 
-                                if (count($selected_option->Values) > 0) {
-                                    $feature_data['type'] = 'option';
-                                } else {
-                                    $feature_data['type'] = 'manual';
+                                if($option['option_value'] == 0 && count($selected_option->Values) > 0){
+
+                                }else{
+                                    if (count($selected_option->Values) > 0) {
+                                        $feature_data['type'] = 'option';
+                                    } else {
+                                        $feature_data['type'] = 'manual';
+                                    }
+                                    $feature_data['product_id'] = $ad_data->id;
+                                    $feature_data['target_id'] = $option['option_value'];
+                                    $feature_data['option_id'] = $option['option_id'];
+                                    Product_feature::create($feature_data);
                                 }
-                                $feature_data['product_id'] = $ad_data->id;
-                                $feature_data['target_id'] = $option['option_value'];
-                                $feature_data['option_id'] = $option['option_id'];
-                                Product_feature::create($feature_data);
+
                             }
                         }
                     }
