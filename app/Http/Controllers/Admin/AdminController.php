@@ -45,14 +45,15 @@ class AdminController extends Controller{
         $mysqlUserName      = env('DB_USERNAME');
         $mysqlPassword      = env('DB_PASSWORD');
         $DbName             = env('DB_DATABASE');
-        $tblsIn = 'Tables_in_' . $DbName;
-        $backup_name        = $DbName . "_" . date('y-m-d') . ".sql";
-        $tbls = DB::select('SHOW TABLES');
-        $tables = [];
-        foreach($tbls as $table)
-        {
-            array_push($tables, $table->$tblsIn);
-        }
+        $backup_name        = "mybackup.sql";
+        $tables             = array("users","admins","ads","permissions","admin_permissions",'cities','areas',
+            "balance_packages","categories","categories_ads","category_options",'category_users','conversations',
+            "contact_us","meta_tags","notifications","settings","category_option_values",
+            "failed_jobs","favorites","main_ads","markas","marka_types","migrations","mndobs","password_resets",
+            "plans","plan_details","rates","sub_categories",'user_categories',
+            "sub_two_categories","sub_three_categories","sub_four_categories","sub_five_categories","type_models",
+            "user_notifications","products",'participants','messages',"product_features","product_images","product_views","visitors",
+            "wallet_transactions"); //here your tables...
 
         $connect = new \PDO("mysql:host=$mysqlHostName;dbname=$DbName;charset=utf8", "$mysqlUserName", "$mysqlPassword",array(\PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
         $get_all_table_query = "SHOW TABLES";
@@ -88,22 +89,22 @@ class AdminController extends Controller{
                 $output .= "'" . implode("','", $table_value_array) . "');\n";
             }
         }
-        // $file_name = 'database_backup_on_' . date('y-m-d') . '.sql';
-        $file_handle = fopen($backup_name, 'w+');
+        $file_name = 'database_backup_on_' . date('y-m-d') . '.sql';
+        $file_handle = fopen($file_name, 'w+');
         fwrite($file_handle, $output);
         fclose($file_handle);
         header('Content-Description: File Transfer');
         header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename=' . basename($backup_name));
+        header('Content-Disposition: attachment; filename=' . basename($file_name));
         header('Content-Transfer-Encoding: binary');
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
-        header('Content-Length: ' . filesize($backup_name));
+        header('Content-Length: ' . filesize($file_name));
         ob_clean();
         flush();
-        readfile($backup_name);
-        unlink($backup_name);
+        readfile($file_name);
+        unlink($file_name);
 
         return redirect()->back();
     }

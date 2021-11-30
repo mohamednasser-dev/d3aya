@@ -88,29 +88,29 @@
                     <input  type="number" name="pin_it_hours" class="form-control" value="72" min="0">
                 </div>
             </div>
-            <div class="form-group row">
-                <div class="col-md-3">
-                    <label for="plan_price"> &nbsp; </label>
-                    <div class="form-check pl-0">
-                        <div class="custom-control custom-checkbox checkbox-info">
-                            <input type="checkbox" class="custom-control-input" name="special" value="special" id="special_id">
-                            <label class="custom-control-label" for="special_id">{{ __('messages.add_to_spicial') }}</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3" id="special1_cont" style="display:none;">
-                    <label for="plan_price">{{ __('messages.name_ar') }}</label>
-                    <input  type="text" name="special_title_ar"  class="form-control" value="يتم أظهار الاعلان فى القسم المميز ل 10 ايام">
-                </div>
-                <div class="col-md-3" id="special2_cont" style="display:none;">
-                    <label for="plan_price">{{ __('messages.name_en') }}</label>
-                    <input  type="text" name="special_title_en"  class="form-control" value="The ad will appear in the special section fot 10 days">
-                </div>
-                <div class="col-md-3" id="special3_cont" style="display:none;">
-                    <label for="plan_price">{{ __('messages.days_num') }}</label>
-                    <input  type="number" name="special_hours" class="form-control" value="10" min="0">
-                </div>
-            </div>
+{{--            <div class="form-group row">--}}
+{{--                <div class="col-md-3">--}}
+{{--                    <label for="plan_price"> &nbsp; </label>--}}
+{{--                    <div class="form-check pl-0">--}}
+{{--                        <div class="custom-control custom-checkbox checkbox-info">--}}
+{{--                            <input type="checkbox" class="custom-control-input" name="special" value="special" id="special_id">--}}
+{{--                            <label class="custom-control-label" for="special_id">{{ __('messages.add_to_spicial') }}</label>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="col-md-3" id="special1_cont" style="display:none;">--}}
+{{--                    <label for="plan_price">{{ __('messages.name_ar') }}</label>--}}
+{{--                    <input  type="text" name="special_title_ar"  class="form-control" value="يتم أظهار الاعلان فى القسم المميز ل 10 ايام">--}}
+{{--                </div>--}}
+{{--                <div class="col-md-3" id="special2_cont" style="display:none;">--}}
+{{--                    <label for="plan_price">{{ __('messages.name_en') }}</label>--}}
+{{--                    <input  type="text" name="special_title_en"  class="form-control" value="The ad will appear in the special section fot 10 days">--}}
+{{--                </div>--}}
+{{--                <div class="col-md-3" id="special3_cont" style="display:none;">--}}
+{{--                    <label for="plan_price">{{ __('messages.days_num') }}</label>--}}
+{{--                    <input  type="number" name="special_hours" class="form-control" value="10" min="0">--}}
+{{--                </div>--}}
+{{--            </div>--}}
             <input type="submit" value="{{ __('messages.add') }}" class="btn btn-primary">
         </form>
     </div>
