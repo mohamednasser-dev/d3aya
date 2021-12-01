@@ -102,30 +102,30 @@
                         <input  type="number" name="pin_it_hours" class="form-control"  @if($plan_pin !=null) value="{{$plan_pin->expire_days}}"@endif  min="0">
                     </div>
             </div>
-            @php $plan_special = \App\Plan_details::where('type','special')->where('plan_id',$plan->id)->first(); @endphp
-            <div class="form-group row">
-                <div class="col-md-3">
-                    <label for="plan_price"> &nbsp; </label>
-                    <div class="form-check pl-0">
-                        <div class="custom-control custom-checkbox checkbox-info">
-                            <input type="checkbox" @if($plan_special !=null) checked @endif class="custom-control-input" name="special" value="special" id="special_id">
-                            <label class="custom-control-label" for="special_id">{{ __('messages.add_to_spicial') }}</label>
-                        </div>
-                    </div>
-                </div>
-                    <div class="col-md-3" id="special1_cont" @if($plan_special ==null) style="display:none;"@endif >
-                        <label for="plan_price">{{ __('messages.name_ar') }}</label>
-                        <input  type="text" name="special_title_ar"  class="form-control"  @if($plan_special !=null) value="{{$plan_special->title_ar}}" @endif >
-                    </div>
-                    <div class="col-md-3" id="special2_cont" @if($plan_special ==null) style="display:none;"@endif >
-                        <label for="plan_price">{{ __('messages.name_en') }}</label>
-                        <input  type="text" name="special_title_en"  class="form-control"  @if($plan_special !=null) value="{{$plan_special->title_ar}}" @endif >
-                    </div>
-                    <div class="col-md-3" id="special3_cont" @if($plan_special ==null) style="display:none;"@endif >
-                        <label for="plan_price">{{ __('messages.days_num') }}</label>
-                        <input  type="number" name="special_hours" class="form-control"  @if($plan_special !=null) value="{{$plan_special->expire_days}}" @endif  min="0">
-                    </div>
-            </div>
+{{--            @php $plan_special = \App\Plan_details::where('type','special')->where('plan_id',$plan->id)->first(); @endphp--}}
+{{--            <div class="form-group row">--}}
+{{--                <div class="col-md-3">--}}
+{{--                    <label for="plan_price"> &nbsp; </label>--}}
+{{--                    <div class="form-check pl-0">--}}
+{{--                        <div class="custom-control custom-checkbox checkbox-info">--}}
+{{--                            <input type="checkbox" @if($plan_special !=null) checked @endif class="custom-control-input" name="special" value="special" id="special_id">--}}
+{{--                            <label class="custom-control-label" for="special_id">{{ __('messages.add_to_spicial') }}</label>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                    <div class="col-md-3" id="special1_cont" @if($plan_special ==null) style="display:none;"@endif >--}}
+{{--                        <label for="plan_price">{{ __('messages.name_ar') }}</label>--}}
+{{--                        <input  type="text" name="special_title_ar"  class="form-control"  @if($plan_special !=null) value="{{$plan_special->title_ar}}" @endif >--}}
+{{--                    </div>--}}
+{{--                    <div class="col-md-3" id="special2_cont" @if($plan_special ==null) style="display:none;"@endif >--}}
+{{--                        <label for="plan_price">{{ __('messages.name_en') }}</label>--}}
+{{--                        <input  type="text" name="special_title_en"  class="form-control"  @if($plan_special !=null) value="{{$plan_special->title_ar}}" @endif >--}}
+{{--                    </div>--}}
+{{--                    <div class="col-md-3" id="special3_cont" @if($plan_special ==null) style="display:none;"@endif >--}}
+{{--                        <label for="plan_price">{{ __('messages.days_num') }}</label>--}}
+{{--                        <input  type="number" name="special_hours" class="form-control"  @if($plan_special !=null) value="{{$plan_special->expire_days}}" @endif  min="0">--}}
+{{--                    </div>--}}
+{{--            </div>--}}
             <input type="submit" value="{{ __('messages.edit') }}" class="btn btn-primary">
         </form>
     </div>
