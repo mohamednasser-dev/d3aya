@@ -34,7 +34,7 @@ class ProductController extends AdminController
     {
         $data['offer_image'] = Setting::where('id', 1)->first()->offer_image;
         $data['offer_image_en'] = Setting::where('id', 1)->first()->offer_image_en;
-        $data['products'] = Product::where('offer', 1)->where('deleted', 0)->orderBy('id', 'desc')->get();
+        $data['products'] = Product::where('offer', 1)->where('deleted', 0)->orderBy('status', 'asc')->get();
         return view('admin.products.offers', ['data' => $data]);
     }
 
