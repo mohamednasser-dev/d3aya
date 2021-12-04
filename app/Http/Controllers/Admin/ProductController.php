@@ -26,7 +26,7 @@ class ProductController extends AdminController
     // show
     public function show()
     {
-        $data['products'] = Product::where('deleted', 0)->orderBy('id', 'desc')->get();
+        $data['products'] = Product::where('deleted', 0)->orderBy('status', 'asc')->get();
         return view('admin.products.products', ['data' => $data]);
     }
 
