@@ -74,8 +74,9 @@ class CategoryController extends AdminController{
     }
     // get all categories
     public function show(){
-        $view_cats =  User_category::where('user_id',auth()->user()->id)->get()->pluck('category_id')->toArray();
-        $data['categories'] = Category::whereIn('id',$view_cats)->where('deleted' , 0)->orderBy('sort' , 'asc')->get();
+        // $view_cats =  User_category::where('user_id',auth()->user()->id)->get()->pluck('category_id')->toArray();
+        // whereIn('id',$view_cats)->
+        $data['categories'] = Category::where('deleted' , 0)->orderBy('sort' , 'asc')->get();
         return view('admin.categories.index' , ['data' => $data]);
     }
     public function get_users( $id , $type){
