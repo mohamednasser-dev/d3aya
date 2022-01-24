@@ -51,7 +51,7 @@ use Illuminate\Http\Request;
         Route::get('pricing/{lang}/{v}' , 'PlanController@getpricing')->middleware('checkguest');
         Route::post('buy/{lang}/{v}' , 'PlanController@buyplan');
     });
-
+    
     Route::get('/excute_pay' , 'PlanController@excute_pay');
     Route::get('/pay/success' , 'PlanController@pay_sucess');
     Route::get('/pay/error' , 'PlanController@pay_error');

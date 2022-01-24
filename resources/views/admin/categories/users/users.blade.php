@@ -35,7 +35,7 @@
                         @foreach ($data as $row)
                             <tr>
                                 <td><?=$i;?></td>
-                                <td>{{  $row->User->name }}</td>
+                                <td>{{  $row->User ? $row->User->name : '' }}</td>
                                 @if(Auth::user()->delete_data)
                                     <td class="text-center blue-color">
                                         <a onclick="return confirm('Are you sure you want to delete this item?');"
