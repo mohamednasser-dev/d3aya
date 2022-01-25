@@ -18,12 +18,12 @@ class SubFiveCategoryController extends AdminController
     public function create($id)
     {
         $products = Product::where('sub_category_four_id',$id)->where('status',1)->where('deleted',0)->where('publish','Y')->get()->count();
-        if($products > 0){
-            session()->flash('danger', trans('messages.can_not_add_cat'));
-            return back();
-        }else{
-            return view('admin.categories.sub_category.sub_two_category.sub_three_category.sub_four_category.sub_five_category.create',compact('id'));
-        }
+        // if($products > 0){
+        //     session()->flash('danger', trans('messages.can_not_add_cat'));
+        //     return back();
+        // }else{
+        return view('admin.categories.sub_category.sub_two_category.sub_three_category.sub_four_category.sub_five_category.create',compact('id'));
+        // }
     }
     public function store(Request $request)
     {
