@@ -1,5 +1,9 @@
 @extends('admin.app')
 @section('title' , __('messages.add'))
+@section('styles')
+    <link href="/admin/assets/css/scrollspyNav.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="/admin/plugins/select2/select2.min.css">
+@endsection
 @section('content')
     <div class="col-lg-12 col-12 layout-spacing">
         <div class="statbox widget box box-shadow">
@@ -42,4 +46,14 @@
             <input type="submit" value="{{ __('messages.add') }}" class="btn btn-primary">
         </form>
     </div>
+@endsection
+@section('scripts')
+    <script src="/admin/plugins/highlight/highlight.pack.js"></script>
+    <script src="/admin/plugins/select2/select2.min.js"></script>
+    <script src="/admin/plugins/select2/custom-select2.js"></script>
+    <script>
+        $(".tagging").select2({
+            tags: true
+        });
+    </script>
 @endsection

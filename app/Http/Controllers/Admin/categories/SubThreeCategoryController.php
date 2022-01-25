@@ -8,6 +8,7 @@ use App\Product;
 use JD\Cloudder\Facades\Cloudder;
 use Illuminate\Http\Request;
 use App\SubThreeCategory;
+use App\User;
 
 class SubThreeCategoryController extends AdminController
 {
@@ -19,12 +20,13 @@ class SubThreeCategoryController extends AdminController
     public function create($id)
     {
         $products = Product::where('sub_category_two_id',$id)->where('status',1)->where('deleted',0)->where('publish','Y')->get()->count();
-        if($products > 0){
-            session()->flash('danger', trans('messages.can_not_add_cat'));
-            return back();
-        }else{
-            return view('admin.categories.sub_category.sub_two_category.sub_three_category.create',compact('id'));
-        }
+        $users = User::where('active',1)->get();
+        // if($products > 0){
+        //     session()->flash('danger', trans('messages.can_not_add_cat'));
+        //     return back();
+        // }else{
+        return view('admin.categories.sub_category.sub_two_category.sub_three_category.create',compact('id', 'users'));
+        // }
     }
     public function store(Request $request)
     {
