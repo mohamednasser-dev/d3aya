@@ -17,6 +17,7 @@ use App\Favorite;
 use App\Setting;
 use App\Product;
 use App\User;
+use App\Visitor;
 
 class UserController extends Controller
 {
@@ -217,20 +218,35 @@ class UserController extends Controller
     public function notifications(Request $request)
     {
         $user = auth()->user();
+        // dd($user);
+        if(!$request->unique_id){
+            $response = APIHelpers::createApiResponse(true , 406 , 'unique_id is required' , 'unique_id is required' , null , $request->lang);
+            return response()->json($response , 406);
+        }
+
         if ($user->active == 0) {
             $response = APIHelpers::createApiResponse(true, 406, 'تم حظر حسابك من الادمن', '', null, $request->lang);
             return response()->json($response, 406);
         }
 
         $user_id = $user->id;
-        $notifications_ids = UserNotification::where('user_id', $user_id)->orderBy('id', 'desc')->select('notification_id')->get();
-        $notifications = [];
-        for ($i = 0; $i < count($notifications_ids); $i++) {
-            $notifications[$i] = Notification::select('id', 'title', 'body', 'image', 'created_at')->find($notifications_ids[$i]['notification_id']);
+        $visitor = Visitor::where('unique_id', $request->unique_id)->first();
+        if ($visitor) {
+            $notifications_ids = UserNotification::where('user_id' , $user_id)->where('visitor_id', $visitor->id)->orderBy('id' , 'desc')->select('notification_id')->get();
+            $notifications = [];
+            for ($i = 0; $i < count($notifications_ids); $i++) {
+                $noti = Notification::select('id', 'title', 'body', 'image', 'created_at')->find($notifications_ids[$i]['notification_id']);
+                if ($noti) {
+                    $notifications[$i] = $noti;
+                }
+            }
+            $data['notifications'] = $notifications;
+            $response = APIHelpers::createApiResponse(false, 200, '', '', $data['notifications'], $request->lang);
+            return response()->json($response, 200);
+        }else {
+            $response = APIHelpers::createApiResponse(true , 406 ,  'Visitor is not exist' , 'زائر غير موجود' ,(object)[] , $request->lang);
+            return response()->json($response , 200);
         }
-        $data['notifications'] = $notifications;
-        $response = APIHelpers::createApiResponse(false, 200, '', '', $data['notifications'], $request->lang);
-        return response()->json($response, 200);
     }
 
     // get ads count
