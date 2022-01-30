@@ -10,7 +10,7 @@ class WebViewController extends Controller
     // get about
     public function getabout(Request $request, $lang){
         $setting = Setting::find(1);
-        $data['text'] = $setting['aboutapp_ar'];
+        $data['text'] = $setting['aboutapp_' . $lang];
 		$data['lang'] = $lang;
         return view('webview.about' , ['data' => $data]);
     }
@@ -20,7 +20,7 @@ class WebViewController extends Controller
         $setting = Setting::find(1);
 
             $data['title'] = 'الشروط و الأحكام';
-            $data['text'] = $setting['termsandconditions_ar'];
+            $data['text'] = $setting['termsandconditions_' . $lang];
 		$data['lang'] = $lang;
         return view('webview.termsandconditions' , ['data' => $data]);
     }
