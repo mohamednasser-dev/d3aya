@@ -303,7 +303,7 @@ class ProductController extends Controller
             ->where('status', 1)
             ->where('publish', 'Y')
             ->where('deleted', 0)
-            ->select('id', 'title', 'price', 'type', 'main_image as image', 'created_at','pin')
+            ->select('id', 'title', 'price', 'type', 'category_id', 'main_image as image', 'created_at','pin')
             ->orderBy('pin','desc')
             ->limit(3)
             ->get()
