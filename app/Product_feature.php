@@ -14,9 +14,9 @@ class Product_feature extends Model
     public function Option()
     {
         if(session('lang') == 'en'){
-            return $this->belongsTo('App\Category_option', 'option_id')->select('id', 'image','title_en as title');
+            return $this->belongsTo('App\Category_option', 'option_id')->select('id', 'image','title_en as title', 'is_required');
         }else{
-            return $this->belongsTo('App\Category_option', 'option_id')->select('id','image', 'title_ar as title');
+            return $this->belongsTo('App\Category_option', 'option_id')->select('id','image', 'title_ar as title', 'is_required');
         }
     }
 

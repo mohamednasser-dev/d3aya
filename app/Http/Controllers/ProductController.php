@@ -1362,6 +1362,7 @@ class ProductController extends Controller
     {
         $lang = $request->lang;
         Session::put('local_api', $request->lang);
+        Session::put('lang', $request->lang);
         $data['ad'] = Product::where('id', $id)
             ->with('City_api')
             ->with('Area_api')
@@ -1374,127 +1375,100 @@ class ProductController extends Controller
             $data['ad']->share_location = false;
         }
         $data['ad_images'] = ProductImage::where('product_id', $id)->select('id', 'image', 'product_id')->get();
-        if ($request->lang == 'ar') {
-            if ($data['ad']->city_id != null) {
-                $cat_data_city = City::find($data['ad']->city_id);
-                $data['area_names'] = $cat_data_city->title_ar;
-            }
-            if ($data['ad']->area_id != null) {
-                $cat_data_area = Area::find($data['ad']->area_id);
-                $data['area_names'] = $data['area_names'] . '/' . $cat_data_area->title_ar;
-            }
-            if ($data['ad']->category_id != null) {
-                $cat_data = Category::find($data['ad']->category_id);
-                $data['category_names'] = $cat_data->title_ar;
-            }
-            if ($data['ad']->sub_category_id != null) {
-                $scat_data = SubCategory::find($data['ad']->sub_category_id);
-                $data['category_names'] = $data['category_names'] . '/' . $scat_data->title_ar;
-            }
-            if ($data['ad']->sub_category_two_id != null) {
-                $sscat_data = SubTwoCategory::find($data['ad']->sub_category_two_id);
-                $data['category_names'] = $data['category_names'] . '/' . $sscat_data->title_ar;
-            }
-            if ($data['ad']->sub_category_three_id != null) {
-                $ssscat_data = SubThreeCategory::find($data['ad']->sub_category_three_id);
-                $data['category_names'] = $data['category_names'] . '/' . $ssscat_data->title_ar;
-            }
-            if ($data['ad']->sub_category_four_id != null) {
-                $sssscat_data = SubFourCategory::find($data['ad']->sub_category_four_id);
-                $data['category_names'] = $data['category_names'] . '/' . $sssscat_data->title_ar;
-            }
-            if ($data['ad']->sub_category_five_id != null) {
-                $ssssscat_data = SubFiveCategory::find($data['ad']->sub_category_five_id);
-                $data['category_names'] = $data['category_names'] . '/' . $ssssscat_data->title_ar;
-            }
-        } else {
-            if ($data['ad']->city_id != null) {
-                $cat_data_city = City::find($data['ad']->city_id);
-                $data['area_names'] = $cat_data_city->title_en;
-            }
-            if ($data['ad']->area_id != null) {
-                $cat_data_area = Area::find($data['ad']->area_id);
-                $data['area_names'] = $data['area_names'] . '/' . $cat_data_area->title_en;
-            }
-            if ($data['ad']->category_id != null) {
-                $cat_data = Category::find($data['ad']->category_id);
-                $data['category_names'] = $cat_data->title_en;
-            }
-            if ($data['ad']->sub_category_id != null) {
-                $scat_data = SubCategory::find($data['ad']->sub_category_id);
-                $data['category_names'] = $data['category_names'] . '/' . $scat_data->title_en;
-            }
-            if ($data['ad']->sub_category_two_id != null) {
-                $sscat_data = SubTwoCategory::find($data['ad']->sub_category_two_id);
-                $data['category_names'] = $data['category_names'] . '/' . $sscat_data->title_en;
-            }
-            if ($data['ad']->sub_category_three_id != null) {
-                $ssscat_data = SubThreeCategory::find($data['ad']->sub_category_three_id);
-                $data['category_names'] = $data['category_names'] . '/' . $ssscat_data->title_en;
-            }
-            if ($data['ad']->sub_category_four_id != null) {
-                $sssscat_data = SubFourCategory::find($data['ad']->sub_category_four_id);
-                $data['category_names'] = $data['category_names'] . '/' . $sssscat_data->title_en;
-            }
-            if ($data['ad']->sub_category_five_id != null) {
-                $ssssscat_data = SubFiveCategory::find($data['ad']->sub_category_five_id);
-                $data['category_names'] = $data['category_names'] . '/' . $ssssscat_data->title_en;
-            }
+        
+        if ($data['ad']->city_id != null) {
+            $cat_data_city = City::where('id', $data['ad']->city_id)->select('id', 'title_' . $request->lang . ' as title')->first();
+            $data['area_names'] = $cat_data_city->title;
         }
+        if ($data['ad']->area_id != null) {
+            $cat_data_area = Area::where('id', $data['ad']->area_id)->select('id', 'title_' . $request->lang . ' as title')->first();
+            $data['area_names'] = $data['area_names'] . '/' . $cat_data_area->title;
+        }
+        if ($data['ad']->category_id != null) {
+            $cat_data = Category::where('id', $data['ad']->category_id)->select('id', 'title_' . $request->lang . ' as title')->first();
+            $data['category_names'] = $cat_data->title;
+        }
+        if ($data['ad']->sub_category_id != null) {
+            $scat_data = SubCategory::where('id', $data['ad']->sub_category_id)->select('id', 'title_' . $request->lang . ' as title')->first();
+            $data['category_names'] = $data['category_names'] . '/' . $scat_data->title;
+        }
+        if ($data['ad']->sub_category_two_id != null) {
+            $sscat_data = SubTwoCategory::where('id', $data['ad']->sub_category_two_id)->select('id', 'title_' . $request->lang . ' as title')->first();
+            $data['category_names'] = $data['category_names'] . '/' . $sscat_data->title;
+        }
+        if ($data['ad']->sub_category_three_id != null) {
+            $ssscat_data = SubThreeCategory::where('id', $data['ad']->sub_category_three_id)->select('id', 'title_' . $request->lang . ' as title')->first();
+            $data['category_names'] = $data['category_names'] . '/' . $ssscat_data->title;
+        }
+        if ($data['ad']->sub_category_four_id != null) {
+            $sssscat_data = SubFourCategory::where('id', $data['ad']->sub_category_four_id)->select('id', 'title_' . $request->lang . ' as title')->first();
+            $data['category_names'] = $data['category_names'] . '/' . $sssscat_data->title;
+        }
+        if ($data['ad']->sub_category_five_id != null) {
+            $ssssscat_data = SubFiveCategory::where('id', $data['ad']->sub_category_five_id)->select('id', 'title_' . $request->lang . ' as title')->first();
+            $data['category_names'] = $data['category_names'] . '/' . $ssssscat_data->title;
+        }
+        
 
         $features = Product_feature::where('product_id', $id)
             ->select('id', 'type', 'product_id', 'target_id', 'option_id')
             ->orderBy('option_id', 'asc')
             ->get();
 
-        foreach ($features as $key => $feature) {
-            if ($feature->type == 'manual') {
-                $features[$key]['type'] = 'input';
-                $features[$key]['value'] = $feature->target_id;
-            } else if ($feature->type == 'option') {
-                $features[$key]['type'] = 'select';
-                $target_data = Category_option_value::where('id', $feature->target_id)->first();
-                if ($request->lang == 'ar')
-                    $features[$key]['value'] = $target_data->value_ar;
-                else {
-                    $features[$key]['value'] = $target_data->value_en;
-                }
-            }
-        }
+            $options = [];
 
-        $data['options'] = Category_option::where('cat_id', $data['ad']->category_id)->where('cat_type', 'category')->where('deleted', '0')->select('id as option_id', 'title_' . $lang . ' as title', 'is_required')->get();
-
-        if (count($data['options']) > 0) {
-            for ($i = 0; $i < count($data['options']); $i++) {
-                $option_id = $data['options'][$i]['option_id'];
-                $data['options'][$i]['type'] = 'input';
-                $optionValues = Category_option_value::where('option_id', $data['options'][$i]['option_id'])
-                    ->where('deleted', '0')->select('id as value_id', 'value_' . $lang . ' as value')
-                    ->get()->map(function ($data) use ($id, $option_id) {
-                        $data->selected = false;
-//                        dd($data->option_id);
-                        $inserted_in_db = Product_feature::where('option_id', $option_id)->where('product_id', $id)->first();
-                        if ($inserted_in_db) {
-                            if ($data->value_id == $inserted_in_db->target_id) {
-                                $data->selected = true;
-                            }
-                        }
-
-                        return $data;
-                    });
-                if (count($optionValues) > 0) {
-                    $data['options'][$i]['type'] = 'select';
-                    $data['options'][$i]['values'] = $optionValues;
-                } else {
-                    $inserted_in_db = Product_feature::where('option_id', $option_id)->where('product_id', $id)->first();
-                    if ($inserted_in_db) {
-                        $data['options'][$i]['value'] = $inserted_in_db->target_id;
-                    } else {
-                        $data['options'][$i]['value'] = "";
+            foreach ($features as $key => $feature) {
+                
+                if ($feature->type == 'manual') {
+                    $features[$key]['type'] = 'input';
+                    $features[$key]['value'] = $feature->target_id;
+                    array_push($options, (object)[
+                        'type' => $features[$key]['type'],
+                        'value' => $features[$key]['value'],
+                        'option_id' => $features[$key]['option_id'],
+                        'title' => $features[$key]->Option->title,
+                        'is_required' => $features[$key]->Option->is_required
+                    ]);
+                } else if ($feature->type == 'option') {
+                    $features[$key]['type'] = 'select';
+                    
+                    
+                    $target_data = Category_option_value::where('id', $feature->target_id)->first();
+                    if ($request->lang == 'ar')
+                        $features[$key]['value'] = $target_data->value_ar;
+                    else {
+                        $features[$key]['value'] = $target_data->value_en;
                     }
+                    
+                    $optionValues = Category_option_value::where('option_id', $feature->option_id)->where('deleted', '0')->select('id as value_id', 'value_' . $request->lang . ' as value')->get();
+                    $values = [];
+    
+                    for ($v = 0; $v < count($optionValues); $v ++) {
+                        $obj = (object)[
+                            'value_id' => $optionValues[$v]->value_id,
+                            'value' => $optionValues[$v]->value,
+                            'selected' => false
+                        ];
+                        
+                        if ($feature->target_id == $optionValues[$v]['value_id']) {
+                            $obj->selected = true;
+                        }
+                        array_push($values, $obj);
+                    }
+                    
+                    
+                    array_push($options, (object)[
+                        'type' => $features[$key]['type'],
+                        'value' => $features[$key]['value'],
+                        'option_id' => $features[$key]['option_id'],
+                        'title' => $features[$key]->Option->title,
+                        'is_required' => $features[$key]->Option->is_required,
+                        'values' => $values
+                    ]);
                 }
             }
-        }
+    
+            $data['options'] = $options;
 
 //        $data['features'] = $features;
         $response = APIHelpers::createApiResponse(false, 200, 'data shown', 'تم أظهار البيانات', $data, $request->lang);

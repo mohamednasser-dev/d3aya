@@ -31,8 +31,8 @@
                             <th class="text-center">{{ __('messages.publication_date') }}</th>
                             <th class="text-center">{{ __('messages.product_name') }}</th>
                             <th class="text-center">{{ __('messages.plan_name') }}</th>
-                            <th class="text-center">{{ __('messages.user') }}</th>
                             <th class="text-center">{{ __('messages.archived_or_not') }}</th>
+                            <th class="text-center">{{ __('messages.user') }}</th>
                             <th class="text-center">{{ __('messages.our_offers') }}</th>
 {{--                            <th class="text-center">{{ __('messages.choose_to_you') }}</th>--}}
                             <th class="text-center">{{ __('messages.details') }}</th>
