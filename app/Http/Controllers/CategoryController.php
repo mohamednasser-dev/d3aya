@@ -141,7 +141,6 @@ class CategoryController extends Controller
 
     public function get_sub_categories_level2(Request $request)
     {
-
         $lang = $request->lang;
         $validator = Validator::make($request->all(), [
             'category_id' => 'required'
@@ -269,16 +268,16 @@ class CategoryController extends Controller
 //
 //        array_unshift($data['sub_categories']);
         if ($request->sub_category_id == 0) {
-            $products = Product::where('status', 1)->where('publish', 'Y')->where('deleted', 0)->where('category_id', $request->category_id)->select('id', 'title', 'price', 'main_image as image', 'created_at', 'pin')->orderBy('pin', 'DESC')->orderBy('created_at', 'desc')->simplePaginate(12);
+            $products = Product::where('status', 1)->where('publish', 'Y')->where('deleted', 0)->where('category_id', $request->category_id)->select('id', 'title', 'price', 'main_image as image', 'created_at', 'pin', 'views')->orderBy('pin', 'DESC')->orderBy('created_at', 'desc')->simplePaginate(12);
         } else {
-            $products = Product::where('status', 1)->where('publish', 'Y')->where('deleted', 0)->where('sub_category_id', $request->sub_category_id)->select('id', 'title', 'price', 'main_image as image', 'created_at', 'pin')->orderBy('pin', 'DESC')->orderBy('created_at', 'desc')->simplePaginate(12);
+            $products = Product::where('status', 1)->where('publish', 'Y')->where('deleted', 0)->where('sub_category_id', $request->sub_category_id)->select('id', 'title', 'price', 'main_image as image', 'created_at', 'pin', 'views')->orderBy('pin', 'DESC')->orderBy('created_at', 'desc')->simplePaginate(12);
         }
         for ($i = 0; $i < count($products); $i++) {
 //            $products[$i]['created_at']= Carbon::createFromFormat('Y-m-d H:i:s', $products[$i]['created_at'])->translatedformat('F');
 
             $products[$i]['price'] = (string)$products[$i]['price'];
-            $views = Product_view::where('product_id', $products[$i]['id'])->get()->count();
-            $products[$i]['views'] = $views;
+            // $views = Product_view::where('product_id', $products[$i]['id'])->get()->count();
+            // $products[$i]['views'] = $views;
             $user = auth()->user();
             if ($user) {
                 $favorite = Favorite::where('user_id', $user->id)->where('product_id', $products[$i]['id'])->first();
@@ -476,7 +475,7 @@ class CategoryController extends Controller
 
         array_unshift($data['sub_category_array'], $all);
         array_unshift($data['sub_categories']);
-        $products = Product::where('status', 1)->where('deleted', 0)->where('publish', 'Y')->where('category_id', $request->category_id)->select('id', 'title', 'price', 'main_image as image', 'pin', 'created_at');
+        $products = Product::where('status', 1)->where('deleted', 0)->where('publish', 'Y')->where('category_id', $request->category_id)->select('id', 'title', 'price', 'main_image as image', 'pin', 'created_at', 'views');
         if ($request->sub_category_id != 0) {
             $products = $products->where('sub_category_two_id', $request->sub_category_id);
         }
@@ -489,8 +488,7 @@ class CategoryController extends Controller
 
         for ($i = 0; $i < count($products); $i++) {
             $products[$i]['price'] = (string)$products[$i]['price'];
-            $views = Product_view::where('product_id', $products[$i]['id'])->get()->count();
-            $products[$i]['views'] = $views;
+            
             $user = auth()->user();
             if ($user) {
                 $favorite = Favorite::where('user_id', $user->id)->where('product_id', $products[$i]['id'])->first();
@@ -653,11 +651,10 @@ class CategoryController extends Controller
             $products = $products->where('sub_category_id', $request->sub_category_level1_id);
         }
 
-        $products = $products->select('id', 'title', 'price', 'main_image as image', 'pin', 'created_at')->orderBy('pin', 'DESC')->orderBy('created_at', 'desc')->simplePaginate(12);
+        $products = $products->select('id', 'title', 'price', 'main_image as image', 'pin', 'created_at', 'views')->orderBy('pin', 'DESC')->orderBy('created_at', 'desc')->simplePaginate(12);
         for ($i = 0; $i < count($products); $i++) {
             $products[$i]['price'] = (string)$products[$i]['price'];
-            $views = Product_view::where('product_id', $products[$i]['id'])->get()->count();
-            $products[$i]['views'] = $views;
+            
             $user = auth()->user();
             if ($user) {
                 $favorite = Favorite::where('user_id', $user->id)->where('product_id', $products[$i]['id'])->first();
@@ -793,8 +790,7 @@ class CategoryController extends Controller
         $products = $products->select('id', 'title', 'price', 'main_image as image', 'pin', 'created_at')->orderBy('pin', 'DESC')->orderBy('created_at', 'desc')->simplePaginate(12);
         for ($i = 0; $i < count($products); $i++) {
             $products[$i]['price'] = (string)$products[$i]['price'];
-            $views = Product_view::where('product_id', $products[$i]['id'])->get()->count();
-            $products[$i]['views'] = $views;
+            
             $user = auth()->user();
             if ($user) {
                 $favorite = Favorite::where('user_id', $user->id)->where('product_id', $products[$i]['id'])->first();
@@ -918,8 +914,6 @@ class CategoryController extends Controller
         $products = $products->where('sub_category_five_id', $request->sub_category_id)->select('id', 'title', 'price', 'main_image as image', 'pin', 'created_at')->where('publish', 'Y')->orderBy('pin', 'DESC')->orderBy('created_at', 'desc')->simplePaginate(12);
         for ($i = 0; $i < count($products); $i++) {
             $products[$i]['price'] = (string)$products[$i]['price'];
-            $views = Product_view::where('product_id', $products[$i]['id'])->get()->count();
-            $products[$i]['views'] = $views;
             $user = auth()->user();
             if ($user) {
                 $favorite = Favorite::where('user_id', $user->id)->where('product_id', $products[$i]['id'])->first();
