@@ -16,6 +16,7 @@ class CategoryController extends AdminController{
 
         return view('admin.categories.create',compact('users'));
     }
+    
     // type : post -> add new category
     public function AddPost(Request $request){
         $image_name = $request->file('image')->getRealPath();

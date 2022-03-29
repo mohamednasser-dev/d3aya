@@ -197,30 +197,12 @@ class ProductController extends Controller
         $lang = $request->lang;
         Session::put('lang', $lang);
         $data = Product::with('Product_user')->with('Area_name')->with('category_name')
-            ->select('id', 'title', 'main_image', 'description', 'price', 'type', 'publication_date as date','pin', 'user_id', 'category_id', 'latitude', 'longitude', 'share_location', 'area_id')
+            ->select('id', 'title', 'main_image', 'description', 'price', 'type', 'publication_date as date','pin', 'user_id', 'category_id', 'latitude', 'longitude', 'share_location', 'area_id', 'views')
             ->find($request->id);
         $data->price = (string)$data->price;
 
-        $user_ip_address = $request->ip();
-        if ($user == null) {
-            $prod_view = Product_view::where('ip', $user_ip_address)->where('product_id', $data->id)->first();
-            if ($prod_view == null) {
-                $data_view['ip'] = $user_ip_address;
-                $data_view['product_id'] = $data->id;
-                Product_view::create($data_view);
-            }
-        } else {
-            $prod_view = Product_view::where('ip', $user_ip_address)->where('product_id', $data->id)->first();
-            if ($prod_view == null) {
-                $data_view['user_id'] = $user->id;
-                $data_view['ip'] = $user_ip_address;
-                $data_view['product_id'] = $data->id;
-                Product_view::create($data_view);
-            } else {
-                $prod_view->user_id = $user->id;
-                $prod_view->save();
-            }
-        }
+        $data->views = $data->views + 1;
+        $data->save();
         $features = Product_feature::where('product_id', $request->id)
             ->select('id', 'type', 'product_id', 'target_id', 'option_id')
             ->get();
@@ -324,10 +306,10 @@ class ProductController extends Controller
                 $related[$i]['favorite'] = false;
             }
         }
-        $views = Product_view::where('product_id', $data->id)->count();
+        
 
         $response = APIHelpers::createApiResponse(false, 200, '', '', array('product' => $data,
-            'features' => $feature_data, 'user_other_ads' => $user_other_ads, 'related' => $related, 'views' => $views), $request->lang);
+            'features' => $feature_data, 'user_other_ads' => $user_other_ads, 'related' => $related), $request->lang);
         return response()->json($response, 200);
     }
 

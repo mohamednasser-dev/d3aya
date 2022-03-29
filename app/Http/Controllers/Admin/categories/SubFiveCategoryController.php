@@ -61,6 +61,7 @@ class SubFiveCategoryController extends AdminController
         $data = SubFiveCategory::where('sub_category_id',$id)->where('deleted','0')->orderBy('sort' , 'asc')->get();
         return view('admin.categories.sub_category.sub_two_category.sub_three_category.sub_four_category.sub_five_category.index',compact('data','cat_id'));
     }
+    
     public function change_is_show(Request $request){
         $data['is_show'] = $request->status ;
         SubFiveCategory::where('id', $request->id)->update($data);

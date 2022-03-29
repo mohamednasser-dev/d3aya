@@ -28,6 +28,8 @@ class SubThreeCategoryController extends AdminController
         return view('admin.categories.sub_category.sub_two_category.sub_three_category.create',compact('id', 'users'));
         // }
     }
+
+    
     public function store(Request $request)
     {
         $data = $this->validate(\request(),
