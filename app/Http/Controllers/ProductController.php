@@ -309,7 +309,7 @@ class ProductController extends Controller
         
 
         $response = APIHelpers::createApiResponse(false, 200, '', '', array('product' => $data,
-            'features' => $feature_data, 'user_other_ads' => $user_other_ads, 'related' => $related), $request->lang);
+            'features' => $feature_data, 'user_other_ads' => $user_other_ads, 'related' => $related, 'views' => $data->views), $request->lang);
         return response()->json($response, 200);
     }
 
