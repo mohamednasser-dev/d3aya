@@ -26,7 +26,7 @@ class Category extends Model
 
     public function Offers() {
         $user = auth()->user();
-        return $this->hasMany('App\Product', 'category_id')->select('id','title','main_image as image','price','category_id','created_at')->where('offer', 1)
+        return $this->hasMany('App\Product', 'category_id')->select('id','title','main_image as image','price','category_id','created_at', 'views')->where('offer', 1)
             ->where('status', 1)
             ->where('deleted', 0)
             ->where('publish', 'Y')->orderBy('created_at', 'desc');

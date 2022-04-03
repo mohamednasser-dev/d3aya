@@ -1214,7 +1214,7 @@ class ProductController extends Controller
             ->map(function ($data) use ($user) {
                 foreach ($data->Offers as $key => $row) {
                     $data->Offers[$key]['price'] = (string)$data->Offers[$key]['price'];
-                    $data->Offers[$key]['views'] = Product_view::where('product_id', $row->id)->count();
+                    // $data->Offers[$key]['views'] = Product_view::where('product_id', $row->id)->count();
                     if ($user != null) {
                         $favorite = Favorite::where('user_id', $user->id)->where('product_id', $row->id)->first();
                         if ($favorite) {
@@ -1229,7 +1229,7 @@ class ProductController extends Controller
                 return $data;
             });
 
-        $ads = Product::select('id', 'title', 'main_image as image', 'price', 'description')->where('offer', 1)
+        $ads = Product::select('id', 'title', 'main_image as image', 'price', 'description', 'views')->where('offer', 1)
             ->where('status', 1)
             ->where('deleted', 0)
             ->where('publish', 'Y')
