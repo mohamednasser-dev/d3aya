@@ -1071,7 +1071,7 @@ class ProductController extends Controller
         $ads['ended_ads'] = Product::where('status', 2)
             ->where('deleted', 0)
             ->where('user_id', auth()->user()->id)
-            ->select('id', 'title', 'price', 'main_image','pin')
+            ->select('id', 'title', 'price', 'main_image','pin', 'views')
             ->orderBy('created_at', 'desc')
             ->get()->map(function ($data) {
                 $data->price = (string)$data->price;
@@ -1081,7 +1081,7 @@ class ProductController extends Controller
             ->where('publish', 'Y')
             ->where('deleted', 0)
             ->where('user_id', auth()->user()->id)
-            ->select('id', 'title', 'price', 'main_image','pin')
+            ->select('id', 'title', 'price', 'main_image','pin', 'views')
             ->orderBy('created_at', 'desc')
             ->get()->map(function ($data) {
                 $data->price = (string)$data->price;
@@ -1102,13 +1102,13 @@ class ProductController extends Controller
         $products = Product::where('status', 2)
             ->where('deleted', 0)
             ->where('user_id', auth()->user()->id)
-            ->select('id', 'title', 'price', 'main_image', 'created_at','pin')
+            ->select('id', 'title', 'price', 'main_image', 'created_at','pin', 'views')
             ->orderBy('created_at', 'desc')
             ->simplePaginate(12);
 
         for ($i = 0; $i < count($products); $i++) {
             $products[$i]['price'] = (string)$products[$i]['price'];
-            $products[$i]['views'] = Product_view::where('product_id', $products[$i]['id'])->get()->count();
+            // $products[$i]['views'] = Product_view::where('product_id', $products[$i]['id'])->get()->count();
             if ($user) {
                 $favorite = Favorite::where('user_id', $user->id)->where('product_id', $products[$i]['id'])->first();
                 if ($favorite) {
@@ -1139,13 +1139,13 @@ class ProductController extends Controller
             ->where('publish', 'Y')
             ->where('deleted', 0)
             ->where('user_id', auth()->user()->id)
-            ->select('id', 'title', 'price', 'main_image', 'created_at','pin')
+            ->select('id', 'title', 'price', 'main_image', 'created_at','pin', 'views')
             ->orderBy('created_at', 'desc')
             ->simplePaginate(12);
 
         for ($i = 0; $i < count($products); $i++) {
             $products[$i]['price'] = (string)$products[$i]['price'];
-            $products[$i]['views'] = Product_view::where('product_id', $products[$i]['id'])->get()->count();
+            // $products[$i]['views'] = Product_view::where('product_id', $products[$i]['id'])->get()->count();
             if ($user) {
                 $favorite = Favorite::where('user_id', $user->id)->where('product_id', $products[$i]['id'])->first();
                 if ($favorite) {
@@ -1181,8 +1181,8 @@ class ProductController extends Controller
             ->orderBy('created_at', 'desc')->simplePaginate(12);
         for ($i = 0; $i < count($products); $i++) {
             $products[$i]['Product']->price = (string)$products[$i]['Product']->price;
-            $views = Product_view::where('product_id', $products[$i]['product_id'])->get()->count();
-            $products[$i]['Product']->views = $views;
+            // $views = Product_view::where('product_id', $products[$i]['product_id'])->get()->count();
+            // $products[$i]['Product']->views = $views;
             if ($user) {
                 $favorite = Favorite::where('user_id', $user->id)->where('product_id', $products[$i]['product_id'])->first();
                 if ($favorite) {
@@ -1302,7 +1302,7 @@ class ProductController extends Controller
             ->where('publish', 'Y')
             ->where('deleted', 0)
             ->where('user_id', auth()->user()->id)
-            ->select('id', 'title', 'price', 'main_image', 'pin', 'user_id')
+            ->select('id', 'title', 'price', 'main_image', 'pin', 'user_id', 'views')
             ->orderBy('pin', 'desc')
             ->orderBy('created_at', 'desc')
             ->get();
