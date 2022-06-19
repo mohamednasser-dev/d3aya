@@ -21,7 +21,7 @@ class Category extends Model
             ->where('deleted',0)->where('is_show', 1)->orderBy('sort','asc');
     }
     public function Category_ads() {
-        return $this->hasMany('App\Categories_ad', 'cat_id')->select('image', 'cat_id','type','ad_type' ,'content')->where('type','category')->where('deleted','0');
+        return $this->hasMany('App\Categories_ad', 'cat_id')->select('image', 'cat_id','type','ad_type' ,'content')->where('type','category')->where('deleted','0')->orderBy('id', 'desc');
     }
 
     public function Offers() {
