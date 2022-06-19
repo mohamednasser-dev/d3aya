@@ -251,7 +251,7 @@ class ProductController extends Controller
         $images = [];
         $images = ProductImage::where('product_id', $data->id)->pluck('image')->toArray();
         if ($data->main_image != null) {
-            array_push($images, $data->main_image);
+            array_unshift($images, $data->main_image);
             // $images[count($images)] = $data->main_image;
         }
         $data->images = $images;
