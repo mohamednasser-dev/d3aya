@@ -29,6 +29,6 @@ class Category extends Model
         return $this->hasMany('App\Product', 'category_id')->select('id','title','main_image as image','price','category_id','created_at', 'views')->where('offer', 1)
             ->where('status', 1)
             ->where('deleted', 0)
-            ->where('publish', 'Y');
+            ->where('publish', 'Y')->orderBy('created_at', 'desc');
     }
 }

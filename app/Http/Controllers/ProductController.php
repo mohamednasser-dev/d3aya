@@ -1211,6 +1211,7 @@ class ProductController extends Controller
         $user = auth()->user();
         $lang = $request->lang;
         $Category = Category::select('id', 'title_' . $lang . ' as title', 'offers_image')->has('Offers', '>', 0)->with('Offers')->where('deleted', '0')
+        ->orderBy('sort','asc')
             ->get()
             ->map(function ($data) use ($user) {
                 foreach ($data->Offers as $key => $row) {
